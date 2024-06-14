@@ -35,7 +35,176 @@ export const statuses: { value: string; label: string; variant: string }[] = [
     label: "Archived",
     variant: "warning",
   },
-]
+  {
+    value: "leftMessage1",
+    label: "Left Message 1",
+    variant: "progress",
+  },
+  {
+    value: "leftMessage2",
+    label: "Left Message 2",
+    variant: "progress",
+  },
+  {
+    value: "leftMessage3",
+    label: "Left Message 3",
+    variant: "progress",
+  },
+  {
+    value: "pendingClearance",
+    label: "Pending Clearance",
+    variant: "warning",
+  },
+  {
+    value: "cancelled",
+    label: "Cancelled",
+    variant: "error",
+  },
+  {
+    value: "reschedule",
+    label: "Reschedule",
+    variant: "warning",
+  },
+  {
+    value: "declinedNoContact",
+    label: "Declined - Unable to Reach Patient",
+    variant: "error",
+  },
+  {
+    value: "declinedDenied",
+    label: "Declined - Patient Denied",
+    variant: "error",
+  },
+  {
+    value: "hold",
+    label: "Hold - Patient will Call when Ready to Schedule",
+    variant: "neutral",
+  },
+  {
+    value: "pendingAuthorization",
+    label: "Pending Authorization",
+    variant: "warning",
+  },
+  {
+    value: "pendingReferral",
+    label: "Pending Referral",
+    variant: "warning",
+  },
+  {
+    value: "approvedAuthorization",
+    label: "Approved Authorization",
+    variant: "success",
+  },
+  {
+    value: "deniedAuthorization",
+    label: "Denied Authorization",
+    variant: "error",
+  },
+  {
+    value: "peerReview",
+    label: "Peer Review",
+    variant: "neutral",
+  },
+  {
+    value: "collectPatientCost",
+    label: "Collect Patient Cost",
+    variant: "neutral",
+  },
+];
+
+export const actionItems = {
+  live: [
+    "Confirm appointment details",
+    "Prepare patient documentation",
+    "Notify surgical team",
+    "Prepare surgical room"
+  ],
+  inactive: [
+    "Send follow-up email",
+    "Update patient records",
+    "Schedule next appointment"
+  ],
+  archived: [
+    "Archive patient records",
+    "Notify patient of archival",
+    "Update database status"
+  ],
+  leftMessage1: [
+    "Wait for patient response",
+    "Send follow-up message if no response",
+    "Log communication attempt"
+  ],
+  leftMessage2: [
+    "Wait for patient response",
+    "Send follow-up message if no response",
+    "Log communication attempt"
+  ],
+  leftMessage3: [
+    "Wait for patient response",
+    "Send follow-up message if no response",
+    "Log communication attempt"
+  ],
+  pendingClearance: [
+    "Check for required documents",
+    "Notify patient of missing items",
+    "Schedule clearance appointment"
+  ],
+  cancelled: [
+    "Notify surgical team of cancellation",
+    "Update patient records",
+    "Contact patient for rescheduling"
+  ],
+  reschedule: [
+    "Contact patient for new date",
+    "Update surgical team",
+    "Update appointment calendar"
+  ],
+  declinedNoContact: [
+    "Log attempt to contact",
+    "Send follow-up email",
+    "Notify primary physician"
+  ],
+  declinedDenied: [
+    "Log patient's decision",
+    "Update patient records",
+    "Notify primary physician"
+  ],
+  hold: [
+    "Log hold status",
+    "Notify patient of hold status",
+    "Update appointment calendar"
+  ],
+  pendingAuthorization: [
+    "Submit authorization request",
+    "Follow up with insurance",
+    "Notify patient of status"
+  ],
+  pendingReferral: [
+    "Contact referring physician",
+    "Log referral status",
+    "Update patient records"
+  ],
+  approvedAuthorization: [
+    "Notify patient of approval",
+    "Schedule surgery",
+    "Prepare documentation"
+  ],
+  deniedAuthorization: [
+    "Notify patient of denial",
+    "Explore alternative options",
+    "Update patient records"
+  ],
+  peerReview: [
+    "Submit case for review",
+    "Notify patient of review status",
+    "Log review details"
+  ],
+  collectPatientCost: [
+    "Send payment reminder",
+    "Update billing records",
+    "Confirm receipt of payment"
+  ],
+};
 
 export const surgeries: { value: string; label: string }[] = [
   {
@@ -168,7 +337,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Jane Smith",
-    status: "live",
+    status: "reschedule",
     costs: 6087.11,
     surgery: "Myolata",
     facility: 91,
@@ -176,7 +345,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Alejandro Garcia",
-    status: "live",
+    status: "pendingClearance",
     costs: 7234.56,
     surgery: "Joint Replacement",
     facility: 12,
@@ -208,7 +377,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Liam O'Sullivan",
-    status: "live",
+    status: "leftMessage1",
     costs: 5204.98,
     surgery: "Gynocoma",
     facility: 18,
@@ -224,7 +393,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Yuki Tanaka",
-    status: "live",
+    status: "leftMessage2",
     costs: 9874.56,
     surgery: "Hematoma",
     facility: 6,
@@ -232,7 +401,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Fatima Al-Farsi",
-    status: "live",
+    status: "leftMessage3",
     costs: 5486.99,
     surgery: "Joint Replacement",
     facility: 12,
@@ -240,7 +409,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Olga Ivanova",
-    status: "live",
+    status: "approvedAuthorization",
     costs: 6120.45,
     surgery: "Diorama",
     facility: 9,
@@ -248,7 +417,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Pierre Dubois",
-    status: "live",
+    status: "declinedDenied",
     costs: 4834.11,
     surgery: "Tune Up",
     facility: 15,
@@ -256,7 +425,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Sara Johansson",
-    status: "live",
+    status: "peerReview",
     costs: 5302.22,
     surgery: "Myolata",
     facility: 97,
@@ -264,7 +433,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Ahmed Hassan",
-    status: "live",
+    status: "collectPatientCost",
     costs: 6221.54,
     surgery: "Gynocoma",
     facility: 11,
@@ -296,7 +465,7 @@ export const usage: Usage[] = [
   },
   {
     name: "David Johnson",
-    status: "live",
+    status: "deniedAuthorization",
     costs: 6789.77,
     surgery: "Diorama",
     facility: 10,
@@ -304,7 +473,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Linda Anderson",
-    status: "live",
+    status: "pendingReferral",
     costs: 7434.22,
     surgery: "Myolata",
     facility: 9,
@@ -320,7 +489,7 @@ export const usage: Usage[] = [
   },
   {
     name: "Sophia Lopez",
-    status: "live",
+    status: "pendingAuthorization",
     costs: 8921.34,
     surgery: "Just a Trim",
     facility: 16,
@@ -344,7 +513,7 @@ export const usage: Usage[] = [
   },
   {
     name: "James Taylor",
-    status: "live",
+    status: "cancelled",
     costs: 4321.56,
     surgery: "Joint Replacement",
     facility: 5,
@@ -574,4 +743,5 @@ export const usage: Usage[] = [
     facility: 21,
     date: "01/01/2022 16:18",
   },
-]
+];
+

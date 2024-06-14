@@ -31,6 +31,10 @@ const badgeVariants = tv({
         "bg-yellow-50 text-yellow-800 ring-yellow-600/30",
         "dark:bg-yellow-400/10 dark:text-yellow-500 dark:ring-yellow-400/20",
       ],
+      progress: [
+        "bg-indigo-50 text-indigo-800 ring-indigo-600/30",
+        "dark:bg-indigo-400/10 dark:text-indigo-500 dark:ring-indigo-400/20",
+      ],
     },
   },
   defaultVariants: {
