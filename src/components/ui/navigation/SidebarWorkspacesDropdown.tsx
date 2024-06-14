@@ -65,7 +65,7 @@ export const WorkspacesDropdownDesktop = () => {
             <div className="flex w-full items-center justify-between gap-x-4 truncate">
               <div className="truncate">
                 <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                  Retail analytics
+                  Trinity Orthopedics
                 </p>
                 <p className="whitespace-nowrap text-left text-xs text-gray-700 dark:text-gray-300">
                   Member
@@ -168,7 +168,7 @@ export const WorkspacesDropdownMobile = () => {
             />
             <div className="flex w-full items-center justify-between gap-x-3 truncate">
               <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                Retail analytics
+                Trinity Orthopedics
               </p>
               <RiExpandUpDownLine
                 className="size-4 shrink-0 text-gray-500"
