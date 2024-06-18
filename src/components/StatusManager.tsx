@@ -12,35 +12,20 @@ const statusManagerVariants = tv({
 });
 
 interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
-  row: any; // Array of status types (e.g., ["communication", "insurance", "clearance/lab"])
+  statusType: string; // Array of status types (e.g., ["communication", "insurance", "clearance/lab"])
 }
 
 const StatusManager = React.forwardRef<HTMLDivElement, StatusManagerProps>(
-  ({ className, row, ...props }: StatusManagerProps, forwardedRef) => {
-    const getStatus = (type: string) => {
-		}
-		const communicationStatus = statuses.find(
-        (item) => item.value === row.getValue("status").communication,
-		)
-		const insuranceStatus = statuses.find(
-        (item) => item.value === row.getValue("status").insurance,
-		)
-		const clearanceStatus = statuses.find(
-        (item) => item.value === row.getValue("status").clearance,
+  ({ className, statusType, ...props }: StatusManagerProps, forwardedRef) => {
+		const status = statuses.find(
+			(item) => item.value === statusType,
 		)
 
     return (
       <div ref={forwardedRef} className={cx(statusManagerVariants(), className)} {...props}>
-				<Badge variant={(communicationStatus?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
-          {communicationStatus?.label }
+				<Badge variant={(status?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
+          {status?.label }
         </Badge>
-				<Badge variant={(insuranceStatus?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
-          {insuranceStatus?.label }
-        </Badge>
-				<Badge variant={(clearanceStatus?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
-          {clearanceStatus?.label }
-        </Badge>
-
       </div>
     );
   }

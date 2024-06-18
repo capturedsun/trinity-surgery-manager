@@ -75,24 +75,76 @@ export const columns = [
   }),
   columnHelper.accessor("status", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader column={column} title="Comm Status" />
     ),
-    enableSorting: false,
+    enableSorting: true,
     meta: {
       className: "text-left",
       displayName: "Status",
     },
     cell: ({ row }) => {
-      // const status = statuses.find(
+      // const communicationStatus = statuses.find(
       //   (item) => item.value === row.getValue("status"),
       // )
 
-      // if (!status) {
-      //   return null
-      // }
+      const statuses = row.getValue("status") as Object
+
+      const type = statuses?.communication as String
 
       return (
-        <StatusManager row={row} />
+        <StatusManager statusType={type} />
+        // <Badge variant={status.variant as BadgeProps["variant"]}>
+        //   {status.label}
+        // </Badge>
+      )
+    },
+  }),
+  columnHelper.accessor("status", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Comm Status" />
+    ),
+    enableSorting: true,
+    meta: {
+      className: "text-left",
+      displayName: "Status",
+    },
+    cell: ({ row }) => {
+      // const communicationStatus = statuses.find(
+      //   (item) => item.value === row.getValue("status"),
+      // )
+
+      const statuses = row.getValue("status") as Object
+      console.log(statuses)
+      const type = statuses?.communication as String
+
+      return (
+        <StatusManager statusType={statuses} />
+        // <Badge variant={status.variant as BadgeProps["variant"]}>
+        //   {status.label}
+        // </Badge>
+      )
+    },
+  }),
+  columnHelper.accessor("status", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Comm Status" />
+    ),
+    enableSorting: true,
+    meta: {
+      className: "text-left",
+      displayName: "Status",
+    },
+    cell: ({ row }) => {
+      // const communicationStatus = statuses.find(
+      //   (item) => item.value === row.getValue("status"),
+      // )
+
+      const statuses = row.getValue("status") as Object
+      console.log(statuses)
+      const type = statuses?.communication as String
+
+      return (
+        <StatusManager statusType={statuses} />
         // <Badge variant={status.variant as BadgeProps["variant"]}>
         //   {status.label}
         // </Badge>

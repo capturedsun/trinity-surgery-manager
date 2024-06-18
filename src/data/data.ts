@@ -101,7 +101,7 @@ export const statuses: { value: string; label: string; variant: string; type: st
   {
     value: "pendingReferral",
     label: "Pending Referral",
-    variant: "warning",
+    variant: "neutral",
     type: "insurance",
   },
   {
