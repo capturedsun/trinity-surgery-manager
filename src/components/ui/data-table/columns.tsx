@@ -86,18 +86,11 @@ export const columns = [
         const statuses = row.getValue("status");
 
         if (typeof statuses === 'object' && statuses !== null && 'communication' in statuses) {
-          console.log(statuses);
-
-          const statusType = statuses.communication as string;
+          const statusID = statuses.communication as string;
 
           return (
-            <StatusManager statusType={statusType} />
-            // <Badge variant={status.variant as BadgeProps["variant"]}>
-            //   {status.label}
-            // </Badge>
+            <StatusManager statusID={statusID} />
           );
-        } else {
-
         }
     },
   }),
@@ -114,18 +107,11 @@ export const columns = [
       const statuses = row.getValue("status");
 
       if (typeof statuses === 'object' && statuses !== null && 'insurance' in statuses) {
-        console.log(statuses);
-
-        const statusType = statuses.insurance as string;
+        const statusID = statuses.insurance as string;
 
         return (
-          <StatusManager statusType={statusType} />
-          // <Badge variant={status.variant as BadgeProps["variant"]}>
-          //   {status.label}
-          // </Badge>
+          <StatusManager statusID={statusID} />
         );
-      } else {
-
       }
     },
   }),
@@ -142,18 +128,11 @@ export const columns = [
       const statuses = row.getValue("status");
 
       if (typeof statuses === 'object' && statuses !== null && 'clearance' in statuses) {
-        console.log(statuses);
-
-        const statusType = statuses.clearance as string;
+        const statusID = statuses.clearance as string;
 
         return (
-          <StatusManager statusType={statusType} />
-          // <Badge variant={status.variant as BadgeProps["variant"]}>
-          //   {status.label}
-          // </Badge>
+          <StatusManager statusID={statusID} />
         );
-      } else {
-
       }
     },
   }),

@@ -128,6 +128,24 @@ export const statuses: { value: string; label: string; variant: string; type: st
     variant: "neutral",
     type: "clearance",
   },
+  {
+    value: "none",
+    label: "+ Select",
+    variant: "neutral",
+    type: "insurance",
+  },
+  {
+    value: "none",
+    label: "+ Select",
+    variant: "neutral",
+    type: "communication",
+  },
+  {
+    value: "none",
+    label: "+ Select",
+    variant: "neutral",
+    type: "clearance",
+  },
 ];
 
 export const actionItems = {
@@ -397,9 +415,9 @@ export const usage: {
     surgery: "Right middle finger pain",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "approvedAuthorization",
-      clearance: "pendingClearance"
+      communication: "live",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",

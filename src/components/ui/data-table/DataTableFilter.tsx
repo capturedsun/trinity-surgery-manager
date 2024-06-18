@@ -295,6 +295,7 @@ export function DataTableFilter<TData, TValue>({
           <span
             aria-hidden="true"
             onClick={(e) => {
+              console.log("test")
               if (selectedValues) {
                 e.stopPropagation()
                 column?.setFilterValue("")
