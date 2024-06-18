@@ -2,6 +2,10 @@
 
 import { Badge, BadgeProps } from "@/components/Badge"
 import { Checkbox } from "@/components/Checkbox"
+
+import { StatusManager } from "@/components/StatusManager"
+import { ReferralCard } from "@/components/ReferralCard"
+
 import { statuses, actionItems } from "@/data/data"
 import { Usage } from "@/data/schema"
 import { formatters } from "@/lib/utils"
@@ -63,64 +67,70 @@ export const columns = [
       className: "text-left",
       displayName: "Name",
     },
+    cell: ({ row }) => {
+      return (
+        <ReferralCard row={row} />
+      )
+    }
   }),
   columnHelper.accessor("status", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
-    enableSorting: true,
+    enableSorting: false,
     meta: {
       className: "text-left",
       displayName: "Status",
     },
     cell: ({ row }) => {
-      const status = statuses.find(
-        (item) => item.value === row.getValue("status"),
-      )
+      // const status = statuses.find(
+      //   (item) => item.value === row.getValue("status"),
+      // )
 
-      if (!status) {
-        return null
-      }
+      // if (!status) {
+      //   return null
+      // }
 
       return (
-        <Badge variant={status.variant as BadgeProps["variant"]}>
-          {status.label}
-        </Badge>
+        <StatusManager row={row} />
+        // <Badge variant={status.variant as BadgeProps["variant"]}>
+        //   {status.label}
+        // </Badge>
       )
     },
   }),
-  columnHelper.accessor("costs", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Tasks" />
-    ),
-    enableSorting: true,
-    meta: {
-      className: "text-right",
-      displayName: "Costs",
-    },
-    cell: ({ getValue }) => {
-      return (
-        <span className="font-medium">{formatters.currency(getValue())}</span>
-      )
-    },
-    filterFn: (row, columnId, filterValue: ConditionFilter) => {
-      const value = row.getValue(columnId) as number
-      const [min, max] = filterValue.value as [number, number]
+  // columnHelper.accessor("costs", {
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Tasks" />
+  //   ),
+  //   enableSorting: true,
+  //   meta: {
+  //     className: "text-right",
+  //     displayName: "Costs",
+  //   },
+  //   cell: ({ getValue }) => {
+  //     return (
+  //       <span className="font-medium">{formatters.currency(getValue())}</span>
+  //     )
+  //   },
+  //   filterFn: (row, columnId, filterValue: ConditionFilter) => {
+  //     const value = row.getValue(columnId) as number
+  //     const [min, max] = filterValue.value as [number, number]
 
-      switch (filterValue.condition) {
-        case "is-equal-to":
-          return value == min
-        case "is-between":
-          return value >= min && value <= max
-        case "is-greater-than":
-          return value > min
-        case "is-less-than":
-          return value < min
-        default:
-          return true
-      }
-    },
-  }),
+  //     switch (filterValue.condition) {
+  //       case "is-equal-to":
+  //         return value == min
+  //       case "is-between":
+  //         return value >= min && value <= max
+  //       case "is-greater-than":
+  //         return value > min
+  //       case "is-less-than":
+  //         return value < min
+  //       default:
+  //         return true
+  //     }
+  //   },
+  // }),
   columnHelper.accessor("surgery", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Reason" />

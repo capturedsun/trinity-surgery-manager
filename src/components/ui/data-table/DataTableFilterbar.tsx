@@ -48,7 +48,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             type="checkbox"
           />
         )}
-        {table.getColumn("costs")?.getIsVisible() && (
+        {/* {table.getColumn("costs")?.getIsVisible() && (
           <DataTableFilter
             column={table.getColumn("costs")}
             title="Costs"
@@ -56,7 +56,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             options={conditions}
             formatter={formatters.currency}
           />
-        )}
+        )} */}
         {table.getColumn("name")?.getIsVisible() && (
           <Searchbar
             type="search"
