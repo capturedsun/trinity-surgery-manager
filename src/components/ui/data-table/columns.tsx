@@ -13,39 +13,49 @@ import { DataTableRowActions } from "./DataTableRowActions"
 const columnHelper = createColumnHelper<Usage>()
 
 export const columns = [
-  columnHelper.display({
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected()
-            ? true
-            : table.getIsSomeRowsSelected()
-              ? "indeterminate"
-              : false
-        }
-        onCheckedChange={() => table.toggleAllPageRowsSelected()}
-        className="translate-y-0.5"
-        aria-label="Select all"
-      />
+  // columnHelper.display({
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected()
+  //           ? true
+  //           : table.getIsSomeRowsSelected()
+  //             ? "indeterminate"
+  //             : false
+  //       }
+  //       onCheckedChange={() => table.toggleAllPageRowsSelected()}
+  //       className="translate-y-0.5"
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={() => row.toggleSelected()}
+  //       className="translate-y-0.5"
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  //   meta: {
+  //     displayName: "Select",
+  //   },
+  // }),
+  columnHelper.accessor("date", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created" />
     ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={() => row.toggleSelected()}
-        className="translate-y-0.5"
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+    enableSorting: true,
     meta: {
-      displayName: "Select",
+      className: "tabular-nums",
+      displayName: "Date",
     },
   }),
   columnHelper.accessor("name", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Referral" />
     ),
     enableSorting: true,
     enableHiding: false,
@@ -174,16 +184,6 @@ export const columns = [
           <Indicator number={value} />
         </div>
       )
-    },
-  }),
-  columnHelper.accessor("date", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Date" />
-    ),
-    enableSorting: false,
-    meta: {
-      className: "tabular-nums",
-      displayName: "Date",
     },
   }),
   columnHelper.display({

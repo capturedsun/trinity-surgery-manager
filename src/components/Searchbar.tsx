@@ -26,17 +26,17 @@ const inputStyles = tv({
     // invalid (optional)
     // "aria-[invalid=true]:dark:ring-red-400/20 aria-[invalid=true]:ring-2 aria-[invalid=true]:ring-red-200 aria-[invalid=true]:border-red-500 invalid:ring-2 invalid:ring-red-200 invalid:border-red-500"
     // remove search cancel button (optional)
-    "[&::--webkit-search-cancel-button]:hidden [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden",
-  ],
-  variants: {
-    hasError: {
-      true: hasErrorInput,
+    "[&:state(webkit-search-cancel-button)]:hidden [&:state(webkit-search-cancel-button)]:hidden [&::-webkit-search-decoration]:hidden",
+    ],
+    variants: {
+      hasError: {
+        true: hasErrorInput,
+      },
+      // number input
+      enableStepper: {
+        true: "[appearance:textfield] [&:state(webkit-inner-spin-button)]:appearance-none [&:state(webkit-outer-spin-button)]:appearance-none",
+      },
     },
-    // number input
-    enableStepper: {
-      true: "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
-    },
-  },
 })
 
 interface InputProps

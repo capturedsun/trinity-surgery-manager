@@ -19,98 +19,117 @@ export const roles: { value: string; label: string }[] = [
   },
 ]
 
-export const statuses: { value: string; label: string; variant: string }[] = [
+export const statuses: { value: string; label: string; variant: string; type: string }[] = [
   {
     value: "live",
     label: "Scheduled",
     variant: "success",
+    type: "communication",
   },
   {
     value: "inactive",
     label: "Inactive",
     variant: "neutral",
+    type: "communication",
   },
   {
     value: "archived",
     label: "Archived",
     variant: "warning",
+    type: "communication",
   },
   {
     value: "leftMessage1",
     label: "Left Message 1",
     variant: "progress",
+    type: "communication",
   },
   {
     value: "leftMessage2",
     label: "Left Message 2",
     variant: "progress",
+    type: "communication",
   },
   {
     value: "leftMessage3",
     label: "Left Message 3",
     variant: "progress",
+    type: "communication",
   },
   {
     value: "pendingClearance",
     label: "Pending Clearance",
     variant: "warning",
+    type: "clearance/lab",
   },
   {
     value: "cancelled",
     label: "Cancelled",
     variant: "error",
+    type: "communication",
   },
   {
     value: "reschedule",
     label: "Reschedule",
     variant: "warning",
+    type: "communication",
   },
   {
     value: "declinedNoContact",
     label: "Declined - Unable to Reach Patient",
     variant: "error",
+    type: "communication",
   },
   {
     value: "declinedDenied",
     label: "Declined - Patient Denied",
     variant: "error",
+    type: "communication",
   },
   {
     value: "hold",
     label: "Hold - Patient will Call when Ready to Schedule",
     variant: "neutral",
+    type: "communication",
   },
   {
     value: "pendingAuthorization",
     label: "Pending Authorization",
     variant: "warning",
+    type: "insurance",
   },
   {
     value: "pendingReferral",
     label: "Pending Referral",
     variant: "warning",
+    type: "insurance",
   },
   {
     value: "approvedAuthorization",
     label: "Approved Authorization",
     variant: "success",
+    type: "insurance",
   },
   {
     value: "deniedAuthorization",
     label: "Denied Authorization",
     variant: "error",
+    type: "insurance",
   },
   {
     value: "peerReview",
     label: "Peer Review",
     variant: "neutral",
+    type: "clearance/lab",
   },
   {
     value: "collectPatientCost",
     label: "Collect Patient Cost",
     variant: "neutral",
+    type: "clearance/lab",
   },
 ];
+
 
 export const actionItems = {
   live: [
