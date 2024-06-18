@@ -83,25 +83,27 @@ export const columns = [
       displayName: "Status",
     },
     cell: ({ row }) => {
-      // const communicationStatus = statuses.find(
-      //   (item) => item.value === row.getValue("status"),
-      // )
+        const statuses = row.getValue("status");
 
-      const statuses = row.getValue("status") as Object
+        if (typeof statuses === 'object' && statuses !== null && 'communication' in statuses) {
+          console.log(statuses);
 
-      const type = statuses?.communication as String
+          const statusType = statuses.communication as string;
 
-      return (
-        <StatusManager statusType={type} />
-        // <Badge variant={status.variant as BadgeProps["variant"]}>
-        //   {status.label}
-        // </Badge>
-      )
+          return (
+            <StatusManager statusType={statusType} />
+            // <Badge variant={status.variant as BadgeProps["variant"]}>
+            //   {status.label}
+            // </Badge>
+          );
+        } else {
+
+        }
     },
   }),
-  columnHelper.accessor("status", {
+  columnHelper.accessor("paymentStatus", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Comm Status" />
+      <DataTableColumnHeader column={column} title="Payment Status" />
     ),
     enableSorting: true,
     meta: {
@@ -109,25 +111,27 @@ export const columns = [
       displayName: "Status",
     },
     cell: ({ row }) => {
-      // const communicationStatus = statuses.find(
-      //   (item) => item.value === row.getValue("status"),
-      // )
+      const statuses = row.getValue("status");
 
-      const statuses = row.getValue("status") as Object
-      console.log(statuses)
-      const type = statuses?.communication as String
+      if (typeof statuses === 'object' && statuses !== null && 'insurance' in statuses) {
+        console.log(statuses);
 
-      return (
-        <StatusManager statusType={statuses} />
-        // <Badge variant={status.variant as BadgeProps["variant"]}>
-        //   {status.label}
-        // </Badge>
-      )
+        const statusType = statuses.insurance as string;
+
+        return (
+          <StatusManager statusType={statusType} />
+          // <Badge variant={status.variant as BadgeProps["variant"]}>
+          //   {status.label}
+          // </Badge>
+        );
+      } else {
+
+      }
     },
   }),
-  columnHelper.accessor("status", {
+  columnHelper.accessor("clearanceStatus", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Comm Status" />
+      <DataTableColumnHeader column={column} title="Clearance Status" />
     ),
     enableSorting: true,
     meta: {
@@ -135,20 +139,22 @@ export const columns = [
       displayName: "Status",
     },
     cell: ({ row }) => {
-      // const communicationStatus = statuses.find(
-      //   (item) => item.value === row.getValue("status"),
-      // )
+      const statuses = row.getValue("status");
 
-      const statuses = row.getValue("status") as Object
-      console.log(statuses)
-      const type = statuses?.communication as String
+      if (typeof statuses === 'object' && statuses !== null && 'clearance' in statuses) {
+        console.log(statuses);
 
-      return (
-        <StatusManager statusType={statuses} />
-        // <Badge variant={status.variant as BadgeProps["variant"]}>
-        //   {status.label}
-        // </Badge>
-      )
+        const statusType = statuses.clearance as string;
+
+        return (
+          <StatusManager statusType={statusType} />
+          // <Badge variant={status.variant as BadgeProps["variant"]}>
+          //   {status.label}
+          // </Badge>
+        );
+      } else {
+
+      }
     },
   }),
   // columnHelper.accessor("costs", {

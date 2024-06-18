@@ -1,6 +1,8 @@
 export type Usage = {
   name: string
   status: string
+  paymentStatus: string
+  clearanceStatus: string
   costs: number
   surgery: string
   facility: number
