@@ -4,17 +4,13 @@ import React from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 import { Badge, BadgeProps } from "@/components/Badge";
 import { statuses, actionItems } from "@/data/data"
-
-import { Button } from "@/components/Button"
-import { Checkbox } from "@/components/Checkbox"
-import { Input } from "@/components/Input"
-import { Label } from "@/components/Label"
 import {
-  Popover,
-  PopoverClose,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/Popover"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/Select"
 
 import { cx, focusRing } from "@/lib/utils"
 
@@ -33,27 +29,32 @@ const StatusManager = React.forwardRef<HTMLDivElement, StatusManagerProps>(
 			(item) => item.value === statusID,
 		)
     const type = status?.type
+
+    const [selectedStatus, setSelectedStatus] = React.useState<string>(statusID);
     return (
       <div ref={forwardedRef} className={cx(statusManagerVariants(), className)} {...props}>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Badge className="cursor-pointer hover:ring-2 transition" variant={(status?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
+        <Select
+          value={selectedStatus}
+          onValueChange={(value) => {
+            setSelectedStatus(value);
+            // Optionally, add additional logic here to handle the selected value change
+          }}
+        >
+            <Badge className="relative cursor-pointer hover:ring-2 transition" variant={(status?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
               {status?.label}
+              <SelectTrigger style={{all: "unset", position:"absolute", top: "0px", left: "0px", zIndex: "10", width: "100%", height: "100%", opacity: "0px"}} className="">
+              </SelectTrigger>
             </Badge>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className="p-2 flex flex-col gap-2">
-              {statuses
-                .filter((item) => item.type === type && item.value !== "none")
-                .map((filteredStatus, index) => (
-                  <Label key={index}>
-                    <Checkbox />
-                    {filteredStatus.label}
-                  </Label>
-                ))}
-            </div>
-          </PopoverContent>
-        </Popover>
+          <SelectContent>
+            {statuses
+              .filter((item) => item.type === type && item.value !== "none")
+              .map((filteredStatus) => (
+                <SelectItem key={filteredStatus.value} value={filteredStatus.value}>
+                  {filteredStatus.label}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
       </div>
     );
   }

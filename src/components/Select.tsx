@@ -57,7 +57,7 @@ const SelectTrigger = React.forwardRef<
       {...props}
     >
       <span className="truncate">{children}</span>
-      <SelectPrimitives.Icon asChild>
+      {/* <SelectPrimitives.Icon asChild>
         <RiArrowDownSLine
           className={cx(
             // base
@@ -68,7 +68,7 @@ const SelectTrigger = React.forwardRef<
             "group-data-[disabled]/trigger:text-gray-300 group-data-[disabled]/trigger:dark:text-gray-600",
           )}
         />
-      </SelectPrimitives.Icon>
+      </SelectPrimitives.Icon> */}
     </SelectPrimitives.Trigger>
   )
 })

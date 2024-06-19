@@ -449,9 +449,9 @@ export const usage: {
     surgery: "hip click",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "approvedAuthorization",
-      clearance: "pendingClearance"
+      communication: "live",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -484,8 +484,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage1",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -552,8 +552,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage1",
-      insurance: "approvedAuthorization",
-      clearance: "pendingClearance"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -585,9 +585,9 @@ export const usage: {
     surgery: "acute medial meniscus tear, lt knee",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      communication: "live",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -619,9 +619,9 @@ export const usage: {
     surgery: "trigger finger, unspecified",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      communication: "live",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -653,9 +653,9 @@ export const usage: {
     surgery: "Rt index finger fx",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "approvedAuthorization",
-      clearance: "pendingClearance"
+      communication: "",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -687,9 +687,9 @@ export const usage: {
     surgery: "Rt clavicle fx",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "approvedAuthorization",
-      clearance: "pendingClearance"
+      communication: "live",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -722,8 +722,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage1",
-      insurance: "approvedAuthorization",
-      clearance: "pendingClearance"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -789,9 +789,9 @@ export const usage: {
     surgery: "Low back pain",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      communication: "leftMessage2",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -824,8 +824,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage2",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -858,8 +858,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage2",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -892,8 +892,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage2",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -926,8 +926,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage2",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -959,9 +959,9 @@ export const usage: {
     surgery: "CTS, unspecified upper limb",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "approvedAuthorization",
-      clearance: "pendingClearance"
+      communication: "leftMessage2",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -994,8 +994,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage2",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -1028,8 +1028,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage2",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -1062,8 +1062,8 @@ export const usage: {
     severity: "Normal",
     status: {
       communication: "leftMessage2",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -1095,9 +1095,9 @@ export const usage: {
     surgery: "Lt hand pain",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "approvedAuthorization",
-      clearance: "pendingClearance"
+      communication: "livw",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
@@ -1129,9 +1129,9 @@ export const usage: {
     surgery: "Bilateral trigger finger, small fingers",
     severity: "Normal",
     status: {
-      communication: "leftMessage1",
-      insurance: "pendingAuthorization",
-      clearance: "peerReview"
+      communication: "leftMessage2",
+      insurance: "",
+      clearance: ""
     },
     requestedReferralDate: "",
     insuranceProvider: "",
