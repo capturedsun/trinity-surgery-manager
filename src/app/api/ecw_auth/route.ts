@@ -4,13 +4,7 @@ import crypto from 'crypto';
 import querystring from 'querystring';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
-import type { NextApiRequest, NextApiResponse } from 'next'
 dotenv.config();
-
-type ResponseData = {
-    message: string
-  }
-
 
 async function constructECWAuthorizationRequest() {
     const authorizationEndpoint = process.env.ECW_AUTHORIZATION_ENDPOINT
@@ -45,7 +39,7 @@ async function constructECWAuthorizationRequest() {
     return authorizeUrl;
 }
 
-export default async function handler(req:any, res:any) {
+export default async function GET(req:any, res:any) {
     try {
         const authorizeUrl = await constructECWAuthorizationRequest();
         const response = await fetch(authorizeUrl)

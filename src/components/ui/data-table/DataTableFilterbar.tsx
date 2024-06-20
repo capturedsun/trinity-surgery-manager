@@ -11,6 +11,8 @@ import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
 import { ViewOptions } from "./DataTableViewOptions"
 
+import axios from 'axios';
+
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
 }
@@ -77,6 +79,19 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
         )}
       </div>
       <div className="flex items-center gap-2">
+        <Button 
+          variant="secondary"
+          className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
+          onClick={async() => {
+            try {
+              const res = await axios.get("/api/test")
+              console.log(res)
+            } catch (error) {
+              console.log(error)
+            }
+        }}>
+          test
+        </Button>
         <Button
           variant="secondary"
           className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
