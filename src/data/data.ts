@@ -1095,7 +1095,7 @@ export const usage: {
     surgery: "Lt hand pain",
     severity: "Normal",
     status: {
-      communication: "livw",
+      communication: "live",
       insurance: "",
       clearance: ""
     },

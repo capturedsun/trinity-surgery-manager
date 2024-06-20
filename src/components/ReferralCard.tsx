@@ -15,6 +15,10 @@ const ReferralCard = React.forwardRef<HTMLDivElement, ReferralCardProps>(
 			<div>
 				{data.referralNumber}
 				<br />
+				{data.fromOrganization}
+				<br />
+				{data.toProvider}
+				<br />
 				<span className={`font-medium underline cursor-pointer`}>{data.name}</span>
 			</div>
 		);
