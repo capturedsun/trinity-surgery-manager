@@ -1,5 +1,5 @@
 // pages/api/authenticate.js
-
+import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import querystring from 'querystring';
 import fetch from 'node-fetch';
@@ -10,7 +10,7 @@ async function constructECWAuthorizationRequest() {
     const authorizationEndpoint = process.env.ECW_AUTHORIZATION_ENDPOINT
     const tokenEndpoint = process.env.ECW_TOKEN_ENDPOINT
 
-    const codeVerifier = crypto.randomBytes(32).toString('hex')
+    const codeVerifier = crypto.randomBytes(64).toString('hex')
         .replace(/=/g, '')
         .replace(/\+/g, '-')
         .replace(/\//g, '_');
@@ -28,26 +28,28 @@ async function constructECWAuthorizationRequest() {
         response_type: 'code',
         client_id: ECW_CLIENT_ID,
         redirect_uri: ECW_REDIRECT_URI,
-        scope: 'openid fhirUser offline_access user/Encounter.read user/Patient.read',
         state: 'random_state_value',
+        scope: 'openid fhirUser offline_access user/Encounter.read user/Patient.read',
+        aud: tokenEndpoint,
         code_challenge: codeChallenge,
         code_challenge_method: 'S256',
-        aud: tokenEndpoint,
     };
+
+    console.log(params)
 
     const authorizeUrl = `${authorizationEndpoint}?${querystring.stringify(params)}`;
     return authorizeUrl;
 }
 
-export default async function GET(req:any, res:any) {
+export async function GET(req:any, res:any) {
     try {
         const authorizeUrl = await constructECWAuthorizationRequest();
         const response = await fetch(authorizeUrl)
         const data = await response.json()
-        console.log(data)
-
+        console.log("response: ", data)
+        return NextResponse.json({ success: true, message: 'Connected to the database' });
     } catch (error) {
         console.error('Error initiating authentication:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        return NextResponse.json({ success: false, message: 'Database connection failed' }, { status: 500 });
     }
 }

@@ -84,7 +84,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
           className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
           onClick={async() => {
             try {
-              const res = await axios.get("/api/test")
+              const res = await axios.get("/api/ecw_auth")
               console.log(res)
             } catch (error) {
               console.log(error)
