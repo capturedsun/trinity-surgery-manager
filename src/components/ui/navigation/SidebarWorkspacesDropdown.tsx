@@ -16,8 +16,8 @@ import { ModalAddWorkspace } from "./ModalAddWorkspace"
 
 const workspaces = [
   {
-    value: "retail-analytics",
-    name: "Retail analytics",
+    value: "trinity-orthopedics",
+    name: "Trinity Orthopedics",
     initials: "RA",
     role: "Member",
     color: "bg-indigo-600 dark:bg-indigo-500",

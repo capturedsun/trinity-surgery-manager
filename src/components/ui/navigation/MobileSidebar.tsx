@@ -78,7 +78,7 @@ export default function MobileSidebar() {
         </DrawerTrigger>
         <DrawerContent className="sm:max-w-lg">
           <DrawerHeader>
-            <DrawerTitle>Retail Analytics</DrawerTitle>
+            <DrawerTitle>Trinity Orthopedics</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
             <nav
