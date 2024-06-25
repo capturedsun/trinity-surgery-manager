@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 // import {connectDB, getPatients}  from '@/db/index';
 
-export default async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
     try {
         // await connectDB();
         // const patients = await getPatients();
