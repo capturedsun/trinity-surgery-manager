@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 // import {connectDB, getPatients}  from '@/db/index';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function GET(req: NextRequest) {
     try {
         // await connectDB();
         // const patients = await getPatients();
-        res.status(200).json({ success: true, message: 'Connected to the database' });
+        return NextResponse.json({});
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Database connection failed' });
+        return NextResponse.json({ error: 'Database connection failed' }, { status: 500 });
     }
 }
