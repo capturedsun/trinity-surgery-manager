@@ -73,13 +73,13 @@ export function ManifestForm() {
 
         setFormData(initialFormData)
         setIsSubmitting(false)
-        dispatch(addSurgeryItemToStore(newSurgeryId))
-          .then(() => {
-            toast({
-              title: "Success",
-              description: "Surgery form submitted successfully!",
-            });
-          })
+        // dispatch(addSurgeryItemToStore(newSurgeryId))
+        //   .then(() => {
+        //     toast({
+        //       title: "Success",
+        //       description: "Surgery form submitted successfully!",
+        //     });
+        //   })
       }
     })
     .catch(error => {
