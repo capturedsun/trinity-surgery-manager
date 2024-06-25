@@ -1,13 +1,13 @@
 // pages/api/callback.js
 
 import querystring from 'querystring';
-import fetch from 'node-fetch';
+import { NextRequest, NextResponse } from 'next/server';
 
 export default async function POST(req:any, res:any) {
   const { code, state } = req.query;
 
   if (!code || !state) {
-    return res.status(400).json({ error: 'Missing authorization code or state' });
+    return NextResponse.json({ error: 'Missing authorization code or state' }, { status: 400 });
   }
 
   try {
@@ -30,12 +30,12 @@ export default async function POST(req:any, res:any) {
     const tokenData:any = await tokenResponse.json();
 
     if (!tokenData.access_token) {
-      return res.status(400).json({ error: 'Failed to exchange authorization code for access token' });
+      return NextResponse.json({ error: 'Failed to exchange authorization code for access token' }, { status: 400 });
     }
 
-    return res.status(200).json({ access_token: tokenData.access_token });
+    return NextResponse.json({ access_token: tokenData.access_token });
   } catch (error) {
     console.error('Error exchanging authorization code for access token:', error);
-    return res.status(500).json({ error: 'Internal server error' });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
