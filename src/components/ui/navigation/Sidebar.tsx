@@ -6,6 +6,7 @@ import {
   RiLinkM,
   RiGroupFill,
   RiSettings5Line,
+  RiFileList3Line
 } from "@remixicon/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -19,6 +20,7 @@ import { UserProfileDesktop, UserProfileMobile } from "./UserProfile"
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
   { name: "Patients", href: siteConfig.baseLinks.patients, icon: RiGroupFill },
+  { name: "Letter", href: siteConfig.baseLinks.letter, icon: RiFileList3Line },
   {
     name: "Settings",
     href: siteConfig.baseLinks.settings.general,

@@ -139,4 +139,29 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "Input"
 
-export { Input, inputStyles, type InputProps }
+interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+    VariantProps<typeof inputStyles> {
+  textareaClassName?: string;
+}
+
+const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
+  (
+    { className, textareaClassName, hasError, ...props }: TextareaProps,
+    forwardedRef,
+  ) => {
+    return (
+      <div className={cx("relative w-full", className)}>
+        <textarea
+          ref={forwardedRef}
+          className={cx(inputStyles({ hasError }), textareaClassName)}
+          {...props}
+        />
+      </div>
+    );
+  },
+);
+
+Textarea.displayName = "Textarea";
+
+export { Input, Textarea, inputStyles, type InputProps, type TextareaProps };
