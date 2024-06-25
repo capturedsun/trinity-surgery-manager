@@ -1,10 +1,10 @@
-// pages/api/callback.js
-
-import querystring from 'querystring';
 import { NextRequest, NextResponse } from 'next/server';
+import querystring from 'querystring';
 
-export default async function POST(req:any, res:any) {
-  const { code, state } = req.query;
+export async function POST(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const code = searchParams.get('code');
+  const state = searchParams.get('state');
 
   if (!code || !state) {
     return NextResponse.json({ error: 'Missing authorization code or state' }, { status: 400 });
@@ -14,7 +14,7 @@ export default async function POST(req:any, res:any) {
     const requestBody = querystring.stringify({
       grant_type: 'authorization_code',
       code,
-      redirect_uri: 'https://trinity-surgery-manager.vercel.app/api/callback', // Replace with your redirect URI
+      redirect_uri: process.env.ECW_REDIRECT_URI, // Replace with your redirect URI
       client_id: process.env.ECW_CLIENT_ID, // Use your ECW client ID from environment variables
       client_secret: process.env.ECW_CLIENT_SECRET // Use your ECW client secret from environment variables
     });
@@ -27,7 +27,7 @@ export default async function POST(req:any, res:any) {
       body: requestBody
     });
 
-    const tokenData:any = await tokenResponse.json();
+    const tokenData: any = await tokenResponse.json();
 
     if (!tokenData.access_token) {
       return NextResponse.json({ error: 'Failed to exchange authorization code for access token' }, { status: 400 });
