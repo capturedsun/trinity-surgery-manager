@@ -27,7 +27,7 @@ import {
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[]
-  data: TData[]
+  data: any
 }
 
 export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
