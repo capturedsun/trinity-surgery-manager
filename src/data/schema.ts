@@ -1,7 +1,7 @@
 export type Usage = {
-  name: string
+  surgeryOrder: string
   status: string
-  paymentStatus: string
+  insuranceStatus: string
   clearanceStatus: string
   costs: number
   surgery: string

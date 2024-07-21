@@ -59,7 +59,7 @@ export const columns = [
   }),
   columnHelper.accessor("name", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Referral" />
+      <DataTableColumnHeader column={column} title="Surgery Order" />
     ),
     enableSorting: true,
     enableHiding: false,
@@ -94,9 +94,9 @@ export const columns = [
         }
     },
   }),
-  columnHelper.accessor("paymentStatus", {
+  columnHelper.accessor("insuranceStatus", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Payment Status" />
+      <DataTableColumnHeader column={column} title="Insurance Status" />
     ),
     enableSorting: true,
     meta: {
