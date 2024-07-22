@@ -57,7 +57,7 @@ export const columns = [
       displayName: "Date",
     },
   }),
-  columnHelper.accessor("name", {
+  columnHelper.accessor("surgeryOrder", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Surgery Order" />
     ),
