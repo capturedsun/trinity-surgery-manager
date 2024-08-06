@@ -59,7 +59,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             formatter={formatters.currency}
           />
         )} */}
-        {table.getColumn("name")?.getIsVisible() && (
+        {table.getColumn("surgeryOrder")?.getIsVisible() && (
           <Searchbar
             type="search"
             placeholder="Search by name..."
