@@ -6,8 +6,7 @@ import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 
 export default async function Patients() {
-  const cookieStore = cookies()
-  const db = createClient(cookieStore)
+  const db = createClient()
 
   const { data } = await db.from('surgery_orders').select()
   
