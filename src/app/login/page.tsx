@@ -11,16 +11,20 @@ export default function Login({
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
 
-      <form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
+      <form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground ">
         <label className="text-md" htmlFor="email">
-          Email
+          <h3 className="font-bold text-gray-900 sm:text-sm dark:text-gray-50">
+            Email
+          </h3>
         </label>
         <Input
           name="email"
           placeholder="you@example.com"
         />
         <label className="text-md" htmlFor="password">
-          Password
+          <h3 className="font-bold text-gray-900 sm:text-sm dark:text-gray-50">
+            Password
+          </h3>
         </label>
         <Input
           type="password"
