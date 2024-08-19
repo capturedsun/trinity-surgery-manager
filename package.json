@@ -9,6 +9,11 @@
     "lint": "next lint",
     "generate": "node src/data/generateData.js"
   },
+  "pnpm": {
+    "overrides": {
+      "@tanstack/virtual-core": "3.9.0"
+    }
+  },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.1.11",
     "@atlaskit/pragmatic-drag-and-drop-flourish": "^1.1.0",
