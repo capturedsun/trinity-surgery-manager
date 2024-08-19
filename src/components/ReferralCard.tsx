@@ -1,5 +1,6 @@
 "use client"
 import React from 'react';
+import Link from 'next/link';
 import { tv, type VariantProps } from "tailwind-variants";
 
 import { cx, focusRing } from "@/lib/utils"
@@ -19,7 +20,9 @@ const ReferralCard = React.forwardRef<HTMLDivElement, ReferralCardProps>(
 				<br />
 				{data.toProvider}
 				<br />
-				<span className={`font-medium underline cursor-pointer`}>{data.name}</span>
+				<Link href={`/patients/${data.referralNumber}`}>
+					<span className="font-medium underline cursor-pointer">{data.name}</span>
+				</Link>
 			</div>
 		);
 	}
