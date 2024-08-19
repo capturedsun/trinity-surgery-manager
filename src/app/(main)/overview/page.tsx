@@ -3,6 +3,7 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard"
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar"
 import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard"
+import { DonutChart } from "@/components/DonutChart"
 import { overviews } from "@/data/overview-data"
 import { OverviewData } from "@/data/schema"
 import { cx } from "@/lib/utils"
@@ -134,6 +135,19 @@ const data3: KpiEntryExtended[] = [
   },
 ]
 
+
+const donutChartData = [
+  {
+    name: "Not in RTA Status",
+    amount: 39,
+  },
+  {
+    name: "In RTA Status",
+    amount: 179,
+  },
+]
+
+
 const overviewsDates = overviews.map((item) => toDate(item.date).getTime())
 const maxDate = toDate(Math.max(...overviewsDates))
 
@@ -192,6 +206,14 @@ export default function Overview() {
             ctaLink="#"
             data={data3}
           />
+          <DonutChart
+            className="m-auto"
+            data={donutChartData}
+            category="name"
+            value="amount"
+            showLabel={true}
+          />
+
         </div>
       </section>
       <section aria-labelledby="usage-overview">

@@ -22,6 +22,7 @@ import {
 } from "@remixicon/react"
 import { useTheme } from "next-themes"
 import * as React from "react"
+import { logout } from "@/utils/supabase/authActions"
 
 export type DropdownUserProfileProps = {
   children: React.ReactNode
@@ -117,7 +118,7 @@ export function DropdownUserProfile({
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Sign out</DropdownMenuItem>
+            <DropdownMenuItem onClick={async() => {await logout()}}>Sign out</DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

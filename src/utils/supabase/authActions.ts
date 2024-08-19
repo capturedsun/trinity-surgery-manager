@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export const signIn = async (formData: FormData) => {
+  "use server";
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const supabase = createClient();
@@ -18,10 +19,11 @@ export const signIn = async (formData: FormData) => {
     return redirect("/login?message=Could not authenticate user");
   }
 
-  return redirect("/protected");
+  return redirect("/overview");
 };
 
 export const signUp = async (formData: FormData) => {
+  "use server";
   const origin = headers().get("origin");
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -40,4 +42,25 @@ export const signUp = async (formData: FormData) => {
   }
 
   return redirect("/login?message=Check email to continue sign in process");
+};
+
+export async function logout() {
+  "use server"
+  const supabase = createClient()
+  
+  const { error } = await supabase.auth.signOut()
+  
+  if (error) {
+    console.error('Error logging out:', error)
+  }
+
+  redirect('/login')
+}
+
+export const checkAuth = async () => {
+  const supabase = createClient();
+  const { data: authData, error: authError } = await supabase.auth.getUser();
+  if (authError || !authData?.user) {
+    redirect("/login");
+  }
 };
