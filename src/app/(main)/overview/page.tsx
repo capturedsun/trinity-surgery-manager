@@ -3,7 +3,7 @@ import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCa
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard"
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar"
 import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard"
-import { DonutChart } from "@/components/DonutChart"
+import { CircleChartCard } from "@/components/ui/overview/DashboardCircleChart"
 import { overviews } from "@/data/overview-data"
 import { OverviewData } from "@/data/schema"
 import { cx } from "@/lib/utils"
@@ -135,7 +135,6 @@ const data3: KpiEntryExtended[] = [
   },
 ]
 
-
 const donutChartData = [
   {
     name: "Not in RTA Status",
@@ -146,7 +145,6 @@ const donutChartData = [
     amount: 179,
   },
 ]
-
 
 const overviewsDates = overviews.map((item) => toDate(item.date).getTime())
 const maxDate = toDate(Math.max(...overviewsDates))
@@ -172,7 +170,7 @@ export default function Overview() {
           id="current-billing-cycle"
           className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
         >
-          Current billing cycle
+          Referrals
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
           <ProgressBarCard
@@ -185,7 +183,7 @@ export default function Overview() {
             ctaLink="#"
             data={data}
           />
-          <ProgressBarCard
+          {/* <ProgressBarCard
             title="Workspace"
             change="+2.9%"
             value="21.7%"
@@ -194,26 +192,22 @@ export default function Overview() {
             ctaText="Invite users."
             ctaLink="#"
             data={data2}
-          />
+          /> */}
           <CategoryBarCard
-            title="Costs"
-            change="-1.4%"
-            value="$293.5"
-            valueDescription="current billing cycle"
+            title="Status Bottlenecks"
+            className="sm:col-span-2 xl:col-span-2"
+          />
+          <CircleChartCard
+            title="Referral-to-Appointment"
+            change="4.4%"
+            value="79%"
+            valueDescription="current quarter"
             subtitle="Current costs"
             ctaDescription="Set hard caps in"
             ctaText="cost spend management."
             ctaLink="#"
-            data={data3}
-          />
-          <DonutChart
-            className="m-auto"
             data={donutChartData}
-            category="name"
-            value="amount"
-            showLabel={true}
           />
-
         </div>
       </section>
       <section aria-labelledby="usage-overview">
