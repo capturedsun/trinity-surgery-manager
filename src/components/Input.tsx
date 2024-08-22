@@ -82,6 +82,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             },
             inputClassName,
           )}
+          autoComplete="off"
           {...props}
         />
         {isSearch && (
