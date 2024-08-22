@@ -8,7 +8,7 @@ export type CardProps = {
   change: string
   value: string
   valueDescription: string
-  subtitle: string
+  subtitle?: string
   ctaDescription: string
   ctaText: string
   ctaLink: string
@@ -40,9 +40,11 @@ export function CircleChartCard({
             <span className="text-sm text-gray-500">{valueDescription}</span>
           </p>
           <div className="mt-4">
-            <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
-              {subtitle}
-            </p>
+            {subtitle && (
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-50">
+                {subtitle}
+              </p>
+            )}
             <div className="mt-2 flex items-center justify-center gap-0.5">
                 <DonutChart
                 data={data}

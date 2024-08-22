@@ -5,8 +5,7 @@ import { usage } from "@/data/data"
 import { Textarea } from "@/components/Textarea"
 
 const PatientDetailsPage = () => {
-  const { id } = useParams();  // Use `useParams` to get the dynamic route parameter
-
+  const { id } = useParams();
   const [patientData, setPatientData] = useState<any>(null);
 
   // Simulate data fetching based on the id
@@ -26,13 +25,11 @@ const PatientDetailsPage = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="">
-        <h1 className="text-3xl font-bold">Patient Details</h1>
-        <p>&nbsp;</p>
-        <p>Name: {patientData.name}</p>
-        <p>DOB: {patientData.patientDob}</p>
-        <p>Surgery: {patientData.surgery}</p>
-      </div>
+      <h1 className="text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
+        {patientData.name}
+      </h1>
+      <p>DOB: {patientData.patientDob}</p>
+      <p>Surgery: {patientData.surgery}</p>
 
       <div className="mt-10">
         <h1 className="text-2xl font-bold">Comments</h1>

@@ -10,8 +10,6 @@ export default async function Patients() {
 
   const { data } = await db.from('surgery_orders').select()
   
-  console.log(data)
-  
   return (
     <>
       <h1 className="text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">

@@ -27,15 +27,15 @@ const chartdata = [
     count: 4,
   },
   {
-    status: "*Left Message 1",
+    status: "Left Message 1",
     count: 12,
   },
   {
-    status: "*Left Message 2",
+    status: "Left Message 2",
     count: 6,
   },
   {
-    status: "*Left Message 3",
+    status: "Left Message 3",
     count: 2,
   },
   {

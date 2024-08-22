@@ -23,6 +23,7 @@ import {
 import { useTheme } from "next-themes"
 import * as React from "react"
 import { logout } from "@/utils/supabase/authActions"
+import { useUser } from "@/context/UserContext";
 
 export type DropdownUserProfileProps = {
   children: React.ReactNode
@@ -35,6 +36,8 @@ export function DropdownUserProfile({
 }: DropdownUserProfileProps) {
   const [mounted, setMounted] = React.useState(false)
   const { theme, setTheme } = useTheme()
+  const { userData: user, error, loading } = useUser();
+
   React.useEffect(() => {
     setMounted(true)
   }, [])
@@ -47,7 +50,7 @@ export function DropdownUserProfile({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
         <DropdownMenuContent align={align}>
-          <DropdownMenuLabel>emma.stone@acme.com</DropdownMenuLabel>
+          <DropdownMenuLabel>{user?.user?.email}</DropdownMenuLabel>
           <DropdownMenuGroup>
             <DropdownMenuSubMenu>
               <DropdownMenuSubMenuTrigger>Theme</DropdownMenuSubMenuTrigger>
@@ -101,20 +104,20 @@ export function DropdownUserProfile({
                 aria-hidden="true"
               />
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            {/* <DropdownMenuItem>
               Documentation
               <RiArrowRightUpLine
                 className="mb-1 ml-1 size-2.5 shrink-0 text-gray-500"
                 aria-hidden="true"
               />
-            </DropdownMenuItem>
-            <DropdownMenuItem>
+            </DropdownMenuItem> */}
+            {/* <DropdownMenuItem>
               Join Slack community
               <RiArrowRightUpLine
                 className="mb-1 ml-1 size-2.5 shrink-0 text-gray-500"
                 aria-hidden="true"
               />
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>

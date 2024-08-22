@@ -13,6 +13,7 @@ import { cx, focusInput } from "@/lib/utils"
 import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react"
 import React from "react"
 import { ModalAddWorkspace } from "./ModalAddWorkspace"
+import { useUser } from "@/context/UserContext";
 
 const workspaces = [
   {
@@ -26,6 +27,7 @@ const workspaces = [
 ]
 
 export const WorkspacesDropdownDesktop = () => {
+  const { userData: user, error, loading } = useUser();
   const [dropdownOpen, setDropdownOpen] = React.useState(false)
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false)
   const dropdownTriggerRef = React.useRef<null | HTMLButtonElement>(null)
@@ -60,7 +62,7 @@ export const WorkspacesDropdownDesktop = () => {
               className="flex aspect-square size-8 items-center justify-center rounded bg-indigo-600 p-2 text-xs font-medium text-white dark:bg-indigo-500"
               aria-hidden="true"
             >
-              RA
+              {user?.profile.first_name[0] + user?.profile.last_name[0]}
             </span>
             <div className="flex w-full items-center justify-between gap-x-4 truncate">
               <div className="truncate">
@@ -68,7 +70,7 @@ export const WorkspacesDropdownDesktop = () => {
                   Trinity Orthopedics
                 </p>
                 <p className="whitespace-nowrap text-left text-xs text-gray-700 dark:text-gray-300">
-                  Member
+                  {user?.profile.role ? user.profile.role.charAt(0).toUpperCase() + user.profile.role.slice(1) : ''}
                 </p>
               </div>
               <RiExpandUpDownLine

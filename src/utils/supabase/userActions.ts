@@ -22,7 +22,6 @@ export const getUserData = async () => {
     .select('*')
     .single();
 
-    console.log(profile);
 
   if (profileError) {
     console.error('Error fetching user profile:', profileError);

@@ -202,7 +202,6 @@ export default function Overview() {
             change="4.4%"
             value="79%"
             valueDescription="current quarter"
-            subtitle="Current costs"
             ctaDescription="Set hard caps in"
             ctaText="cost spend management."
             ctaLink="#"

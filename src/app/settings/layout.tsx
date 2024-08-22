@@ -6,6 +6,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ThemeProvider } from "next-themes"
 import { Sidebar } from "@/components/ui/navigation/Sidebar"
+import { UserProvider } from "@/context/UserContext";
 
 const navigationSettings = [
   { name: "General", href: siteConfig.baseLinks.settings.general },
@@ -22,7 +23,8 @@ export default function Layout({
   return (
     <div className="mx-auto max-w-screen-2xl">
       <ThemeProvider defaultTheme="system" attribute="class">
-        <Sidebar />
+        <UserProvider>
+          <Sidebar />
         <main className="lg:pl-72 relative"> 
           <div className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
             <h1 className="text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
@@ -40,8 +42,9 @@ export default function Layout({
               ))}
             </TabNavigation>
             <div className="pt-6">{children}</div>
-          </div>
-        </main>
+            </div>
+          </main>
+        </UserProvider>
       </ThemeProvider>
     </div>
   )
