@@ -1,5 +1,6 @@
 "use client"
-import { signIn, signUp } from "@/utils/supabase/authActions";
+import { useState } from "react";
+import { signIn } from "@/utils/supabase/authActions";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 
@@ -8,10 +9,22 @@ export default function Login({
 }: {
   searchParams: { message: string };
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+    const formData = new FormData(event.currentTarget);
+    await signIn(formData);
+    setIsLoading(false);
+  };
+
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
-
-      <form className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground ">
+      <form
+        onSubmit={handleSignIn}
+        className="flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
+      >
         <label className="text-md" htmlFor="email">
           <h3 className="font-bold text-gray-900 sm:text-sm dark:text-gray-50">
             Email
@@ -33,8 +46,10 @@ export default function Login({
           required
         />
         <Button
-          formAction={signIn}
+          type="submit"
           className="mt-5"
+          isLoading={isLoading}
+          loadingText="Signing In..."
         >
           Sign In
         </Button>

@@ -1,5 +1,5 @@
 import { Badge } from "@/components/Badge"
-import { BarChart } from "@/components/Barchart"
+import { BarChart } from "@/components/BarChart"
 import { cx } from "@/lib/utils"
 
 import type { KpiEntryExtended } from "@/app/(main)/overview/page"

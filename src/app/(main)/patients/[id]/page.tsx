@@ -7,7 +7,7 @@ import { Textarea } from "@/components/Textarea"
 const PatientDetailsPage = () => {
   const { id } = useParams();
   const [patientData, setPatientData] = useState<any>(null);
-
+  const [value, setValue] = useState("");
   // Simulate data fetching based on the id
   useEffect(() => {
     if (id) {
@@ -33,7 +33,15 @@ const PatientDetailsPage = () => {
 
       <div className="mt-10">
         <h1 className="text-2xl font-bold">Comments</h1>
-        <textarea placeholder="Add a comment" className="border-0 border-b dark:bg-gray-950 w-full rounded"></textarea>
+        <Textarea
+            onChange={(e) => setValue(e.target.value)}
+            id="description"
+            className="max-w-sm"
+            placeholder="Start typing here..."
+            rows={6}
+            value={value}
+          />
+
       </div>
     </div>
   );
