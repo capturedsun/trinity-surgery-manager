@@ -24,6 +24,7 @@ import { useTheme } from "next-themes"
 import * as React from "react"
 import { logout } from "@/utils/supabase/authActions"
 import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 export type DropdownUserProfileProps = {
   children: React.ReactNode
@@ -34,6 +35,7 @@ export function DropdownUserProfile({
   children,
   align = "start",
 }: DropdownUserProfileProps) {
+  const router = useRouter();
   const [mounted, setMounted] = React.useState(false)
   const { theme, setTheme } = useTheme()
   const { userData: user, error, loading } = useUser();
@@ -111,6 +113,13 @@ export function DropdownUserProfile({
                 aria-hidden="true"
               />
             </DropdownMenuItem> */}
+            <DropdownMenuItem
+              onClick={() => {
+                router.push("/settings/general")
+              }}
+            >
+              Settings
+            </DropdownMenuItem>
             {/* <DropdownMenuItem>
               Join Slack community
               <RiArrowRightUpLine

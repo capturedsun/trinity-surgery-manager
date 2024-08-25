@@ -13,10 +13,12 @@ import {
   SelectValue,
 } from "@/components/Select"
 import { RiExternalLinkLine } from "@remixicon/react"
+import { useUser } from "@/context/UserContext";
 
 import { roles } from "@/data/data"
 
 export default function General() {
+  const { userData: user, error, loading } = useUser();
   return (
     <>
       <div className="space-y-10">
@@ -45,7 +47,8 @@ export default function General() {
                       id="first-name"
                       name="first-name"
                       autoComplete="given-name"
-                      placeholder="Emma"
+                      value={user?.profile?.first_name}
+                      placeholder=""
                       className="mt-2"
                     />
                   </div>
@@ -58,7 +61,8 @@ export default function General() {
                       id="last-name"
                       name="last-name"
                       autoComplete="family-name"
-                      placeholder="Stone"
+                      value={user?.profile?.last_name}
+                      placeholder=""
                       className="mt-2"
                     />
                   </div>
@@ -71,25 +75,9 @@ export default function General() {
                       id="email"
                       name="email"
                       autoComplete="email"
-                      placeholder="emma@acme.com"
+                      value={user?.user?.email}
+                      placeholder=""
                       className="mt-2"
-                    />
-                  </div>
-                  <div className="col-span-full sm:col-span-3">
-                    <Label htmlFor="year" className="font-medium">
-                      Birth year
-                    </Label>
-                    <Input
-                      autoComplete="off"
-                      id="birthyear"
-                      name="year"
-                      type="number"
-                      placeholder="1994"
-                      enableStepper={false}
-                      className="mt-2"
-                      min="1900"
-                      max={new Date().getFullYear()}
-                      step="1"
                     />
                   </div>
                   <div className="col-span-full sm:col-span-3">

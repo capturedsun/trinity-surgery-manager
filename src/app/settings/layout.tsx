@@ -12,6 +12,7 @@ const navigationSettings = [
   { name: "General", href: siteConfig.baseLinks.settings.general },
   { name: "Billing & Usage", href: siteConfig.baseLinks.settings.billing },
   { name: "Users", href: siteConfig.baseLinks.settings.users },
+  { name: "Status", href: siteConfig.baseLinks.settings.status },
 ]
 
 export default function Layout({
