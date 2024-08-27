@@ -21,6 +21,20 @@ export type OverviewData = {
   "Support calls": number
 }
 
+export type NetworkProviders = {
+  organization_practice_name: string
+  network_tags: string[]
+  hub_tags: string[]
+  phone: string
+  fax: string
+  website: string
+  providers: string[] // Assuming providers are represented by names or IDs
+  locations: string[]
+  referrals_received: number
+  referrals_sent: number
+  status: string
+}
+
 export interface Organization {
   id: number
   created_at: Date
