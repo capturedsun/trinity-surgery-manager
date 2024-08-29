@@ -3,18 +3,14 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
-export const getUserData = async () => {
+export const getUser = async () => {
   const supabase = createClient();
 
   const { data: user, error } = await supabase.auth.getUser();
 
-  if (error) {
+  if (error || !user) {
     console.error('Error fetching user data:', error);
     return redirect("/login?message=Could not fetch user data");
-  }
-
-  if (!user) {
-    return redirect("/login");
   }
 
   const { data: profile, error: profileError } = await supabase
@@ -30,3 +26,10 @@ export const getUserData = async () => {
 
   return { ...user, profile };
 };
+
+// Added return type for clarity
+export const mutateUser = async (user: any): Promise<void> => {
+  const supabase = createClient();
+
+  await supabase.from('users').update(user).select();
+}

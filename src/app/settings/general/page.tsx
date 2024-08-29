@@ -13,12 +13,10 @@ import {
   SelectValue,
 } from "@/components/Select"
 import { RiExternalLinkLine } from "@remixicon/react"
-import { useUser } from "@/context/UserContext";
-
 import { roles } from "@/data/data"
-
+import { useUser } from "@/context/UserContext";
 export default function General() {
-  const { userData: user, error, loading } = useUser();
+  const { userData: user, error, loading } = useUser()
   return (
     <>
       <div className="space-y-10">

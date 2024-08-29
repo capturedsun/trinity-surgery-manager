@@ -1,7 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { getUserData } from "@/utils/supabase/userActions";
+import { getUser } from "@/utils/supabase/userActions";
+import { User } from "@/data/schema";
 
 const UserContext = createContext<any>(null);
 
@@ -13,7 +14,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const fetchUserData = async (retries = 3) => {
       try {
-        const fetchedUserData = await getUserData();
+        const fetchedUserData = await getUser();
         setUserData(fetchedUserData);
         setError(null);
       } catch (error) {
@@ -29,15 +30,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
     };
 
-    if (!userData) {
-      console.log("fetching user data")
-      fetchUserData();
-    } else {
-      console.log("user data already fetched")
-      setLoading(false);
-    }
-
-    fetchUserData();
+    fetchUserData(); // Removed redundant check for userData
   }, []);
 
   return (

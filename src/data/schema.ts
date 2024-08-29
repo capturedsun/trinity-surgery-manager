@@ -47,16 +47,21 @@ export interface Organization {
   locations: string // Assuming locations is a string; adjust if it's a more complex type
 }
 
-export interface Status {
+export interface StatusTag {
   id: number
   created_at: Date
   name: string
   description: string
   org_code: string
-  category: string // e.g., "communication", "insurance", "clearance"
-  next_status_id?: number // Optional, if it can be null
+  category: string
+  next_status_id?: number
   label: string
   style_variant: string
+}
+
+export interface CategorizedTags {
+  category: string
+  tags: StatusTag[]
 }
 
 export interface SurgeryOrder {

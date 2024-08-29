@@ -41,19 +41,49 @@ const badgeVariants = tv({
     variant: "default",
   },
 })
+const badgeSquareStyle = (variant: BadgeProps['variant']) => {
+  switch (variant) {
+    case 'default':
+      return 'bg-indigo-500 dark:bg-indigo-600 shadow-sm'
+    case 'neutral':
+      return 'bg-gray-500 dark:bg-gray-600 shadow-sm'
+    case 'success':
+      return 'bg-emerald-500 dark:bg-emerald-600 shadow-sm'
+    case 'error':
+      return 'bg-red-500 dark:bg-red-600 shadow-sm'
+    case 'warning':
+      return 'bg-yellow-500 dark:bg-yellow-600 shadow-sm'
+    case 'progress':
+      return 'bg-indigo-500 dark:bg-indigo-600 shadow-sm'
+    default:
+      return 'bg-indigo-500 dark:bg-indigo-600 shadow-sm'
+  }
+}
 
 interface BadgeProps
   extends React.ComponentPropsWithoutRef<"span">,
-    VariantProps<typeof badgeVariants> {}
+    VariantProps<typeof badgeVariants> {
+  showSquare?: boolean
+}
 
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ className, variant, ...props }: BadgeProps, forwardedRef) => {
+  ({ className, variant, showSquare, ...props }: BadgeProps, forwardedRef) => {
     return (
       <span
         ref={forwardedRef}
         className={cx(badgeVariants({ variant }), className)}
         {...props}
-      />
+      >
+        {showSquare && (
+          <span
+            className={cx(
+              "inline-block size-2 rounded-sm bg-rose-900",
+              badgeSquareStyle(variant)
+            )}
+          />
+        )}
+        {props.children}
+      </span>
     )
   },
 )
