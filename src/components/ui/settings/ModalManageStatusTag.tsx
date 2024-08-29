@@ -141,9 +141,9 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
                 </SelectTrigger>
                 <SelectContent align="end">
                   {styleVariants.map((variant) => (
-                    <SelectItem key={variant} value={variant}>
+                    <SelectItem key={variant} value={variant || ""}>
                       <Badge variant={variant} className="w-full justify-center">
-                        {variant.charAt(0).toUpperCase() + variant.slice(1)}
+                        {variant}
                       </Badge>
                     </SelectItem>
                   ))}
