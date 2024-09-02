@@ -25,9 +25,9 @@ import {
   getColorClassName,
   getYAxisDomain,
   hasOnlyOneValueForKey,
-} from "@/lib/chartUtils"
-import { useOnWindowResize } from "@/lib/useOnWindowResize"
-import { cx, percentageFormatter } from "@/lib/utils"
+} from "@/app/lib/chartUtils"
+import { useOnWindowResize } from "@/app/lib/useOnWindowResize"
+import { cx, percentageFormatter } from "@/app/lib/utils"
 import { Badge } from "./Badge"
 import { getBadgeType } from "./ui/overview/DashboardChartCard"
 

@@ -3,7 +3,7 @@
 import * as RadioGroupPrimitives from "@radix-ui/react-radio-group"
 import * as React from "react"
 
-import { cx, focusInput, focusRing } from "@/lib/utils"
+import { cx, focusInput, focusRing } from "@/app/lib/utils"
 
 const RadioCardGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitives.Root>,

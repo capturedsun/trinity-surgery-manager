@@ -4,7 +4,7 @@ import { RiSearchLine } from "@remixicon/react"
 import * as React from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
-import { cx, focusInput, hasErrorInput } from "@/lib/utils"
+import { cx, focusInput, hasErrorInput } from "@/app/lib/utils"
 
 const inputStyles = tv({
   base: [

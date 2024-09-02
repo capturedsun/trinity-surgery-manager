@@ -1,9 +1,9 @@
 import { PeriodValue } from "@/app/(main)/overview/page"
 import { Badge } from "@/app/components/Badge"
 import { LineChart } from "@/app/components/LineChart"
-import { overviews } from "@/data/overview-data"
-import { OverviewData } from "@/data/schema"
-import { cx, formatters, percentageFormatter } from "@/lib/utils"
+import { overviews } from "@/app/data/overview-data"
+import { OverviewData } from "@/app/data/schema"
+import { cx, formatters, percentageFormatter } from "@/app/lib/utils"
 import {
   eachDayOfInterval,
   formatDate,
