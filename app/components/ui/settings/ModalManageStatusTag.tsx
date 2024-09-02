@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/app/components/Select"
 import { updateStatusTag } from "@/app/settings/actions"
-import { CategorizedTags, StatusTag } from "@/data/schema"
+import { CategorizedTags, StatusTag } from "@/app/data/schema"
 import { useEffect, useState } from "react"
 
 export type ModalManageStatusTagProps = {
