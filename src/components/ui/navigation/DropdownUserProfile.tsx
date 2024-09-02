@@ -38,7 +38,7 @@ export function DropdownUserProfile({
   const router = useRouter();
   const [mounted, setMounted] = React.useState(false)
   const { theme, setTheme } = useTheme()
-  const { userData: user, error, loading } = useUser();
+  const user = useUser();
 
   React.useEffect(() => {
     setMounted(true)

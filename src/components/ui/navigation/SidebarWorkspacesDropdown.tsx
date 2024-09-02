@@ -27,7 +27,7 @@ const workspaces = [
 ]
 
 export const WorkspacesDropdownDesktop = () => {
-  const [userState, setUserState] = useUser();
+  const userState = useUser();
   const [dropdownOpen, setDropdownOpen] = React.useState(false)
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false)
   const dropdownTriggerRef = React.useRef<null | HTMLButtonElement>(null)

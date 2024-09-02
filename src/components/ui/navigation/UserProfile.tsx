@@ -8,7 +8,7 @@ import { DropdownUserProfile } from "./DropdownUserProfile"
 import { useUser } from "@/context/UserContext";
 
 export const UserProfileDesktop = () => {
-  const [userState, setUserState] = useUser();
+  const userState = useUser();
   return (
     <DropdownUserProfile>
       <Button
@@ -53,7 +53,7 @@ export const UserProfileDesktop = () => {
   )
 }
 export const UserProfileMobile = () => {
-  const [userState, setUserState] = useUser();
+  const userState = useUser();
 
   return (
     <DropdownUserProfile align="end">

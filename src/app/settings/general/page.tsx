@@ -17,7 +17,7 @@ import { roles } from "@/data/data"
 import { useUser } from "@/context/UserContext";
 
 export default function General() {
-  const [userState, setUserState] = useUser();
+  const userState = useUser();
 
   return (
     <>

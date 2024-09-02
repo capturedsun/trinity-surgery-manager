@@ -10,19 +10,10 @@ import { useEffect, useState } from "react"
 import { getOrganizationStatusTags } from "./actions"
 
 export default function Users() {
-  const [userState, setUserState] = useUser();
+  const userState = useUser();
   const [categorizedTags, setCategorizedTags] = useState<CategorizedTags[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    async function fetchStatusTags() {
-      if (userState.type === "ready" && userState.data?.org_code) {
-        const organizationStatusTags = await getOrganizationStatusTags(userState.data.org_code)
-        setCategorizedTags(organizationStatusTags)
-      }
-    }
-    fetchStatusTags()
-  }, [userState])
 
   const handleSave = async (tag: Partial<StatusTag>) => {
     setCategorizedTags(prev => 
