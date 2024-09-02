@@ -1,8 +1,8 @@
 "use client";
 
 import React, { createContext, ReactNode, useContext } from "react";
-import { useQuery } from '@tanstack/react-query';
-import { Organization } from "@/data/schema";
+import { useQuery } from "@tanstack/react-query";
+import { Organization } from "@/src/data/schema";
 
 const OrganizationContext = createContext<Organization | undefined>(undefined);
 

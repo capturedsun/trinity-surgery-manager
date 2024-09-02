@@ -1,6 +1,6 @@
 "use client"
 
-import { siteConfig } from "@/app/siteConfig"
+import { siteConfig } from "@/"
 import { TabNavigation, TabNavigationLink } from "@/components/TabNavigation"
 import Link from "next/link"
 import { usePathname } from "next/navigation"

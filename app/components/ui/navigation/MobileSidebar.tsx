@@ -1,4 +1,4 @@
-import { siteConfig } from "@/app/siteConfig"
+import { siteConfig } from "@/siteConfig"
 import { Button } from "@/components/Button"
 import {
   Drawer,
