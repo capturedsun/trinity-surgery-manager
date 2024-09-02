@@ -1,9 +1,8 @@
 "use client"
 
-import { Button } from "@/components/Button"
-import { Searchbar } from "@/components/Searchbar"
-import { conditions, surgeries, statuses } from "@/data/data"
-import { formatters } from "@/lib/utils"
+import { Button } from "@/app/components/Button"
+import { Searchbar } from "@/app/components/Searchbar"
+import { statuses, surgeries } from "@/app/data/data"
 import { RiDownloadLine } from "@remixicon/react"
 import { Table } from "@tanstack/react-table"
 import { useState } from "react"
@@ -11,7 +10,7 @@ import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
 import { ViewOptions } from "./DataTableViewOptions"
 
-import axios from 'axios';
+import axios from 'axios'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -79,17 +78,17 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
         )}
       </div>
       <div className="flex items-center gap-2">
-        <Button 
+        <Button
           variant="secondary"
           className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
-          onClick={async() => {
+          onClick={async () => {
             try {
               const res = await axios.get("/api/ecw_auth")
               console.log(res)
             } catch (error) {
               console.log(error)
             }
-        }}>
+          }}>
           test
         </Button>
         <Button

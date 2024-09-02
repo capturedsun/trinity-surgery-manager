@@ -1,8 +1,8 @@
 "use client"
 
 
-import { ReferralCard } from "@/components/ReferralCard"
-import { StatusManager } from "@/components/StatusManager"
+import { ReferralCard } from "@/app/components/ReferralCard"
+import { StatusManager } from "@/app/components/StatusManager"
 
 import { Usage } from "@/data/schema"
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table"

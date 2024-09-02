@@ -3,7 +3,7 @@
 import { Slot } from "@radix-ui/react-slot"
 import * as React from "react"
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/app/lib/utils"
 
 interface CardProps extends React.ComponentPropsWithoutRef<"div"> {
   asChild?: boolean
@@ -33,3 +33,4 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 Card.displayName = "Card"
 
 export { Card, type CardProps }
+

@@ -1,4 +1,4 @@
-import { ManifestForm } from "@/components/ui/letter/ManifestForm"
+import { ManifestForm } from "@/app/components/ui/letter/ManifestForm"
 
 export default function Letter() {
   return (

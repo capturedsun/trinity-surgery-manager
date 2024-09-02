@@ -1,27 +1,24 @@
 "use client"
 
-import { Badge, BadgeProps } from "@/components/Badge"
-import { Button } from "@/components/Button"
-import { ModalManageStatusTag } from "@/components/ui/settings/ModalManageStatusTag"
-import { useUser } from "@/context/UserContext"
-import { CategorizedTags, StatusTag } from "@/data/schema"
+import { Badge, BadgeProps } from "@/app/components/Badge"
+import { Button } from "@/app/components/Button"
+import { ModalManageStatusTag } from "@/app/components/ui/settings/ModalManageStatusTag"
+import { CategorizedTags, StatusTag } from "@/app/data/schema"
 import { RiAddLine, RiEditLine } from "@remixicon/react"
 import { useEffect, useState } from "react"
-import { getOrganizationStatusTags } from "./actions"
 
 export default function Users() {
-  const userState = useUser();
   const [categorizedTags, setCategorizedTags] = useState<CategorizedTags[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
 
   const handleSave = async (tag: Partial<StatusTag>) => {
-    setCategorizedTags(prev => 
+    setCategorizedTags(prev =>
       prev.map(categorizedTag => {
         if (categorizedTag.category === tag.category) {
           return {
             ...categorizedTag,
-            tags: categorizedTag.tags.map(t => 
+            tags: categorizedTag.tags.map(t =>
               t.id === tag.id ? { ...t, ...tag } : t
             )
           }

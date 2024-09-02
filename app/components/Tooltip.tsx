@@ -3,14 +3,14 @@
 import * as TooltipPrimitives from "@radix-ui/react-tooltip"
 import * as React from "react"
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/app/lib/utils"
 
 interface TooltipProps
   extends Omit<TooltipPrimitives.TooltipContentProps, "content" | "onClick">,
-    Pick<
-      TooltipPrimitives.TooltipProps,
-      "open" | "defaultOpen" | "onOpenChange" | "delayDuration"
-    > {
+  Pick<
+    TooltipPrimitives.TooltipProps,
+    "open" | "defaultOpen" | "onOpenChange" | "delayDuration"
+  > {
   content: React.ReactNode
   onClick?: React.MouseEventHandler<HTMLButtonElement>
   side?: "bottom" | "left" | "top" | "right"
@@ -91,3 +91,4 @@ const Tooltip = React.forwardRef<
 Tooltip.displayName = "Tooltip"
 
 export { Tooltip, type TooltipProps }
+

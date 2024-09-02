@@ -1,8 +1,8 @@
-import { Button } from "@/components/Button"
-import { ArrowAnimated } from "@/components/ui/icons/ArrowAnimated"
+import { Button } from "@/app/components/Button"
+import { ArrowAnimated } from "@/app/components/ui/icons/ArrowAnimated"
 import Link from "next/link"
 import { DatabaseLogo } from "../public/DatabaseLogo"
-import { siteConfig } from "./siteConfig"
+import { siteConfig } from "@/app/siteConfig"
 
 export default function NotFound() {
   return (

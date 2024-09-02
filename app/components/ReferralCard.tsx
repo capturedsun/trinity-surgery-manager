@@ -1,16 +1,14 @@
 "use client"
-import React from 'react';
 import Link from 'next/link';
-import { tv, type VariantProps } from "tailwind-variants";
+import React from 'react';
 
-import { cx, focusRing } from "@/lib/utils"
 
 interface ReferralCardProps extends React.ComponentPropsWithoutRef<"div"> {
 	row: any;
 }
 
 const ReferralCard = React.forwardRef<HTMLDivElement, ReferralCardProps>(
-  ({ className, row, ...props }: ReferralCardProps, forwardedRef) => {
+	({ className, row, ...props }: ReferralCardProps, forwardedRef) => {
 		const data = row?.original
 		return (
 			<div>
@@ -31,3 +29,4 @@ const ReferralCard = React.forwardRef<HTMLDivElement, ReferralCardProps>(
 ReferralCard.displayName = "ReferralCard";
 
 export { ReferralCard, type ReferralCardProps };
+

@@ -7,8 +7,8 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from "@/components/Table"
-import { cx } from "@/lib/utils"
+} from "@/app/components/Table"
+import { cx } from "@/app/lib/utils"
 import * as React from "react"
 
 import { DataTableBulkEditor } from "./DataTableBulkEditor"

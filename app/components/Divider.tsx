@@ -2,9 +2,9 @@
 
 import * as React from "react"
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/app/lib/utils"
 
-interface DividerProps extends React.ComponentPropsWithoutRef<"div"> {}
+interface DividerProps extends React.ComponentPropsWithoutRef<"div"> { }
 
 const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
   ({ className, children, ...props }, forwardedRef) => (
@@ -56,3 +56,4 @@ const Divider = React.forwardRef<HTMLDivElement, DividerProps>(
 Divider.displayName = "Divider"
 
 export { Divider }
+

@@ -1,5 +1,5 @@
-import { Badge, BadgeProps } from "@/components/Badge"
-import { Button } from "@/components/Button"
+import { Badge, BadgeProps } from "@/app/components/Badge"
+import { Button } from "@/app/components/Button"
 import {
   Dialog,
   DialogClose,
@@ -9,19 +9,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/Dialog"
-import { Input } from "@/components/Input"
-import { Label } from "@/components/Label"
+} from "@/app/components/Dialog"
+import { Input } from "@/app/components/Input"
+import { Label } from "@/app/components/Label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/Select"
+} from "@/app/components/Select"
+import { updateStatusTag } from "@/app/settings/actions"
 import { CategorizedTags, StatusTag } from "@/data/schema"
 import { useEffect, useState } from "react"
-import { updateStatusTag } from "@/app/settings/actions"
 
 export type ModalManageStatusTagProps = {
   children: React.ReactNode
@@ -79,7 +79,7 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-lg">
-        <form 
+        <form
           onSubmit={handleSubmit}
         >
           <DialogHeader>

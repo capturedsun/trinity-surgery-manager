@@ -3,7 +3,7 @@
 import React from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/app/lib/utils"
 
 const badgeVariants = tv({
   base: cx(
@@ -50,13 +50,13 @@ const badgeSquareStyle = (variant: BadgeProps['variant']) => {
     warning: 'bg-yellow-500 dark:bg-yellow-600 shadow-sm',
     progress: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm',
   }
-  
+
   return variantClasses[variant as keyof typeof variantClasses] || variantClasses.default
 }
 
 interface BadgeProps
   extends React.ComponentPropsWithoutRef<"span">,
-    VariantProps<typeof badgeVariants> {
+  VariantProps<typeof badgeVariants> {
   showSquare?: boolean
 }
 
@@ -85,3 +85,4 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
 Badge.displayName = "Badge"
 
 export { Badge, badgeVariants, type BadgeProps }
+

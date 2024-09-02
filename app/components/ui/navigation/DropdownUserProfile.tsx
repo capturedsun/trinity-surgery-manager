@@ -13,7 +13,9 @@ import {
   DropdownMenuSubMenuContent,
   DropdownMenuSubMenuTrigger,
   DropdownMenuTrigger,
-} from "@/components/Dropdown"
+} from "@/app/components/Dropdown"
+import { useUser } from "@/app/context/UserContext"
+import { logout } from "@/app/utils/supabase/authActions"
 import {
   RiArrowRightUpLine,
   RiComputerLine,
@@ -21,10 +23,8 @@ import {
   RiSunLine,
 } from "@remixicon/react"
 import { useTheme } from "next-themes"
+import { useRouter } from "next/navigation"
 import * as React from "react"
-import { logout } from "@/utils/supabase/authActions"
-import { useUser } from "@/context/UserContext";
-import { useRouter } from "next/navigation";
 
 export type DropdownUserProfileProps = {
   children: React.ReactNode
@@ -39,7 +39,7 @@ export function DropdownUserProfile({
   const [mounted, setMounted] = React.useState(false)
   const { theme, setTheme } = useTheme()
   const user = useUser();
-
+  
   React.useEffect(() => {
     setMounted(true)
   }, [])
@@ -52,7 +52,7 @@ export function DropdownUserProfile({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
         <DropdownMenuContent align={align}>
-          <DropdownMenuLabel>{user?.user?.email}</DropdownMenuLabel>
+          <DropdownMenuLabel>{user?.userData?.email}</DropdownMenuLabel>
           <DropdownMenuGroup>
             <DropdownMenuSubMenu>
               <DropdownMenuSubMenuTrigger>Theme</DropdownMenuSubMenuTrigger>
@@ -130,7 +130,7 @@ export function DropdownUserProfile({
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={async() => {await logout()}}>Sign out</DropdownMenuItem>
+            <DropdownMenuItem onClick={async () => { await logout() }}>Sign out</DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

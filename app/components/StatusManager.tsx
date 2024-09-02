@@ -1,18 +1,17 @@
 // Trinity status manager cell
 
-import React from "react";
-import { tv, type VariantProps } from "tailwind-variants";
-import { Badge, BadgeProps } from "@/components/Badge";
-import { statuses, actionItems } from "@/data/data"
+import { Badge, BadgeProps } from "@/app/components/Badge";
 import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/Select"
+  SelectTrigger
+} from "@/app/components/Select";
+import { statuses } from "@/app/data/data";
+import React from "react";
+import { tv } from "tailwind-variants";
 
-import { cx, focusRing } from "@/lib/utils"
+import { cx } from "@/app/lib/utils";
 
 const statusManagerVariants = tv({
   base: "flex gap-2",
@@ -25,9 +24,9 @@ interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
 const StatusManager = React.forwardRef<HTMLDivElement, StatusManagerProps>(
   ({ className, statusID, ...props }: StatusManagerProps, forwardedRef) => {
     if (statusID == "") statusID = "none"
-		const status = statuses.find(
-			(item) => item.value === statusID,
-		)
+    const status = statuses.find(
+      (item) => item.value === statusID,
+    )
     const type = status?.type
 
     const [selectedStatus, setSelectedStatus] = React.useState<string>(statusID);
@@ -40,11 +39,11 @@ const StatusManager = React.forwardRef<HTMLDivElement, StatusManagerProps>(
             // Optionally, add additional logic here to handle the selected value change
           }}
         >
-            <Badge className="relative cursor-pointer hover:ring-2 transition" variant={(status?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
-              {status?.label}
-              <SelectTrigger style={{all: "unset", position:"absolute", top: "0px", left: "0px", zIndex: "10", width: "100%", height: "100%", opacity: "0px"}} className="">
-              </SelectTrigger>
-            </Badge>
+          <Badge className="relative cursor-pointer hover:ring-2 transition" variant={(status?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
+            {status?.label}
+            <SelectTrigger style={{ all: "unset", position: "absolute", top: "0px", left: "0px", zIndex: "10", width: "100%", height: "100%", opacity: "0px" }} className="">
+            </SelectTrigger>
+          </Badge>
           <SelectContent>
             {statuses
               .filter((item) => item.type === type && item.value !== "none")
@@ -63,3 +62,4 @@ const StatusManager = React.forwardRef<HTMLDivElement, StatusManagerProps>(
 StatusManager.displayName = "StatusManager";
 
 export { StatusManager, type StatusManagerProps };
+

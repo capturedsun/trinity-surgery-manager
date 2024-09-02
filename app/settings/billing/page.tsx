@@ -1,14 +1,14 @@
 "use client"
 
-import { Button } from "@/components/Button"
-import { Card } from "@/components/Card"
-import { Divider } from "@/components/Divider"
-import { Input } from "@/components/Input"
-import { Label } from "@/components/Label"
-import { ProgressBar } from "@/components/ProgressBar"
-import { ProgressCircle } from "@/components/ProgressCircle"
-import { Switch } from "@/components/Switch"
-import { cx } from "@/lib/utils"
+import { Button } from "@/app/components/Button"
+import { Card } from "@/app/components/Card"
+import { Divider } from "@/app/components/Divider"
+import { Input } from "@/app/components/Input"
+import { Label } from "@/app/components/Label"
+import { ProgressBar } from "@/app/components/ProgressBar"
+import { ProgressCircle } from "@/app/components/ProgressCircle"
+import { Switch } from "@/app/components/Switch"
+import { cx } from "@/app/lib/utils"
 import { RiArrowRightUpLine } from "@remixicon/react"
 import React from "react"
 
@@ -19,38 +19,38 @@ const data: {
   capacity?: string
   percentageValue?: number
 }[] = [
-  {
-    name: "Starter plan",
-    description: "Discounted plan for start-ups and growing companies",
-    value: "$90",
-  },
-  {
-    name: "Storage",
-    description: "Used 10.1 GB",
-    value: "$40",
-    capacity: "100 GB included",
-    percentageValue: 10.1,
-  },
-  {
-    name: "Bandwith",
-    description: "Used 2.9 GB",
-    value: "$10",
-    capacity: "5 GB included",
-    percentageValue: 58,
-  },
-  {
-    name: "Users",
-    description: "Used 9",
-    value: "$20",
-    capacity: "50 users included",
-    percentageValue: 18,
-  },
-  {
-    name: "Query super caching (EU-Central 1)",
-    description: "4 GB query cache, $120/mo",
-    value: "$120.00",
-  },
-]
+    {
+      name: "Starter plan",
+      description: "Discounted plan for start-ups and growing companies",
+      value: "$90",
+    },
+    {
+      name: "Storage",
+      description: "Used 10.1 GB",
+      value: "$40",
+      capacity: "100 GB included",
+      percentageValue: 10.1,
+    },
+    {
+      name: "Bandwith",
+      description: "Used 2.9 GB",
+      value: "$10",
+      capacity: "5 GB included",
+      percentageValue: 58,
+    },
+    {
+      name: "Users",
+      description: "Used 9",
+      value: "$20",
+      capacity: "50 users included",
+      percentageValue: 18,
+    },
+    {
+      name: "Query super caching (EU-Central 1)",
+      description: "4 GB query cache, $120/mo",
+      value: "$120.00",
+    },
+  ]
 
 export default function Billing() {
   const [isSpendMgmtEnabled, setIsSpendMgmtEnabled] = React.useState(true)

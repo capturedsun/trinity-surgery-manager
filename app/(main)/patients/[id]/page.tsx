@@ -1,8 +1,8 @@
 "use client";
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { usage } from "@/data/data"
-import { Textarea } from "@/components/Textarea"
+import { usage } from "@/app/data/data"
+import { Textarea } from "@/app/components/Textarea"
 
 const PatientDetailsPage = () => {
   const { id } = useParams();

@@ -1,5 +1,5 @@
-import { Badge } from "@/components/Badge"
-import { Button } from "@/components/Button"
+import { Badge } from "@/app/components/Badge"
+import { Button } from "@/app/components/Button"
 import {
   Dialog,
   DialogClose,
@@ -9,22 +9,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/Dialog"
-import { DropdownMenuItem } from "@/components/Dropdown"
-import { Input } from "@/components/Input"
-import { Label } from "@/components/Label"
+} from "@/app/components/Dialog"
+import { DropdownMenuItem } from "@/app/components/Dropdown"
+import { Input } from "@/app/components/Input"
+import { Label } from "@/app/components/Label"
 import {
   RadioCardGroup,
   RadioCardGroupIndicator,
   RadioCardItem,
-} from "@/components/RadioCard"
+} from "@/app/components/RadioCard"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/Select"
+} from "@/app/components/Select"
 
 export const databases: {
   label: string
@@ -32,25 +32,25 @@ export const databases: {
   description: string
   isRecommended: boolean
 }[] = [
-  {
-    label: "Base performance",
-    value: "base-performance",
-    description: "1/8 vCPU, 1 GB RAM",
-    isRecommended: true,
-  },
-  {
-    label: "Advanced performance",
-    value: "advanced-performance",
-    description: "1/4 vCPU, 2 GB RAM",
-    isRecommended: false,
-  },
-  {
-    label: "Turbo performance",
-    value: "turbo-performance",
-    description: "1/2 vCPU, 4 GB RAM",
-    isRecommended: false,
-  },
-]
+    {
+      label: "Base performance",
+      value: "base-performance",
+      description: "1/8 vCPU, 1 GB RAM",
+      isRecommended: true,
+    },
+    {
+      label: "Advanced performance",
+      value: "advanced-performance",
+      description: "1/4 vCPU, 2 GB RAM",
+      isRecommended: false,
+    },
+    {
+      label: "Turbo performance",
+      value: "turbo-performance",
+      description: "1/2 vCPU, 4 GB RAM",
+      isRecommended: false,
+    },
+  ]
 
 export type ModalProps = {
   itemName: string

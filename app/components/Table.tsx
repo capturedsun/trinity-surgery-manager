@@ -2,7 +2,7 @@ import * as React from "react"
 
 // Tremor Raw Table [v0.0.1]
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/app/lib/utils"
 
 const TableRoot = React.forwardRef<
   HTMLDivElement,
@@ -10,8 +10,8 @@ const TableRoot = React.forwardRef<
 >(({ className, children, ...props }, forwardedRef) => (
   <div
     ref={forwardedRef}
-    // Activate if table is used in a float enironment
-    // className="flow-root"
+  // Activate if table is used in a float enironment
+  // className="flow-root"
   >
     <div
       // make table scrollable on mobile
@@ -180,5 +180,6 @@ export {
   TableHead,
   TableHeaderCell,
   TableRoot,
-  TableRow,
+  TableRow
 }
+

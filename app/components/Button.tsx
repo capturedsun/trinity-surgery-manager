@@ -5,7 +5,7 @@ import { RiLoader2Fill } from "@remixicon/react"
 import React from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
-import { cx, focusRing } from "@/lib/utils"
+import { cx, focusRing } from "@/app/lib/utils"
 
 const buttonVariants = tv({
   base: [
@@ -92,7 +92,7 @@ const buttonVariants = tv({
 
 interface ButtonProps
   extends React.ComponentPropsWithoutRef<"button">,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean
   isLoading?: boolean
   loadingText?: string
@@ -142,3 +142,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = "Button"
 
 export { Button, buttonVariants, type ButtonProps }
+

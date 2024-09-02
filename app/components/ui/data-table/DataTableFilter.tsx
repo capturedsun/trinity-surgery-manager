@@ -7,24 +7,24 @@ import {
 } from "@remixicon/react"
 import { Column } from "@tanstack/react-table"
 
-import { Button } from "@/components/Button"
-import { Checkbox } from "@/components/Checkbox"
-import { Input } from "@/components/Input"
-import { Label } from "@/components/Label"
+import { Button } from "@/app/components/Button"
+import { Checkbox } from "@/app/components/Checkbox"
+import { Input } from "@/app/components/Input"
+import { Label } from "@/app/components/Label"
 import {
   Popover,
   PopoverClose,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/Popover"
+} from "@/app/components/Popover"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/Select"
-import { cx, focusRing } from "@/lib/utils"
+} from "@/app/components/Select"
+import { cx, focusRing } from "@/app/lib/utils"
 import React from "react"
 
 export type ConditionFilter = {
@@ -242,28 +242,28 @@ export function DataTableFilter<TData, TValue>({
               />
               {(selectedValues as ConditionFilter)?.condition ===
                 "is-between" && (
-                <>
-                  <span className="text-xs font-medium text-gray-500">and</span>
-                  <Input
-                    disabled={!(selectedValues as ConditionFilter)?.condition}
-                    type="number"
-                    placeholder="$0"
-                    className="sm:[&>input]:py-1"
-                    value={(selectedValues as ConditionFilter)?.value?.[1]}
-                    onChange={(e) => {
-                      setSelectedValues((prev) => {
-                        return {
-                          condition: (prev as ConditionFilter)?.condition,
-                          value: [
-                            (prev as ConditionFilter)?.value?.[0],
-                            e.target.value,
-                          ],
-                        }
-                      })
-                    }}
-                  />
-                </>
-              )}
+                  <>
+                    <span className="text-xs font-medium text-gray-500">and</span>
+                    <Input
+                      disabled={!(selectedValues as ConditionFilter)?.condition}
+                      type="number"
+                      placeholder="$0"
+                      className="sm:[&>input]:py-1"
+                      value={(selectedValues as ConditionFilter)?.value?.[1]}
+                      onChange={(e) => {
+                        setSelectedValues((prev) => {
+                          return {
+                            condition: (prev as ConditionFilter)?.condition,
+                            value: [
+                              (prev as ConditionFilter)?.value?.[0],
+                              e.target.value,
+                            ],
+                          }
+                        })
+                      }}
+                    />
+                  </>
+                )}
             </div>
           </div>
         )

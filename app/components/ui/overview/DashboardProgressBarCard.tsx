@@ -1,5 +1,5 @@
-import { Badge } from "@/components/Badge"
-import { ProgressBar } from "@/components/ProgressBar"
+import { Badge } from "@/app/components/Badge"
+import { ProgressBar } from "@/app/components/ProgressBar"
 
 import { KpiEntry } from "@/app/(main)/overview/page"
 

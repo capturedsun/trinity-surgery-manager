@@ -1,5 +1,4 @@
-import { siteConfig } from "@/siteConfig"
-import { Button } from "@/components/Button"
+import { Button } from "@/app/components/Button"
 import {
   Drawer,
   DrawerBody,
@@ -8,8 +7,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/Drawer"
-import { cx, focusRing } from "@/lib/utils"
+} from "@/app/components/Drawer"
+import { cx, focusRing } from "@/app/lib/utils"
+import { siteConfig } from "@/app/siteConfig"
 import {
   RiHome2Line,
   RiLinkM,

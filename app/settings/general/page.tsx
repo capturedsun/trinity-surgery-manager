@@ -1,20 +1,20 @@
 "use client"
-import { Button } from "@/components/Button"
-import { Card } from "@/components/Card"
-import { Checkbox } from "@/components/Checkbox"
-import { Divider } from "@/components/Divider"
-import { Input } from "@/components/Input"
-import { Label } from "@/components/Label"
+import { Button } from "@/app/components/Button"
+import { Card } from "@/app/components/Card"
+import { Checkbox } from "@/app/components/Checkbox"
+import { Divider } from "@/app/components/Divider"
+import { Input } from "@/app/components/Input"
+import { Label } from "@/app/components/Label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/Select"
+} from "@/app/components/Select"
+import { useUser } from "@/app/context/UserContext"
+import { roles } from "@/app/data/data"
 import { RiExternalLinkLine } from "@remixicon/react"
-import { roles } from "@/data/data"
-import { useUser } from "@/context/UserContext";
 
 export default function General() {
   const userState = useUser();
@@ -42,15 +42,15 @@ export default function General() {
                     <Label htmlFor="first-name" className="font-medium">
                       First name
                     </Label>
-                    {userState?.type === "ready" && (
+                    {userState.loading === false && (
                       <Input
                         type="text"
-                      id="first-name"
-                      name="first-name"
-                      autoComplete="given-name"
-                      value={userState.data.first_name}
-                      placeholder=""
-                      className="mt-2"
+                        id="first-name"
+                        name="first-name"
+                        autoComplete="given-name"
+                        value={userState.userData.first_name}
+                        placeholder=""
+                        className="mt-2"
                       />
                     )}
                   </div>
@@ -58,15 +58,15 @@ export default function General() {
                     <Label htmlFor="last-name" className="font-medium">
                       Last name
                     </Label>
-                    {userState?.type === "ready" && (
+                    {userState.loading === false && (
                       <Input
                         type="text"
-                      id="last-name"
-                      name="last-name"
-                      autoComplete="family-name"
-                      value={userState.data.last_name}
-                      placeholder=""
-                      className="mt-2"
+                        id="last-name"
+                        name="last-name"
+                        autoComplete="family-name"
+                        value={userState.userData.last_name}
+                        placeholder=""
+                        className="mt-2"
                       />
                     )}
                   </div>
@@ -74,14 +74,14 @@ export default function General() {
                     <Label htmlFor="email" className="font-medium">
                       Email
                     </Label>
-                    {userState?.type === "ready" && (
+                    {userState.loading === false && (
                       <Input
                         type="email"
                         id="email"
-                      name="email"
-                      autoComplete="email"
-                      value={userState.data.email || ""}
-                      placeholder=""
+                        name="email"
+                        autoComplete="email"
+                        value={userState.userData.email || ""}
+                        placeholder=""
                         className="mt-2"
                       />
                     )}
@@ -90,21 +90,21 @@ export default function General() {
                     <Label htmlFor="email" className="font-medium">
                       Role
                     </Label>
-                    {userState?.type === "ready" && (
+                    {userState.loading === false && (
                       <Select defaultValue="member">
                         <SelectTrigger
-                        name="role"
-                        id="role"
-                        className="mt-2"
-                        disabled
-                      >
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {roles.map((role) => (
-                          <SelectItem key={role.value} value={role.value}>
-                            {role.label}
-                          </SelectItem>
+                          name="role"
+                          id="role"
+                          className="mt-2"
+                          disabled
+                        >
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {roles.map((role) => (
+                            <SelectItem key={role.value} value={role.value}>
+                              {role.label}
+                            </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>

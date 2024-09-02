@@ -1,8 +1,8 @@
 "use client"
+import { Button } from "@/app/components/Button";
+import { Input } from "@/app/components/Input";
+import { signIn } from "@/app/utils/supabase/authActions";
 import { useState } from "react";
-import { signIn } from "@/utils/supabase/authActions";
-import { Input } from "@/components/Input";
-import { Button } from "@/components/Button";
 
 export default function Login({
   searchParams,

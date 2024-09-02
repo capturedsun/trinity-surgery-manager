@@ -1,4 +1,4 @@
-import { Button } from "@/components/Button"
+import { Button } from "@/app/components/Button"
 import {
   Dialog,
   DialogClose,
@@ -8,17 +8,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/Dialog"
-import { Input } from "@/components/Input"
-import { Label } from "@/components/Label"
+} from "@/app/components/Dialog"
+import { Input } from "@/app/components/Input"
+import { Label } from "@/app/components/Label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/Select"
-import { roles } from "@/data/data"
+} from "@/app/components/Select"
+import { roles } from "@/app/data/data"
 
 export type ModalAddUserProps = {
   children: React.ReactNode

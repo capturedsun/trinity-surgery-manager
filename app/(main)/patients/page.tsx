@@ -1,8 +1,8 @@
-import { columns } from "@/components/ui/data-table/columns"
-import { DataTable } from "@/components/ui/data-table/DataTable"
-import { usage } from "@/data/data"
+import { columns } from "@/app/components/ui/data-table/columns"
+import { DataTable } from "@/app/components/ui/data-table/DataTable"
+import { usage } from "@/app/data/data"
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/app/utils/supabase/server'
 import { cookies } from 'next/headers'
 
 export default async function Patients() {

@@ -1,5 +1,5 @@
-import { Button } from "@/components/Button"
-import { cx } from "@/lib/utils"
+import { Button } from "@/app/components/Button"
+import { cx } from "@/app/lib/utils"
 import {
   RiArrowLeftDoubleLine,
   RiArrowLeftSLine,

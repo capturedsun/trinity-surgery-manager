@@ -1,6 +1,5 @@
-import { Badge } from "@/components/Badge"
-import { DonutChart } from "@/components/DonutChart"
-import { cx } from "@/lib/utils"
+import { Badge } from "@/app/components/Badge"
+import { DonutChart } from "@/app/components/DonutChart"
 
 
 export type CardProps = {
@@ -46,7 +45,7 @@ export function CircleChartCard({
               </p>
             )}
             <div className="mt-2 flex items-center justify-center gap-0.5">
-                <DonutChart
+              <DonutChart
                 data={data}
                 category="name"
                 value="amount"

@@ -3,7 +3,7 @@
 import * as React from "react"
 import { tv, type VariantProps } from "tailwind-variants"
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/app/lib/utils"
 
 const progressBarVariants = tv({
   slots: {
@@ -41,7 +41,7 @@ const progressBarVariants = tv({
 
 interface ProgressBarProps
   extends React.HTMLProps<HTMLDivElement>,
-    VariantProps<typeof progressBarVariants> {
+  VariantProps<typeof progressBarVariants> {
   value?: number
   max?: number
   showAnimation?: boolean
@@ -106,3 +106,4 @@ const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
 ProgressBar.displayName = "ProgressBar"
 
 export { ProgressBar, progressBarVariants, type ProgressBarProps }
+

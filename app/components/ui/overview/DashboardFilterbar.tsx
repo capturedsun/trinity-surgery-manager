@@ -6,9 +6,9 @@ import {
   SelectItemPeriod,
   SelectTrigger,
   SelectValue,
-} from "@/components/Select"
+} from "@/app/components/Select"
 
-import { Label } from "@/components/Label"
+import { Label } from "@/app/components/Label"
 
 import {
   Dialog,
@@ -19,13 +19,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/Dialog"
+} from "@/app/components/Dialog"
 
 import { PeriodValue } from "@/app/(main)/overview/page"
-import { Button } from "@/components/Button"
-import { Checkbox } from "@/components/Checkbox"
-import { DateRangePicker } from "@/components/DatePicker"
-import { cx } from "@/lib/utils"
+import { Button } from "@/app/components/Button"
+import { Checkbox } from "@/app/components/Checkbox"
+import { DateRangePicker } from "@/app/components/DatePicker"
+import { cx } from "@/app/lib/utils"
 import { RiSettings5Line } from "@remixicon/react"
 import { eachDayOfInterval, interval, subDays, subYears } from "date-fns"
 import React from "react"

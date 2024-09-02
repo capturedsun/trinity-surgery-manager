@@ -4,7 +4,7 @@
 import * as CheckboxPrimitives from "@radix-ui/react-checkbox"
 import React from "react"
 
-import { cx, focusRing } from "@/lib/utils"
+import { cx, focusRing } from "@/app/lib/utils"
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitives.Root>,
@@ -81,3 +81,4 @@ const Checkbox = React.forwardRef<
 Checkbox.displayName = "Checkbox"
 
 export { Checkbox }
+

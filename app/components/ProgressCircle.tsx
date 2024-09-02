@@ -3,7 +3,7 @@
 import * as React from "react"
 import { tv, VariantProps } from "tailwind-variants"
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/app/lib/utils"
 
 const progressCircleVariants = tv({
   slots: {
@@ -41,7 +41,7 @@ const progressCircleVariants = tv({
 
 interface ProgressCircleProps
   extends Omit<React.SVGProps<SVGSVGElement>, "value">,
-    VariantProps<typeof progressCircleVariants> {
+  VariantProps<typeof progressCircleVariants> {
   value?: number
   max?: number
   showAnimation?: boolean
@@ -132,3 +132,4 @@ const ProgressCircle = React.forwardRef<SVGSVGElement, ProgressCircleProps>(
 ProgressCircle.displayName = "ProgressCircle"
 
 export { ProgressCircle, type ProgressCircleProps }
+

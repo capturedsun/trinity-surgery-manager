@@ -3,7 +3,7 @@
 import * as LabelPrimitives from "@radix-ui/react-label"
 import * as React from "react"
 
-import { cx } from "@/lib/utils"
+import { cx } from "@/app/lib/utils"
 
 interface CheckboxProps
   extends React.ComponentPropsWithoutRef<typeof LabelPrimitives.Root> {
@@ -34,3 +34,4 @@ const Label = React.forwardRef<
 Label.displayName = "Label"
 
 export { Label }
+

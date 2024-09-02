@@ -8,12 +8,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/Dropdown"
-import { cx, focusInput } from "@/lib/utils"
+} from "@/app/components/Dropdown"
+import { useUser } from "@/app/context/UserContext"
+import { cx, focusInput } from "@/app/lib/utils"
 import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react"
 import React from "react"
 import { ModalAddWorkspace } from "./ModalAddWorkspace"
-import { useUser } from "@/context/UserContext";
 
 const workspaces = [
   {
@@ -63,7 +63,7 @@ export const WorkspacesDropdownDesktop = () => {
               aria-hidden="true"
             >
               {userState.type === "ready" && (
-                userState.data.first_name[0] + userState.data.last_name[0]
+                userState.userData.first_name[0] + userState.userData.last_name[0]
               )}
             </span>
             <div className="flex w-full items-center justify-between gap-x-4 truncate">
@@ -74,8 +74,8 @@ export const WorkspacesDropdownDesktop = () => {
                 <p className="whitespace-nowrap text-left text-xs text-gray-700 dark:text-gray-300">
                   {userState.type === "loading" ? (
                     <span className="w-16 h-3 bg-gray-300 animate-pulse rounded"></span>
-                  ) : userState.type === "ready" && userState.data.role ? (
-                    userState.data.role.charAt(0).toUpperCase() + userState.data.role.slice(1)
+                  ) : userState.type === "ready" && userState.userData.role ? (
+                    userState.userData.role.charAt(0).toUpperCase() + userState.userData.role.slice(1)
                   ) : (
                     <span className="w-16 h-3 bg-gray-300 animate-pulse rounded"></span>
                   )}

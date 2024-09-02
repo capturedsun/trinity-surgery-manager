@@ -1,7 +1,7 @@
-import { columns } from "@/components/ui/data-table/columns"
-import { DataTable } from "@/components/ui/data-table/DataTable"
-import { TabNavigation, TabNavigationLink } from "@/components/TabNavigation"
-import { usage } from "@/data/data"
+import { columns } from "@/app/components/ui/data-table/columns"
+import { DataTable } from "@/app/components/ui/data-table/DataTable"
+import { TabNavigation, TabNavigationLink } from "@/app/components/TabNavigation"
+import { usage } from "@/app/data/data"
 
 export default function Referral() {
   return (

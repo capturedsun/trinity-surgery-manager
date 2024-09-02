@@ -1,15 +1,15 @@
 "use client"
 
-import { siteConfig } from "@/"
-import { TabNavigation, TabNavigationLink } from "@/components/TabNavigation"
+import { siteConfig } from "@/app/siteConfig"
+import { TabNavigation, TabNavigationLink } from "@/app/components/TabNavigation"
+import { Sidebar } from "@/app/components/ui/navigation/Sidebar"
+import queryClient from '@/app/queryClient'
+import { OrganizationProvider } from "@/app/context/OrganizationContext"
+import { UserProvider } from "@/app/context/UserContext"
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ThemeProvider } from "next-themes"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ThemeProvider } from "next-themes"
-import { Sidebar } from "@/components/ui/navigation/Sidebar"
-import { UserProvider } from "@/context/UserContext"
-import { OrganizationProvider } from "@/context/OrganizationContext"
-import { QueryClientProvider } from '@tanstack/react-query'
-import queryClient from '@/app/queryClient'
 
 const navigationSettings = [
   { name: "General", href: siteConfig.baseLinks.settings.general },
@@ -31,7 +31,7 @@ export default function Layout({
           <UserProvider>
             <OrganizationProvider>
               <Sidebar />
-              <main className="lg:pl-72 relative"> 
+              <main className="lg:pl-72 relative">
                 <div className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
                   <h1 className="text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
                     Settings
