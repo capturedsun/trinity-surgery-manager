@@ -1,9 +1,9 @@
 "use client"
 import { CategoryBarCard } from "@/components/ui/overview/DashboardCategoryBarCard"
 import { ChartCard } from "@/components/ui/overview/DashboardChartCard"
+import { CircleChartCard } from "@/components/ui/overview/DashboardCircleChart"
 import { Filterbar } from "@/components/ui/overview/DashboardFilterbar"
 import { ProgressBarCard } from "@/components/ui/overview/DashboardProgressBarCard"
-import { CircleChartCard } from "@/components/ui/overview/DashboardCircleChart"
 import { overviews } from "@/data/overview-data"
 import { OverviewData } from "@/data/schema"
 import { cx } from "@/lib/utils"
@@ -17,39 +17,39 @@ const categories: {
   title: keyof OverviewData
   type: "currency" | "unit"
 }[] = [
-  {
-    title: "Rows read",
-    type: "unit",
-  },
-  {
-    title: "Rows written",
-    type: "unit",
-  },
-  {
-    title: "Queries",
-    type: "unit",
-  },
-  {
-    title: "Payments completed",
-    type: "currency",
-  },
-  {
-    title: "Sign ups",
-    type: "unit",
-  },
-  {
-    title: "Logins",
-    type: "unit",
-  },
-  {
-    title: "Sign outs",
-    type: "unit",
-  },
-  {
-    title: "Support calls",
-    type: "unit",
-  },
-]
+    {
+      title: "Rows read",
+      type: "unit",
+    },
+    {
+      title: "Rows written",
+      type: "unit",
+    },
+    {
+      title: "Queries",
+      type: "unit",
+    },
+    {
+      title: "Payments completed",
+      type: "currency",
+    },
+    {
+      title: "Sign ups",
+      type: "unit",
+    },
+    {
+      title: "Logins",
+      type: "unit",
+    },
+    {
+      title: "Sign outs",
+      type: "unit",
+    },
+    {
+      title: "Support calls",
+      type: "unit",
+    },
+  ]
 
 export type KpiEntry = {
   title: string

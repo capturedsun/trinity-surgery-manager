@@ -1,7 +1,7 @@
 "use server"
 
-import { createClient } from "@/utils/supabase/server";
 import { StatusTag } from "@/data/schema";
+import { createClient } from "@/utils/supabase/server";
 
 export const getOrganizationStatusTags = async (orgCode: string) => {
     const supabase = createClient();
@@ -15,7 +15,6 @@ export const getOrganizationStatusTags = async (orgCode: string) => {
         return [];
     }
 
-    // First loop: Create categories
     const categorizedTags = Array.from(
         new Set(data.map(tag => tag.category))
     ).map(category => ({
@@ -23,7 +22,6 @@ export const getOrganizationStatusTags = async (orgCode: string) => {
         tags: data.filter(tag => tag.category === category)
     }))
 
-    console.log(categorizedTags)
     return categorizedTags
 };
 

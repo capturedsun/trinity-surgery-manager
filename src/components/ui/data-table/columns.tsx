@@ -1,17 +1,12 @@
 "use client"
 
-import { Badge, BadgeProps } from "@/components/Badge"
-import { Checkbox } from "@/components/Checkbox"
 
-import { StatusManager } from "@/components/StatusManager"
 import { ReferralCard } from "@/components/ReferralCard"
+import { StatusManager } from "@/components/StatusManager"
 
-import { statuses, actionItems } from "@/data/data"
 import { Usage } from "@/data/schema"
-import { formatters } from "@/lib/utils"
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "./DataTableColumnHeader"
-import { ConditionFilter } from "./DataTableFilter"
 import { DataTableRowActions } from "./DataTableRowActions"
 
 const columnHelper = createColumnHelper<Usage>()
@@ -83,15 +78,15 @@ export const columns = [
       displayName: "Status",
     },
     cell: ({ row }) => {
-        const statuses = row.getValue("status");
+      const statuses = row.getValue("status");
 
-        if (typeof statuses === 'object' && statuses !== null && 'communication' in statuses) {
-          const statusID = statuses.communication as string;
+      if (typeof statuses === 'object' && statuses !== null && 'communication' in statuses) {
+        const statusID = statuses.communication as string;
 
-          return (
-            <StatusManager statusID={statusID} />
-          );
-        }
+        return (
+          <StatusManager statusID={statusID} />
+        );
+      }
     },
   }),
   columnHelper.accessor("insuranceStatus", {

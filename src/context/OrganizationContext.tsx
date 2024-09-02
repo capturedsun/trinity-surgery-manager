@@ -1,56 +1,38 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { getOrganization } from "@/utils/supabase/organizationActions";
+import React, { createContext, ReactNode, useContext } from "react";
+import { useQuery } from '@tanstack/react-query';
 import { Organization } from "@/data/schema";
 
-interface OrganizationContextType {
-  organization: Organization | null;
-  error: string | null;
-  loading: boolean;
-}
+const OrganizationContext = createContext<Organization | undefined>(undefined);
 
-// Define the context with a default value
-const OrganizationContext = createContext<any>(null);
-
-export const OrganizationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [organization, setOrganization] = useState<Organization | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchOrganization = async (retries = 3) => {
-      try {
-        const fetchedOrganization = await getOrganization();
-        setOrganization(fetchedOrganization?.organization);
-        setError(null);
-      } catch (error) {
-        if (retries > 0) {
-          setTimeout(() => fetchOrganization(retries - 1), 1000);
-        } else {
-          console.error("Error fetching organization:", error);
-          setError("Failed to fetch organization");
-          setOrganization(null);
-        }
-      } finally {
-        setLoading(false);
+export function OrganizationProvider({ children }: { children: ReactNode }) {
+  const { data: organization, error, isLoading } = useQuery<Organization, Error>({
+    queryKey: ['organization'],
+    queryFn: async () => {
+      const res = await fetch('/api/organization', { method: 'GET' });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to fetch organization");
       }
-    };
-
-    if (!organization) {
-      fetchOrganization();
-    } else {
-      console.log("organization data already fetched")
-      setLoading(false);
+      return res.json();
     }
-    fetchOrganization();
-  }, []);
+  });
+
+  if (isLoading) return <div>Loading organization...</div>;
+  if (error) return <div>Error fetching organization: {error.message}</div>;
 
   return (
-    <OrganizationContext.Provider value={{ organization, error, loading }}>
+    <OrganizationContext.Provider value={organization}>
       {children}
     </OrganizationContext.Provider>
   );
-};
+}
 
-export const useOrganization = () => useContext(OrganizationContext);
+export function useOrganization() {
+  const context = useContext(OrganizationContext);
+  if (!context) {
+    throw new Error('useOrganization must be used within an OrganizationProvider');
+  }
+  return context;
+}

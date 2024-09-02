@@ -42,22 +42,16 @@ const badgeVariants = tv({
   },
 })
 const badgeSquareStyle = (variant: BadgeProps['variant']) => {
-  switch (variant) {
-    case 'default':
-      return 'bg-indigo-500 dark:bg-indigo-600 shadow-sm'
-    case 'neutral':
-      return 'bg-gray-500 dark:bg-gray-600 shadow-sm'
-    case 'success':
-      return 'bg-emerald-500 dark:bg-emerald-600 shadow-sm'
-    case 'error':
-      return 'bg-red-500 dark:bg-red-600 shadow-sm'
-    case 'warning':
-      return 'bg-yellow-500 dark:bg-yellow-600 shadow-sm'
-    case 'progress':
-      return 'bg-indigo-500 dark:bg-indigo-600 shadow-sm'
-    default:
-      return 'bg-indigo-500 dark:bg-indigo-600 shadow-sm'
+  const variantClasses = {
+    default: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm',
+    neutral: 'bg-gray-500 dark:bg-gray-600 shadow-sm',
+    success: 'bg-emerald-500 dark:bg-emerald-600 shadow-sm',
+    error: 'bg-red-500 dark:bg-red-600 shadow-sm',
+    warning: 'bg-yellow-500 dark:bg-yellow-600 shadow-sm',
+    progress: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm',
   }
+  
+  return variantClasses[variant as keyof typeof variantClasses] || variantClasses.default
 }
 
 interface BadgeProps

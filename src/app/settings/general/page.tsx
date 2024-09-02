@@ -15,8 +15,10 @@ import {
 import { RiExternalLinkLine } from "@remixicon/react"
 import { roles } from "@/data/data"
 import { useUser } from "@/context/UserContext";
+
 export default function General() {
-  const { userData: user, error, loading } = useUser()
+  const [userState, setUserState] = useUser();
+
   return (
     <>
       <div className="space-y-10">
@@ -40,50 +42,57 @@ export default function General() {
                     <Label htmlFor="first-name" className="font-medium">
                       First name
                     </Label>
-                    <Input
-                      type="text"
+                    {userState?.type === "ready" && (
+                      <Input
+                        type="text"
                       id="first-name"
                       name="first-name"
                       autoComplete="given-name"
-                      value={user?.profile?.first_name}
+                      value={userState.data.first_name}
                       placeholder=""
                       className="mt-2"
-                    />
+                      />
+                    )}
                   </div>
                   <div className="col-span-full sm:col-span-3">
                     <Label htmlFor="last-name" className="font-medium">
                       Last name
                     </Label>
-                    <Input
-                      type="text"
+                    {userState?.type === "ready" && (
+                      <Input
+                        type="text"
                       id="last-name"
                       name="last-name"
                       autoComplete="family-name"
-                      value={user?.profile?.last_name}
+                      value={userState.data.last_name}
                       placeholder=""
                       className="mt-2"
-                    />
+                      />
+                    )}
                   </div>
                   <div className="col-span-full">
                     <Label htmlFor="email" className="font-medium">
                       Email
                     </Label>
-                    <Input
-                      type="email"
-                      id="email"
+                    {userState?.type === "ready" && (
+                      <Input
+                        type="email"
+                        id="email"
                       name="email"
                       autoComplete="email"
-                      value={user?.user?.email}
+                      value={userState.data.email || ""}
                       placeholder=""
-                      className="mt-2"
-                    />
+                        className="mt-2"
+                      />
+                    )}
                   </div>
                   <div className="col-span-full sm:col-span-3">
                     <Label htmlFor="email" className="font-medium">
                       Role
                     </Label>
-                    <Select defaultValue="member">
-                      <SelectTrigger
+                    {userState?.type === "ready" && (
+                      <Select defaultValue="member">
+                        <SelectTrigger
                         name="role"
                         id="role"
                         className="mt-2"
@@ -96,9 +105,10 @@ export default function General() {
                           <SelectItem key={role.value} value={role.value}>
                             {role.label}
                           </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
                     <p className="mt-2 text-xs text-gray-500">
                       Roles can only be changed by system admin.
                     </p>

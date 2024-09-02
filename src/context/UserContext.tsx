@@ -1,43 +1,38 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { getUser } from "@/utils/supabase/userActions";
+import React, { createContext, ReactNode, useContext } from "react";
+import { useQuery } from '@tanstack/react-query';
 import { User } from "@/data/schema";
 
-const UserContext = createContext<any>(null);
+const UserContext = createContext<User | undefined>(undefined);
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [userData, setUserData] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchUserData = async (retries = 3) => {
-      try {
-        const fetchedUserData = await getUser();
-        setUserData(fetchedUserData);
-        setError(null);
-      } catch (error) {
-        if (retries > 0) {
-          setTimeout(() => fetchUserData(retries - 1), 1000);
-        } else {
-          console.error("Error fetching user data:", error);
-          setError("Failed to fetch user data");
-          setUserData(null);
-        }
-      } finally {
-        setLoading(false);
+export function UserProvider({ children }: { children: ReactNode }) {
+  const { data: user, error, isLoading } = useQuery<User, Error>({
+    queryKey: ['user'],
+    queryFn: async () => {
+      const res = await fetch('/api/user', { method: 'GET' });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to fetch user data");
       }
-    };
+      return res.json();
+    }
+  });
 
-    fetchUserData(); // Removed redundant check for userData
-  }, []);
+  if (isLoading) return <div>Loading user...</div>;
+  if (error) return <div>Error fetching user: {error.message}</div>;
 
   return (
-    <UserContext.Provider value={{ userData, error, loading }}>
+    <UserContext.Provider value={user}>
       {children}
     </UserContext.Provider>
   );
-};
+}
 
-export const useUser = () => useContext(UserContext);
+export function useUser() {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+  return context;
+}

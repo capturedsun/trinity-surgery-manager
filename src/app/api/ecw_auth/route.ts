@@ -9,6 +9,8 @@ dotenv.config();
 async function constructECWAuthorizationRequest() {
     const authorizationEndpoint = process.env.ECW_AUTHORIZATION_ENDPOINT
     const tokenEndpoint = process.env.ECW_TOKEN_ENDPOINT
+    const ECW_CLIENT_ID = process.env.ECW_CLIENT_ID
+    const ECW_REDIRECT_URI = process.env.ECW_REDIRECT_URI
 
     const codeVerifier = crypto.randomBytes(64).toString('hex')
         .replace(/=/g, '')
@@ -21,8 +23,6 @@ async function constructECWAuthorizationRequest() {
         .replace(/=/g, '')
         .replace(/\+/g, '-')
         .replace(/\//g, '_');
-
-    const { ECW_CLIENT_ID, ECW_REDIRECT_URI } = process.env;
 
     const params = {
         response_type: 'code',
@@ -41,7 +41,7 @@ async function constructECWAuthorizationRequest() {
     return authorizeUrl;
 }
 
-export async function GET(req:any, res:any) {
+export async function GET() {
     try {
         const authorizeUrl = await constructECWAuthorizationRequest();
         const response = await fetch(authorizeUrl)

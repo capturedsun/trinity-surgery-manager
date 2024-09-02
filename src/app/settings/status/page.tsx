@@ -1,51 +1,47 @@
 "use client"
 
-import { Button } from "@/components/Button"
-import { useState, useEffect } from "react"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/Dropdown"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/Select"
-import { Tooltip } from "@/components/Tooltip"
 import { Badge, BadgeProps } from "@/components/Badge"
+import { Button } from "@/components/Button"
 import { ModalManageStatusTag } from "@/components/ui/settings/ModalManageStatusTag"
-import { invitedUsers, roles, users } from "@/data/data"
-import { RiAddLine, RiEditLine } from "@remixicon/react"
-import { useUser } from "@/context/UserContext";
-import { getOrganizationStatusTags, updateStatusTag } from "./actions";
+import { useUser } from "@/context/UserContext"
 import { CategorizedTags, StatusTag } from "@/data/schema"
+import { RiAddLine, RiEditLine } from "@remixicon/react"
+import { useEffect, useState } from "react"
+import { getOrganizationStatusTags } from "./actions"
 
 export default function Users() {
-  const { userData: user } = useUser()
+  const [userState, setUserState] = useUser();
   const [categorizedTags, setCategorizedTags] = useState<CategorizedTags[]>([])
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     async function fetchStatusTags() {
-      if (user?.profile?.org_code) {
-        const organizationStatusTags = await getOrganizationStatusTags(user.profile.org_code)
+      if (userState.type === "ready" && userState.data?.org_code) {
+        const organizationStatusTags = await getOrganizationStatusTags(userState.data.org_code)
         setCategorizedTags(organizationStatusTags)
       }
     }
     fetchStatusTags()
-  }, [user])
+  }, [userState])
 
   const handleSave = async (tag: Partial<StatusTag>) => {
-    setIsLoading(true)
-    setTimeout(async () => {
-      // await updateStatusTag(tag as StatusTag)
-      setIsLoading(false)
-    }, 2000)
+    setCategorizedTags(prev => 
+      prev.map(categorizedTag => {
+        if (categorizedTag.category === tag.category) {
+          return {
+            ...categorizedTag,
+            tags: categorizedTag.tags.map(t => 
+              t.id === tag.id ? { ...t, ...tag } : t
+            )
+          }
+        }
+        return categorizedTag
+      })
+    )
   }
+  useEffect(() => {
+    console.log(categorizedTags)
+  }, [categorizedTags])
 
   return (
     <>
@@ -65,44 +61,46 @@ export default function Users() {
           <div className="md:col-span-2">
             <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
               <h3 className="text-sm font-semibold">Create a new status tag</h3>
-                <ModalManageStatusTag categories={categorizedTags} onSave={handleSave}>
-                  <Button variant="light" className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit" disabled={isLoading}>
-                <RiAddLine className="-ml-1 size-4 shrink-0" aria-hidden="true" />
-                Add status
-              </Button>
+              <ModalManageStatusTag
+                categories={categorizedTags}
+                onSave={handleSave}>
+                <Button variant="light" className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit" disabled={isLoading}>
+                  <RiAddLine className="-ml-1 size-4 shrink-0" aria-hidden="true" />
+                  Add status
+                </Button>
               </ModalManageStatusTag>
             </div>
-          <ul
-            role="list"
-            className="mt-6 "
-          >
-        {categorizedTags.map(({ category, tags }) => (
-          <div key={category} className="mt-6">
-            <p className="text-sm font-semibold">Category / {category.charAt(0).toUpperCase() + category.slice(1)}</p>
-            <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-800 mt-3 divide-dashed">
-              {tags.map(tag => (
-                <li key={tag.id} className="flex items-center justify-between py-2.5">
-                  <Badge className="inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2" showSquare variant={(tag.style_variant as BadgeProps["variant"]) ?? "default"}>
-                    {tag.label}
-                  </Badge>
-                  <div className="flex items-center gap-2">
-                    <ModalManageStatusTag categories={categorizedTags} existingTag={tag} onSave={handleSave}>
-                      <Button variant="ghost" className="group size-8 hover:border hover:border-gray-300 hover:bg-gray-50 data-[state=open]:border-gray-300 data-[state=open]:bg-gray-50 hover:dark:border-gray-700 hover:dark:bg-gray-900 data-[state=open]:dark:border-gray-700 data-[state=open]:dark:bg-gray-900">
-                        <RiEditLine className="size-4 shrink-0 text-gray-500 group-hover:text-gray-700 group-hover:dark:text-gray-400" aria-hidden="true" />
-                      </Button>
-                    </ModalManageStatusTag>
-                  </div>
-                </li>
+            <ul
+              role="list"
+              className="mt-6 "
+            >
+              {categorizedTags.map(({ category, tags }) => (
+                <div key={category} className="mt-6">
+                  <p className="text-sm font-semibold">Category / {category.charAt(0).toUpperCase() + category.slice(1)}</p>
+                  <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-800 mt-3 divide-dashed">
+                    {tags.map(tag => (
+                      <li key={tag.id} className="flex items-center justify-between py-2.5">
+                        <Badge className="inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2" showSquare variant={(tag.style_variant as BadgeProps["variant"]) ?? "default"}>
+                          {tag.label}
+                        </Badge>
+                        <div className="flex items-center gap-2">
+                          <ModalManageStatusTag categories={categorizedTags} existingTag={tag} onSave={handleSave}>
+                            <Button variant="ghost" className="group size-8 hover:border hover:border-gray-300 hover:bg-gray-50 data-[state=open]:border-gray-300 data-[state=open]:bg-gray-50 hover:dark:border-gray-700 hover:dark:bg-gray-900 data-[state=open]:dark:border-gray-700 data-[state=open]:dark:bg-gray-900">
+                              <RiEditLine className="size-4 shrink-0 text-gray-500 group-hover:text-gray-700 group-hover:dark:text-gray-400" aria-hidden="true" />
+                            </Button>
+                          </ModalManageStatusTag>
+                        </div>
+                      </li>
                     ))}
                   </ul>
                 </div>
               ))}
             </ul>
           </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
-        {/* <section className="mt-12" aria-labelledby="pending-invitations">
+      {/* <section className="mt-12" aria-labelledby="pending-invitations">
           <h2
             id="pending-invitations"
             className="scroll-mt-10 font-semibold text-gray-900 dark:text-gray-50"

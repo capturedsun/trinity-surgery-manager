@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { Badge, BadgeProps } from "@/components/Badge"
 import { Button } from "@/components/Button"
 import {
   Dialog,
@@ -19,8 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/Select"
-import { Badge, BadgeProps } from "@/components/Badge"
 import { CategorizedTags, StatusTag } from "@/data/schema"
+import { useEffect, useState } from "react"
+import { updateStatusTag } from "@/app/settings/actions"
 
 export type ModalManageStatusTagProps = {
   children: React.ReactNode
@@ -32,22 +33,26 @@ export type ModalManageStatusTagProps = {
 const styleVariants: BadgeProps["variant"][] = ["default", "neutral", "success", "error", "warning", "progress"]
 
 export function ModalManageStatusTag({ children, categories, existingTag, onSave }: ModalManageStatusTagProps) {
+  const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("")
   const [selectedStyleVariant, setSelectedStyleVariant] = useState<BadgeProps["variant"]>("default")
+  const [hasChanged, setHasChanged] = useState(false)
   const isFormValid = name.trim() !== "" && selectedCategory.trim() !== ""
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (existingTag) {
       setName(existingTag.label)
-      setDescription(existingTag.description)
+      setDescription(existingTag.description || "")
       setSelectedCategory(existingTag.category)
       setSelectedStyleVariant(existingTag.style_variant as BadgeProps["variant"])
+      setHasChanged(true)
     }
   }, [existingTag])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const tagData: Partial<StatusTag> = {
       label: name,
@@ -58,17 +63,25 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
     if (existingTag) {
       tagData.id = existingTag.id
     }
-    onSave(tagData)
+    setIsLoading(true)
+    const updatedTag = await updateStatusTag(tagData)
+    setIsLoading(false)
+    if (updatedTag) {
+      onSave(updatedTag as Partial<StatusTag>)
+      setIsOpen(false)
+    }
   }
 
   const modalTitle = existingTag ? "Edit status tag" : "Add a new status tag"
   const submitButtonText = existingTag ? "Update status tag" : "Add status tag"
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-lg">
-        <form onSubmit={handleSubmit}>
+        <form 
+          onSubmit={handleSubmit}
+        >
           <DialogHeader>
             <DialogTitle>{modalTitle}</DialogTitle>
             <DialogDescription className="mt-1 text-sm leading-6">
@@ -96,7 +109,7 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
                 name="description-status"
                 placeholder="Enter optional description..."
                 className="mt-2"
-                value={description}
+                value={description || ""}
                 onChange={(e) => setDescription(e.target.value)}
               />
             </div>
@@ -139,10 +152,10 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
                 >
                   <SelectValue placeholder="Select style variant..." />
                 </SelectTrigger>
-                <SelectContent align="end">
+                <SelectContent align="end" className="">
                   {styleVariants.map((variant) => (
-                    <SelectItem key={variant} value={variant || ""}>
-                      <Badge variant={variant} className="w-full justify-center">
+                    <SelectItem key={variant} value={variant || ""} className="">
+                      <Badge variant={variant} className="">
                         {variant}
                       </Badge>
                     </SelectItem>
@@ -160,10 +173,11 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
                 Cancel
               </Button>
             </DialogClose>
-            <Button 
-              type="submit" 
-              className="w-full sm:w-fit" 
-              disabled={!isFormValid}
+            <Button
+              type="submit"
+              className="w-full sm:w-fit"
+              disabled={!isFormValid || !hasChanged}
+              isLoading={isLoading}
             >
               {submitButtonText}
             </Button>

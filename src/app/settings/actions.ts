@@ -1,5 +1,6 @@
 "use server"
 
+import { StatusTag } from "@/data/schema"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 
@@ -17,12 +18,31 @@ export async function getStatuses() {
     .from('statuses')
     .select('*')
 
-    console.log(statuses)
-
   if (statusesError) {
     console.error('Error fetching statuses:', statusesError)
     return null
   }
 
   return statuses
+}
+
+export async function updateStatusTag(tag: Partial<StatusTag>) {
+  const supabase = createClient()
+
+  console.log(tag)
+
+  const { data: updatedTag, error: updateError } = await supabase
+    .from('statuses')
+    .update(tag)
+    .match({ id: tag.id })
+    .select()
+
+  if (updateError) {
+    console.error('Error updating status tag:', updateError)
+    return null
+  }
+
+  console.log(updatedTag)
+
+  return updatedTag
 }

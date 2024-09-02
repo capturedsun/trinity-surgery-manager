@@ -51,7 +51,7 @@ export interface StatusTag {
   id: number
   created_at: Date
   name: string
-  description: string
+  description: string | null
   org_code: string
   category: string
   next_status_id?: number
@@ -91,5 +91,5 @@ export interface User {
   first_name: string
   last_name: string
   org_code: string
-  role: string // e.g., "admin", "user", etc.
+  role: string
 }

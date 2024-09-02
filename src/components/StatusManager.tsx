@@ -19,7 +19,7 @@ const statusManagerVariants = tv({
 });
 
 interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
-  statusID: string; // Array of status types (e.g., ["communication", "insurance", "clearance/lab"])
+  statusID: string;
 }
 
 const StatusManager = React.forwardRef<HTMLDivElement, StatusManagerProps>(
@@ -49,7 +49,7 @@ const StatusManager = React.forwardRef<HTMLDivElement, StatusManagerProps>(
             {statuses
               .filter((item) => item.type === type && item.value !== "none")
               .map((filteredStatus) => (
-                <SelectItem key={filteredStatus.value} value={filteredStatus.value}>
+                <SelectItem key={filteredStatus.value || ""} value={filteredStatus.value || ""}>
                   {filteredStatus.label}
                 </SelectItem>
               ))}
