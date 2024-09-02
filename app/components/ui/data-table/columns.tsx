@@ -4,7 +4,7 @@
 import { ReferralCard } from "@/app/components/ReferralCard"
 import { StatusManager } from "@/app/components/StatusManager"
 
-import { Usage } from "@/data/schema"
+import { Usage } from "@/app/data/schema"
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "./DataTableColumnHeader"
 import { DataTableRowActions } from "./DataTableRowActions"
