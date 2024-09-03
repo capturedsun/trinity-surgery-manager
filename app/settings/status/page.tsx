@@ -5,31 +5,36 @@ import { Button } from "@/app/components/Button"
 import { ModalManageStatusTag } from "@/app/components/ui/settings/ModalManageStatusTag"
 import { CategorizedTags, StatusTag } from "@/app/data/schema"
 import { RiAddLine, RiEditLine } from "@remixicon/react"
-import { useEffect, useState } from "react"
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useUser } from "@/app/context/UserContext"
+import { getOrganizationStatusTags, updateStatusTag } from "./actions"
 
-export default function Users() {
-  const [categorizedTags, setCategorizedTags] = useState<CategorizedTags[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+export default function Statuses() {
+  const { data: userData, isLoading: isUserDataLoading } = useUser()
+  const queryClient = useQueryClient()
+  
+  const orgCode = userData?.org_code
+  const { data: categorizedTags, isLoading } = useQuery({
+    queryKey: ['organizationStatusTags', orgCode],
+    queryFn: () => getOrganizationStatusTags(orgCode),
+    enabled: !!orgCode,
+    refetchOnWindowFocus: false,
+  })
 
+  const updateStatusMutation = useMutation({
+    mutationFn: updateStatusTag,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['organizationStatusTags', orgCode] })
+    },
+  })
 
-  const handleSave = async (tag: Partial<StatusTag>) => {
-    setCategorizedTags(prev =>
-      prev.map(categorizedTag => {
-        if (categorizedTag.category === tag.category) {
-          return {
-            ...categorizedTag,
-            tags: categorizedTag.tags.map(t =>
-              t.id === tag.id ? { ...t, ...tag } : t
-            )
-          }
-        }
-        return categorizedTag
-      })
-    )
+  const handleSave = async (tag: StatusTag) => {
+    updateStatusMutation.mutate(tag)
   }
+
   useEffect(() => {
-    console.log(categorizedTags)
-  }, [categorizedTags])
+    
+  }, [userData])
 
   return (
     <>
@@ -50,7 +55,7 @@ export default function Users() {
             <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
               <h3 className="text-sm font-semibold">Create a new status tag</h3>
               <ModalManageStatusTag
-                categories={categorizedTags}
+                categories={categorizedTags ?? []}
                 onSave={handleSave}>
                 <Button variant="light" className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit" disabled={isLoading}>
                   <RiAddLine className="-ml-1 size-4 shrink-0" aria-hidden="true" />
@@ -62,17 +67,17 @@ export default function Users() {
               role="list"
               className="mt-6 "
             >
-              {categorizedTags.map(({ category, tags }) => (
+              {categorizedTags?.map(({ category, tags }: { category: string; tags: StatusTag[] }) => (
                 <div key={category} className="mt-6">
                   <p className="text-sm font-semibold">Category / {category.charAt(0).toUpperCase() + category.slice(1)}</p>
                   <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-800 mt-3 divide-dashed">
-                    {tags.map(tag => (
+                    {tags.map((tag: StatusTag) => (
                       <li key={tag.id} className="flex items-center justify-between py-2.5">
-                        <Badge className="inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2" showSquare variant={(tag.style_variant as BadgeProps["variant"]) ?? "default"}>
+                        <Badge className="inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2" showSquare variant={tag.style_variant ?? "default"}>
                           {tag.label}
                         </Badge>
                         <div className="flex items-center gap-2">
-                          <ModalManageStatusTag categories={categorizedTags} existingTag={tag} onSave={handleSave}>
+                          <ModalManageStatusTag categories={categorizedTags ?? []} existingTag={tag} onSave={handleSave}>
                             <Button variant="ghost" className="group size-8 hover:border hover:border-gray-300 hover:bg-gray-50 data-[state=open]:border-gray-300 data-[state=open]:bg-gray-50 hover:dark:border-gray-700 hover:dark:bg-gray-900 data-[state=open]:dark:border-gray-700 data-[state=open]:dark:bg-gray-900">
                               <RiEditLine className="size-4 shrink-0 text-gray-500 group-hover:text-gray-700 group-hover:dark:text-gray-400" aria-hidden="true" />
                             </Button>

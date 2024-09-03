@@ -17,6 +17,8 @@ export async function getStatuses() {
   const { data: statuses, error: statusesError } = await supabase
     .from('statuses')
     .select('*')
+  
+  console.log(statuses)
 
   if (statusesError) {
     console.error('Error fetching statuses:', statusesError)

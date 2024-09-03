@@ -10,6 +10,8 @@ export const getOrganizationStatusTags = async (orgCode: string) => {
         .select('*')
         .eq('org_code', orgCode);
 
+    console.log(data)
+
     if (error) {
         console.error('Error fetching organization status tags:', error);
         return [];

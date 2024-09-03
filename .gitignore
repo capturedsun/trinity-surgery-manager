@@ -39,3 +39,6 @@ next-env.d.ts
 # Parchment
 *.paragraph.txt
 *.webloc
+
+# Sentry Config File
+.env.sentry-build-plugin

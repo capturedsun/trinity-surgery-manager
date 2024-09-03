@@ -15,7 +15,6 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         const res = await fetch('/api/user', { method: 'GET' });
         const data = await res.json();
-        console.log(data)
         setUserData(data?.user);
         setError(null);
       } catch (error) {
