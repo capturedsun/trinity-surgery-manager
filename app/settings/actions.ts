@@ -11,7 +11,7 @@ export async function getStatuses() {
 
   if (error || !user) {
     console.error('Error fetching user data:', error)
-    return redirect("/login?message=Could not fetch user data")
+    return redirect("/singin?message=Could not fetch user data")
   }
 
   const { data: statuses, error: statusesError } = await supabase

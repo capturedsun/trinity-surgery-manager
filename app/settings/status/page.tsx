@@ -6,35 +6,30 @@ import { ModalManageStatusTag } from "@/app/components/ui/settings/ModalManageSt
 import { CategorizedTags, StatusTag } from "@/app/data/schema"
 import { RiAddLine, RiEditLine } from "@remixicon/react"
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from "react"
 import { useUser } from "@/app/context/UserContext"
 import { getOrganizationStatusTags, updateStatusTag } from "./actions"
 
 export default function Statuses() {
   const { data: userData, isLoading: isUserDataLoading } = useUser()
-  const queryClient = useQueryClient()
-  
+  const [categorizedTags, setCategorizedTags] = useState<CategorizedTags[]>([])
   const orgCode = userData?.org_code
-  const { data: categorizedTags, isLoading } = useQuery({
-    queryKey: ['organizationStatusTags', orgCode],
-    queryFn: () => getOrganizationStatusTags(orgCode),
-    enabled: !!orgCode,
-    refetchOnWindowFocus: false,
-  })
-
-  const updateStatusMutation = useMutation({
-    mutationFn: updateStatusTag,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['organizationStatusTags', orgCode] })
-    },
-  })
 
   const handleSave = async (tag: StatusTag) => {
-    updateStatusMutation.mutate(tag)
+    updateStatusTag(tag)
   }
 
   useEffect(() => {
-    
-  }, [userData])
+    const fetchTags = async () => {
+      if (orgCode) {
+        const tags = await getOrganizationStatusTags(orgCode);
+        console.log(tags)
+        setCategorizedTags(tags);
+      }
+    };
+
+    fetchTags();
+  }, [orgCode]);
 
   return (
     <>
@@ -57,7 +52,7 @@ export default function Statuses() {
               <ModalManageStatusTag
                 categories={categorizedTags ?? []}
                 onSave={handleSave}>
-                <Button variant="light" className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit" disabled={isLoading}>
+                <Button variant="light" className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit">
                   <RiAddLine className="-ml-1 size-4 shrink-0" aria-hidden="true" />
                   Add status
                 </Button>

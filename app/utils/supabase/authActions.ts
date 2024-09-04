@@ -16,7 +16,7 @@ export const signIn = async (formData: FormData) => {
   });
 
   if (error) {
-    return redirect("/login?message=Could not authenticate user");
+    return redirect("/signin?message=Could not authenticate user");
   }
 
   return redirect("/overview");
@@ -38,10 +38,10 @@ export const signUp = async (formData: FormData) => {
   });
 
   if (error) {
-    return redirect("/login?message=Could not authenticate user");
+    return redirect("/signin?message=Could not authenticate user");
   }
 
-  return redirect("/login?message=Check email to continue sign in process");
+  return redirect("/signin?message=Check email to continue sign in process");
 };
 
 export async function logout() {
@@ -54,13 +54,13 @@ export async function logout() {
     console.error('Error logging out:', error)
   }
 
-  redirect('/login')
+  redirect('/signin')
 }
 
 export const checkAuth = async () => {
   const supabase = createClient();
   const { data: authData, error: authError } = await supabase.auth.getUser();
   if (authError || !authData?.user) {
-    redirect("/login");
+    redirect("/signin");
   }
 };

@@ -8,23 +8,17 @@ export function cx(...args: ClassValue[]) {
 }
 
 // Tremor Raw focusInput [v0.0.1]
-
 export const focusInput = [
   // base
-  "focus:ring-2",
-  // ring color
-  "focus:ring-indigo-200 focus:dark:ring-indigo-700/30",
-  // border color
-  "focus:border-indigo-500 focus:dark:border-indigo-700",
+  "focus:shadow-[0_0_0_1px_rgba(0,0,0,0.28),_0_0_1px_0_rgba(0,0,0,0.11),_0_0_0_4px_rgba(0,0,0,0.11)]",
+  "focus:ring-transparent",
 ]
 
 // Tremor Raw focusRing [v0.0.1]
 
 export const focusRing = [
   // base
-  "outline outline-offset-2 outline-0 focus-visible:outline-2",
-  // outline color
-  "outline-indigo-500 dark:outline-indigo-500",
+  "focus:ring-transparent",
 ]
 
 // Tremor Raw hasErrorInput [v0.0.1]

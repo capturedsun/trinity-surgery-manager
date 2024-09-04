@@ -7,6 +7,8 @@ export async function GET() {
   const { data: statuses, error: statusesError } = await supabase
     .from('statuses')
     .select('*')
+  
+  console.log(statuses)
 
   if (statusesError) {
     return NextResponse.json({ ok: false, error: statusesError.message }, { status: 500 })

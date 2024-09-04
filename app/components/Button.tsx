@@ -10,26 +10,36 @@ import { cx, focusRing } from "@/app/lib/utils"
 const buttonVariants = tv({
   base: [
     // base
-    "relative inline-flex items-center justify-center whitespace-nowrap rounded-md border px-3 py-1.5 text-center text-base font-medium shadow-sm transition-all duration-100 ease-in-out sm:text-sm",
+    "relative inline-flex items-center justify-center whitespace-nowrap rounded-[0.375rem] px-[0.75rem] py-[0.375rem] text-center text-base font-medium shadow-sm transition-all ease-in-out duration-200 font-500 text-[0.8125rem] leading-[1.38462] h-fit",
     // disabled
     "disabled:pointer-events-none disabled:shadow-none",
     // focus
     focusRing,
+    // pseudo-element
+    "after:absolute after:content-[''] after:rounded-[inherit] after:-z-[1] after:inset-0 after:opacity-100 after:transition-[background-color,background,border-color,color,fill,stroke,opacity,box-shadow,transform] after:duration-100 after:bg-gradient-to-b after:from-white/[0.11] after:to-transparent",
   ],
   variants: {
     variant: {
       primary: [
+        // base
+        "isolate",
         // border
-        "border-transparent",
+        "border-[hsla(153,100%,12%,1)]",
         // text color
         "text-white dark:text-gray-50",
         // background color
-        "bg-indigo-600 dark:bg-indigo-500",
+        "bg-[hsla(153,100%,12%,1)] dark:bg-[hsla(333,100%,12%,1)]",
         // hover color
-        "hover:bg-indigo-500 dark:hover:bg-indigo-600",
+        "hover:bg-[hsla(153,100%,22%,1)] dark:hover:bg-[hsla(333,100%,22%,1)]",
+        // hover border
+        "hover:border-[hsla(153,100%,22%,1)] dark:hover:border-[hsla(333,100%,22%,1)]",
         // disabled
         "disabled:bg-indigo-100 disabled:text-gray-400",
         "disabled:dark:bg-indigo-800 disabled:dark:text-indigo-400",
+        // custom box shadow
+        "shadow-[0_0_0_1px_rgb(0,61,34),inset_0_1px_1px_0_rgba(255,255,255,0.07),0_2px_3px_0_rgba(34,42,53,0.2),0_1px_1px_0_rgba(0,0,0,0.24)]",
+        // hover alpha overlay
+        "hover:after:bg-[hsla(0,0%,0%,0.03)]",
       ],
       secondary: [
         // border

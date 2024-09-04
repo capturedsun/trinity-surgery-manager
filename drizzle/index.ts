@@ -1,14 +1,32 @@
-import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
-import { createClient } from "@libsql/client";
-import { drizzle } from "drizzle-orm/libsql";
-import { sessions, todos, users } from "./schema";
+import { createClient } from "@supabase/supabase-js"
+import { drizzle } from "drizzle-orm/supabase";
+import { 
+    networkProviders, 
+    organizations, 
+    patients, 
+    patientActivity, 
+    users, 
+    statuses, 
+    surgeryOrders 
+}   from "./schema";
 
-// Setup sqlite database connection
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
 const client = createClient({
-  url: process.env.DATABASE_URL ?? "file:sqlite.db",
-  authToken: process.env.DATABASE_AUTH_TOKEN,
+    url: process.env.DATABASE_URL,
+    auth: process.env.SUPABASE_SERVICE_KEY
 });
-export const db = drizzle(client, { schema: { users, sessions, todos } });
-
-// Setup lucia adapter
+export const db = drizzle(
+    client, { 
+        schema: { 
+            users, 
+            patients, 
+            patientActivity, 
+            organizations, 
+            networkProviders, 
+            statuses, 
+            surgeryOrders 
+        } 
+    }
+);
 export const luciaAdapter = new DrizzleSQLiteAdapter(db, sessions, users);
