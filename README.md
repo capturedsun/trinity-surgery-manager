@@ -32,6 +32,10 @@ This project uses
 [`Tremor Raw`](https://raw.tremor.so/docs/getting-started/installation)
 components for the UI.
 
+Architecture schema:
+https://app.eraser.io/workspace/9ZoPy7k9Yurxhh9BmArJ
+
+
 ## License
 
 This site template is a commercial product and is licensed under the

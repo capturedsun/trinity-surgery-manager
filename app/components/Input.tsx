@@ -9,14 +9,14 @@ import { cx, focusInput, focusRing, hasErrorInput } from "@/app/lib/utils"
 const inputStyles = tv({
   base: [
     // base
-    "relative block w-full appearance-none truncate border-none px-[.75rem] py-[.375rem] max-h-[2.25rem] text-[1.875rem] font-400 leading-[1.38462] rounded-[.375rem] outline-none transition sm:text-sm shadow-[0px_0px_0px_1px_rgba(0,0,0,0.11),0px_0px_1px_0px_rgba(0,0,0,0.07)]",
+    "relative block w-full h-fit appearance-none truncate border-none px-[.75rem] py-[.375rem] max-h-[2.25rem] text-[0.8125rem] font-400 leading-[1.38462] rounded-[.375rem] outline-none transition shadow-[0px_0px_0px_1px_rgba(0,0,0,0.11),0px_0px_1px_0px_rgba(0,0,0,0.07)]",
     
     // border color
     "border-gray-300 dark:border-gray-800",
     // text color
     "text-gray-900 dark:text-gray-50",
     // placeholder color
-    "placeholder-gray-400 dark:placeholder-gray-500",
+    "placeholder-gray-300 dark:placeholder-gray-500",
     // background color
     "bg-white dark:bg-gray-950",
     // disabled

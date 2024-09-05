@@ -1,5 +1,7 @@
-import { createClient } from "@supabase/supabase-js"
-import { drizzle } from "drizzle-orm/supabase";
+
+import { drizzle } from 'drizzle-orm/postgres-js'
+import postgres from 'postgres'
+
 import { 
     networkProviders, 
     organizations, 
@@ -10,12 +12,12 @@ import {
     surgeryOrders 
 }   from "./schema";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const connectionString = process.env.DATABASE_URL
 
-const client = createClient({
-    url: process.env.DATABASE_URL,
-    auth: process.env.SUPABASE_SERVICE_KEY
+const client = postgres(connectionString as string, {
+    prepare: false
 });
+
 export const db = drizzle(
     client, { 
         schema: { 
@@ -29,4 +31,3 @@ export const db = drizzle(
         } 
     }
 );
-export const luciaAdapter = new DrizzleSQLiteAdapter(db, sessions, users);

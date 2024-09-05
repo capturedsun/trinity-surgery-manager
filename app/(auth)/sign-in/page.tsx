@@ -3,6 +3,7 @@ import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
 import { signIn } from "@/app/utils/supabase/authActions";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Login({
   searchParams,
@@ -33,6 +34,7 @@ export default function Login({
 
   return (
     <div className="self-start mt-[clamp(2rem,10vw,5rem)] box-border flex flex-col items-stretch justify-center w-[25rem] max-w-[calc(100vw-2.5rem)] rounded-[.75rem] text-[#212126] relative overflow-hidden border-0 shadow-[0_5px_15px_0_rgba(0,0,0,0.08),0_15px_35px_-5px_rgba(25,28,33,0.2),0_0_0_1px_rgba(0,0,0,0.07)] bg-white transition-all duration-200 text-center z-10 border-solid border-[rgba(0,0,0,0.03)] p-10 gap-8">
+      <Image src="/icon.png" className="self-center" alt="Trinity Orthopedics" width={32} height={32} />
       <form
         onSubmit={handleSubmit}
         className="flex-1 flex flex-col w-full justify-center gap-[2rem]"
@@ -41,7 +43,7 @@ export default function Login({
           <h1 className="title"> Sign In to Trinity Orthopedics</h1>
           <p className="subtitle">Welcome back! Please sign in to continue</p>
         </div>
-        <div className="flex flex-col gap-[.25rem]">
+        <div className="flex flex-col gap-[.5rem]">
           <label className="label text-left" htmlFor="email">
             Email
           </label>
