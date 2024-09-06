@@ -11,7 +11,6 @@ import { Cookie } from "@/src/entities/models/cookie";
 import { signInController } from "@/src/interface-adapters/controllers/auth/sign-in.controller";
 import { signUpController } from "@/src/interface-adapters/controllers/auth/sign-up.controller";
 import { signOutController } from "@/src/interface-adapters/controllers/auth/sign-out.controller";
-import { SESSION_COOKIE } from "@/config";
 import { InputParseError } from "@/src/entities/errors/common";
 import {
   AuthenticationError,
@@ -69,9 +68,8 @@ export async function signIn(formData: FormData) {
       const username = formData.get("username")?.toString();
       const password = formData.get("password")?.toString();
 
-      let sessionCookie: Cookie;
       try {
-        sessionCookie = await signInController({ username, password });
+        await signInController({ username, password });
       } catch (err) {
         if (
           err instanceof InputParseError ||
@@ -88,13 +86,7 @@ export async function signIn(formData: FormData) {
         };
       }
 
-      cookies().set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes,
-      );
-
-      redirect("/");
+      redirect("/dashboard");
     },
   );
 }
@@ -104,28 +96,15 @@ export async function signOut() {
     "signOut",
     { recordResponse: true },
     async () => {
-      const cookiesStore = cookies();
-      const sessionId = cookiesStore.get(SESSION_COOKIE)?.value;
-
-      let blankCookie: Cookie;
       try {
-        blankCookie = await signOutController(sessionId);
+        await signOutController();
       } catch (err) {
-        if (
-          err instanceof UnauthenticatedError ||
-          err instanceof InputParseError
-        ) {
+        if (err instanceof UnauthenticatedError) {
           redirect("/sign-in");
         }
         captureException(err);
         throw err;
       }
-
-      cookies().set(
-        blankCookie.name,
-        blankCookie.value,
-        blankCookie.attributes,
-      );
 
       redirect("/sign-in");
     },

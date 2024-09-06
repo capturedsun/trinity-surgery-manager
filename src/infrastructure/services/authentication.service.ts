@@ -1,10 +1,7 @@
 import { startSpan } from "@sentry/nextjs";
 import { inject, injectable } from "inversify";
-// import { supabase } from "@/src/infrastructure/services/supabase.service";
-
-import { SESSION_COOKIE } from "@/config";
 import { DI_SYMBOLS } from "@/di/types";
-import { luciaAdapter } from "@/drizzle";
+// import { supabase } 
 import { type IUsersRepository } from "@/src/application/repositories/users.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";
 import { UnauthenticatedError } from "@/src/entities/errors/auth";

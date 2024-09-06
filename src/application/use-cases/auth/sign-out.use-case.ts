@@ -8,7 +8,6 @@ export function signOutUseCase(
 ): Promise<{ blankCookie: Cookie }> {
   return startSpan({ name: "signOut Use Case", op: "function" }, async () => {
     const authenticationService = getInjection("IAuthenticationService");
-
     return await authenticationService.invalidateSession(sessionId);
   });
 }
