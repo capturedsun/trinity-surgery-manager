@@ -17,6 +17,6 @@ export async function signInController(
 
     if (inputParseError)  throw new InputParseError("Invalid data", { cause: inputParseError });
 
-    await signInUseCase(data);
+    return await signInUseCase(data);
   });
 }

@@ -1,13 +1,13 @@
 import { ThemeProvider } from "next-themes"
 import { Sidebar } from "@/app/components/ui/navigation/Sidebar"
-import { checkAuth } from "@/app/utils/supabase/authActions"
+// import { checkAuth } from "@/app/utils/supabase/authActions"
 import { UserProvider } from "@/app/context/UserContext"
 import { OrganizationProvider } from "@/app/context/OrganizationContext"
 import { QueryClientProvider } from '@tanstack/react-query'
 import queryClient from '@/app/queryClient'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  await checkAuth()
+  // await checkAuth()
 
   return (
     <div className="mx-auto max-w-screen-2xl">

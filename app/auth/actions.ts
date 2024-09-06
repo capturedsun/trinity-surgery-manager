@@ -85,8 +85,7 @@ export async function signIn(formData: FormData) {
             "An error happened. The developers have been notified. Please try again later.",
         };
       }
-
-      redirect("/dashboard");
+      redirect("/overview");
     },
   );
 }
@@ -100,13 +99,13 @@ export async function signOut() {
         await signOutController();
       } catch (err) {
         if (err instanceof UnauthenticatedError) {
-          redirect("/sign-in");
+          redirect("/auth/sign-in");
         }
         captureException(err);
         throw err;
       }
 
-      redirect("/sign-in");
+      redirect("/auth/sign-in");
     },
   );
 }

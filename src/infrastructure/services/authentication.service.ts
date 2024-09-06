@@ -1,26 +1,26 @@
-import { startSpan } from "@sentry/nextjs";
-import { inject, injectable } from "inversify";
 import { DI_SYMBOLS } from "@/di/types";
-// import { supabase } 
 import { type IUsersRepository } from "@/src/application/repositories/users.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";
-import { UnauthenticatedError } from "@/src/entities/errors/auth";
-import { Cookie } from "@/src/entities/models/cookie";
-import { Session, sessionSchema } from "@/src/entities/models/session";
+import { AuthenticationError, UnauthenticatedError } from "@/src/entities/errors/auth";
+import { Session } from "@/src/entities/models/session";
 import { User } from "@/src/entities/models/user";
+import { createClient } from "@/src/infrastructure/supabase/server";
+import { startSpan } from "@sentry/nextjs";
+import { inject, injectable } from "inversify";
 
 @injectable()
 export class AuthenticationService implements IAuthenticationService {
   constructor(
     @inject(DI_SYMBOLS.IUsersRepository)
     private _usersRepository: IUsersRepository,
-  ) {}
+  ) { }
 
   async validateSession(): Promise<{ user: User; session: Session }> {
     return await startSpan(
       { name: "AuthenticationService > validateSession" },
       async () => {
-        const {data, error } = await supabase.auth.getSession()
+        const supabase = createClient()
+        const { data, error } = await supabase.auth.getSession()
 
         if (error || !data.session) {
           throw new UnauthenticatedError("Unauthenticated");
@@ -38,30 +38,29 @@ export class AuthenticationService implements IAuthenticationService {
   }
 
   async createSession(
-    user: User,
-  ): Promise<{ session: Session; cookie: Cookie }> {
+    input: { username: string; password: string },
+  ): Promise<void> {
     return await startSpan(
       { name: "AuthenticationService > createSession" },
       async () => {
-        const luciaSession = await startSpan(
-          { name: "lucia.createSession", op: "function" },
-          () => this._lucia.createSession(user.id, {}),
-        );
+        const supabase = createClient()
 
-        const session = sessionSchema.parse(luciaSession);
-        const cookie = startSpan(
-          { name: "lucia.createSessionCookie", op: "function" },
-          () => this._lucia.createSessionCookie(session.id),
-        );
+        const { error } = await supabase.auth.signInWithPassword({
+          email: input.username,
+          password: input.password,
+        });
 
-        return { session, cookie };
+        if (error) {
+          throw new AuthenticationError("Invalid username or password");
+        }
       },
     );
   }
 
   async invalidateSession(): Promise<void> {
-    await startSpan({ name: "supabase.invalidateSession", op: "function" }, () =>
+    return await startSpan({ name: "supabase.invalidateSession", op: "function" }, () => {
+      const supabase = createClient()
       supabase.auth.signOut()
-    );
+    });
   }
 }

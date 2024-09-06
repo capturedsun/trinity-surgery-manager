@@ -1,4 +1,4 @@
-import { hash } from "@node-rs/argon2";
+// import { hash } from "@node-rs/argon2";
 import { startSpan } from "@sentry/nextjs";
 
 import { getInjection } from "@/di/container";
@@ -25,12 +25,13 @@ export function signUpUseCase(input: {
     const passwordHash = await startSpan(
       { name: "hash password", op: "function" },
       () =>
-        hash(input.password, {
-          memoryCost: 19456,
-          timeCost: 2,
-          outputLen: 32,
-          parallelism: 1,
-        }),
+        input.password
+        // hash(input.password, {
+        //   memoryCost: 19456,
+        //   timeCost: 2,
+        //   outputLen: 32,
+        //   parallelism: 1,
+        // }),
     );
 
     const authenticationService = getInjection("IAuthenticationService");

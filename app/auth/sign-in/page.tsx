@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
-import { signIn } from "@/app/utils/supabase/authActions";
+import { signIn } from "@/app/auth/actions";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -15,21 +15,14 @@ export default function Login({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    setIsLoading(true)
     const formData = new FormData(event.currentTarget);
-
-    const password = formData.get("password")!.toString();
-    const confirmPassword = formData.get("confirm_password")!.toString();
-
-    if (password !== confirmPassword) {
-      setError("Passwords must match");
-      return;
-    }
 
     const res = await signIn(formData);
     if (res && res.error) {
       setError(res.error);
     }
+    setIsLoading(false)
   };
 
   return (
@@ -44,11 +37,11 @@ export default function Login({
           <p className="subtitle">Welcome back! Please sign in to continue</p>
         </div>
         <div className="flex flex-col gap-[.5rem]">
-          <label className="label text-left" htmlFor="email">
-            Email
+          <label className="label text-left" htmlFor="username">
+            Username
           </label>
           <Input
-            name="email"
+            name="username"
             placeholder="you@example.com"
           />
           <label className="label text-left" htmlFor="password">
@@ -64,7 +57,8 @@ export default function Login({
             type="submit"
             className="mt-5"
             isLoading={isLoading}
-            loadingText="Signing In..."
+            loadingText="Sign In..."
+            disabled={isLoading}
           >
             Sign In
           </Button>

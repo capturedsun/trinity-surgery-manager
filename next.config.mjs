@@ -1,4 +1,6 @@
 import {withSentryConfig} from "@sentry/nextjs";
+import 'reflect-metadata'
+
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {

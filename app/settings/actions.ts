@@ -1,7 +1,7 @@
 "use server"
 
 import { StatusTag } from "@/app/data/schema"
-import { createClient } from "@/app/utils/supabase/server"
+import { createClient } from "@/src/infrastructure/supabase/server"
 import { redirect } from "next/navigation"
 
 export async function getStatuses() {
@@ -17,7 +17,7 @@ export async function getStatuses() {
   const { data: statuses, error: statusesError } = await supabase
     .from('statuses')
     .select('*')
-  
+
   console.log(statuses)
 
   if (statusesError) {

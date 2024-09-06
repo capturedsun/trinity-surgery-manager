@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/app/components/Dropdown"
 import { useUser } from "@/app/context/UserContext"
-import { logout } from "@/app/utils/supabase/authActions"
+// import { logout } from "@/app/utils/supabase/authActions"
 import {
   RiArrowRightUpLine,
   RiComputerLine,
@@ -130,7 +130,7 @@ export function DropdownUserProfile({
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={async () => { await logout() }}>Sign out</DropdownMenuItem>
+            <DropdownMenuItem onClick={async () => { console.log('sign out') }}>Sign out</DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
