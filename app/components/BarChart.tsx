@@ -556,7 +556,7 @@ interface BarChartProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const BarChart = React.forwardRef<HTMLDivElement, BarChartProps>(
-  (props, forwardedRef) => {
+  (props: BarChartProps, forwardedRef: React.Ref<HTMLDivElement>) => {
     const {
       data = [],
       categories = [],

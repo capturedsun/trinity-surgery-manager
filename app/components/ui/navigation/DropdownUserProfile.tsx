@@ -25,6 +25,7 @@ import {
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import * as React from "react"
+import { signOut } from "@/app/auth/actions"
 
 export type DropdownUserProfileProps = {
   children: React.ReactNode
@@ -106,13 +107,6 @@ export function DropdownUserProfile({
                 aria-hidden="true"
               />
             </DropdownMenuItem>
-            {/* <DropdownMenuItem>
-              Documentation
-              <RiArrowRightUpLine
-                className="mb-1 ml-1 size-2.5 shrink-0 text-gray-500"
-                aria-hidden="true"
-              />
-            </DropdownMenuItem> */}
             <DropdownMenuItem
               onClick={() => {
                 router.push("/settings/general")
@@ -120,17 +114,10 @@ export function DropdownUserProfile({
             >
               Settings
             </DropdownMenuItem>
-            {/* <DropdownMenuItem>
-              Join Slack community
-              <RiArrowRightUpLine
-                className="mb-1 ml-1 size-2.5 shrink-0 text-gray-500"
-                aria-hidden="true"
-              />
-            </DropdownMenuItem> */}
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={async () => { console.log('sign out') }}>Sign out</DropdownMenuItem>
+            <DropdownMenuItem onClick={async () => { await signOut() }}>Sign out</DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

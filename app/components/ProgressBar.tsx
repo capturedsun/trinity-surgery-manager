@@ -13,8 +13,8 @@ const progressBarVariants = tv({
   variants: {
     variant: {
       default: {
-        background: "bg-indigo-100 dark:bg-indigo-500/30",
-        bar: "bg-indigo-600 dark:bg-indigo-500",
+        background: "bg-emerald-100 dark:bg-emerald-500/30",
+        bar: "bg-emerald-600 dark:bg-emerald-500",
       },
       neutral: {
         background: "bg-gray-200 dark:bg-gray-500/40",
@@ -59,7 +59,7 @@ const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
       className,
       ...props
     }: ProgressBarProps,
-    forwardedRef,
+    forwardedRef: React.Ref<HTMLDivElement>,
   ) => {
     const safeValue = Math.min(max, Math.max(value, 0))
     const { background, bar } = progressBarVariants({ variant })

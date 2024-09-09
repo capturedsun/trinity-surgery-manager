@@ -59,7 +59,7 @@ export const WorkspacesDropdownDesktop = () => {
             )}
           >
             <span
-              className="flex aspect-square size-8 items-center justify-center rounded bg-indigo-600 p-2 text-xs font-medium text-white dark:bg-indigo-500"
+              className="flex aspect-square size-8 items-center justify-center rounded bg-emerald-600 p-2 text-xs font-medium text-white dark:bg-emerald-500"
               aria-hidden="true"
             >
               {userState.type === "ready" && (

@@ -168,12 +168,12 @@ export default function Overview() {
       <section aria-labelledby="current-billing-cycle">
         <h1
           id="current-billing-cycle"
-          className="scroll-mt-10 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
+          className="title"
         >
           Referrals
         </h1>
         <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
-          <ProgressBarCard
+          {/* <ProgressBarCard
             title="Usage"
             change="+0.2%"
             value="68.1%"
@@ -182,7 +182,7 @@ export default function Overview() {
             ctaText="Manage plan."
             ctaLink="#"
             data={data}
-          />
+          /> */}
           {/* <ProgressBarCard
             title="Workspace"
             change="+2.9%"
@@ -195,7 +195,7 @@ export default function Overview() {
           /> */}
           <CategoryBarCard
             title="Status Bottlenecks"
-            className="sm:col-span-2 xl:col-span-2"
+            className="sm:col-span-1 xl:col-span-1"
           />
           <CircleChartCard
             title="Referral-to-Appointment"
@@ -209,7 +209,7 @@ export default function Overview() {
           />
         </div>
       </section>
-      <section aria-labelledby="usage-overview">
+      {/* <section aria-labelledby="usage-overview">
         <h1
           id="usage-overview"
           className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50"
@@ -248,7 +248,7 @@ export default function Overview() {
               )
             })}
         </dl>
-      </section>
+      </section> */}
     </>
   )
 }

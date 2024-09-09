@@ -11,7 +11,7 @@ export default async function Patients() {
 
   return (
     <>
-      <h1 className="text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
+      <h1 className="title">
         Patients
       </h1>
       <div className="mt-4 sm:mt-6 lg:mt-10">
