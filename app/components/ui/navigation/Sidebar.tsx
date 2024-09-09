@@ -71,12 +71,15 @@ export function Sidebar() {
           >
             <ul role="list" className="space-y-0.5">
               {navigation.map((item) => (
-                <li key={item.name}>
+                <li 
+                  key={item.name}
+                  className="relative"
+                >
                   <Link
                     href={item.href}
                     className={cx(
                       isActive(item.href)
-                        ? "text-indigo-600 dark:text-indigo-400"
+                        ? "text-emerald-800 dark:text-emerald-400 after:absolute after:content-[''] after:top-1/2 after:left-[-.25rem] after:w-[2px] after:rounded-full after:h-[calc(100%-.50rem)] after:bg-emerald-100 after:transform after:translate-y-[-50%]"
                         : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
                       "flex items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900",
                       focusRing,
@@ -92,28 +95,6 @@ export function Sidebar() {
               <span className="text-xs font-medium leading-6 text-gray-500">
                 Shortcuts
               </span>
-              <ul aria-label="shortcuts" role="list" className="space-y-0.5">
-                {shortcuts.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      href={item.href}
-                      className={cx(
-                        pathname === item.href || pathname.startsWith(item.href)
-                          ? "text-indigo-600 dark:text-indigo-400"
-                          : "text-gray-700 hover:text-gray-900 dark:text-gray-400 hover:dark:text-gray-50",
-                            "flex hidden items-center gap-x-2.5 rounded-md px-2 py-1.5 text-sm font-medium transition hover:bg-gray-100 hover:dark:bg-gray-900",
-                        focusRing,
-                      )}
-                    >
-                      <item.icon
-                        className="size-4 shrink-0"
-                        aria-hidden="true"
-                      />
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
             </div>
           </nav>
           <div className="mt-auto">

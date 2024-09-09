@@ -10,13 +10,12 @@ import { cx, focusRing } from "@/app/lib/utils"
 const buttonVariants = tv({
   base: [
     // base
-    "relative inline-flex items-center justify-center whitespace-nowrap rounded-[0.375rem] px-[0.75rem] py-[0.375rem] text-center text-base font-medium shadow-sm transition-all ease-in-out duration-200 font-500 text-[0.8125rem] leading-[1.38462] h-fit",
+    "relative box-border inline-flex items-center justify-center whitespace-nowrap rounded-[0.375rem] px-[0.75rem] py-[0.375rem] text-center text-base font-medium shadow-sm transition-all ease-in-out duration-200 font-500 text-[0.8125rem] leading-[1.38462] h-fit",
     // disabled
-    "disabled:pointer-events-none disabled:shadow-none",
+    "disabled:pointer-events-none",
     // focus
     focusRing,
     // pseudo-element
-    "after:absolute after:content-[''] after:rounded-[inherit] after:-z-[1] after:inset-0 after:opacity-100 after:transition-[background-color,background,border-color,color,fill,stroke,opacity,box-shadow,transform] after:duration-100 after:bg-gradient-to-b after:from-white/[0.11] after:to-transparent",
   ],
   variants: {
     variant: {
@@ -40,6 +39,8 @@ const buttonVariants = tv({
         "shadow-[0_0_0_1px_rgb(0,61,34),inset_0_1px_1px_0_rgba(255,255,255,0.07),0_2px_3px_0_rgba(34,42,53,0.2),0_1px_1px_0_rgba(0,0,0,0.24)]",
         // hover alpha overlay
         "hover:after:bg-[hsla(0,0%,0%,0.03)]",
+        // gradient overlay
+        "after:absolute after:content-[''] after:rounded-[inherit] after:-z-[1] after:inset-0 after:opacity-100 after:transition-[background-color,background,border-color,color,fill,stroke,opacity,box-shadow,transform] after:duration-100 after:bg-gradient-to-b after:from-white/[0.11] after:to-transparent",
       ],
       secondary: [
         // border
@@ -48,11 +49,13 @@ const buttonVariants = tv({
         "text-gray-900 dark:text-gray-50",
         // background color
         "bg-white dark:bg-gray-950",
-        //hover color
+        // hover color
         "hover:bg-gray-50 dark:hover:bg-gray-900/60",
         // disabled
         "disabled:text-gray-400",
         "disabled:dark:text-gray-600",
+        // shadow
+        "shadow-[0px_0px_0px_1px_rgba(0,0,0,0.07),0px_2px_3px_-1px_rgba(0,0,0,0.08),0px_1px_0px_0px_rgba(0,0,0,0.02)]",
       ],
       light: [
         // base
@@ -73,7 +76,7 @@ const buttonVariants = tv({
         // base
         "shadow-none",
         // border
-        "border-transparent",
+        "border-transparent border",
         // text color
         "text-gray-900 dark:text-gray-50",
         // disabled
