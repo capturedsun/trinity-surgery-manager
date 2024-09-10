@@ -16,6 +16,7 @@ import {
 } from "@/app/components/Dropdown"
 import { useUser } from "@/app/context/UserContext"
 // import { logout } from "@/app/utils/supabase/authActions"
+import { signOut } from "@/app/(auth)/actions"
 import {
   RiArrowRightUpLine,
   RiComputerLine,
@@ -25,7 +26,6 @@ import {
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import * as React from "react"
-import { signOut } from "@/app/auth/actions"
 
 export type DropdownUserProfileProps = {
   children: React.ReactNode
@@ -40,7 +40,7 @@ export function DropdownUserProfile({
   const [mounted, setMounted] = React.useState(false)
   const { theme, setTheme } = useTheme()
   const user = useUser();
-  
+
   React.useEffect(() => {
     setMounted(true)
   }, [])

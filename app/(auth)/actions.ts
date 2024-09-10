@@ -99,13 +99,13 @@ export async function signOut() {
         await signOutController();
       } catch (err) {
         if (err instanceof UnauthenticatedError) {
-          redirect("/auth/sign-in");
+          redirect("/sign-in");
         }
         captureException(err);
         throw err;
       }
 
-      redirect("/auth/sign-in");
+      redirect("/sign-in");
     },
   );
 }

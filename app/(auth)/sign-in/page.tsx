@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
-import { signIn } from "@/app/auth/actions";
+import { signIn } from "@/app/(auth)/actions";
 import { useState } from "react";
 import Image from "next/image";
 
