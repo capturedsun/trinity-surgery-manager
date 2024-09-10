@@ -24,7 +24,6 @@ const buttonVariants = tv({
         "isolate",
         // border
         "border-[hsla(153,100%,12%,1)]",
-        
         // text color
         "text-white dark:text-gray-50",
         
@@ -38,8 +37,9 @@ const buttonVariants = tv({
         "hover:border-[hsla(153,100%,22%,1)] dark:hover:border-[hsla(333,100%,22%,1)]",
         
         // disabled
-        "disabled:bg-indigo-100 disabled:text-gray-400",
-        "disabled:dark:bg-emerald-800 disabled:dark:text-emerald-400",
+        "disabled:bg-[hsla(153,100%,22%,0.5)] disabled:text-white/50",
+        "disabled:dark:bg-[hsla(333,100%,22%,0.5)] disabled:dark:text-gray-50/50",
+        "disabled:shadow-none",
         
         // custom box shadow
         "shadow-[0_0_0_1px_rgb(0,61,34),inset_0_1px_1px_0_rgba(255,255,255,0.07),0_2px_3px_0_rgba(34,42,53,0.2),0_1px_1px_0_rgba(0,0,0,0.24)]",

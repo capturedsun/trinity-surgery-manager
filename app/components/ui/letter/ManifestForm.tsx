@@ -121,7 +121,7 @@ export function ManifestForm() {
             value={formData.preOpDiagnosis}
             id="preOpDiagnosis"
             placeholder="Pre-op Diagnosis"
-            className="col-span-3 h-[75px]"
+            className="col-span-3"
             onChange={handleChange}
             disabled={isSubmitting}
           ></Textarea>
@@ -148,7 +148,7 @@ export function ManifestForm() {
             id="suppliesAndSpecialEquipment"
             placeholder="Supplies / Special Equipment"
             value={formData.suppliesAndSpecialEquipment}
-            className="col-span-3 h-[75px]"
+            className="col-span-3"
             onChange={handleChange}
             disabled={isSubmitting}
           ></Textarea>
