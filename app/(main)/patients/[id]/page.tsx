@@ -23,22 +23,32 @@ const PatientDetailsPage = () => {
     return <div>Loading...</div>;
   }
 
+  const textareaStyle = {
+    width: '100%',
+    padding: '10px',
+    border: 'none',
+    borderBottom: '1px solid #FFFFFF33',
+    outline: 'none',
+    resize: 'none',
+    boxShadow: 'none'
+  };
+
   return (
     <div className="flex flex-col h-screen">
-      <h1 className="text-lg font-semibold text-gray-900 sm:text-xl dark:text-gray-50">
+      <h1 className="text-2xl font-bold text-gray-900 sm:text-2xl dark:text-gray-50">
         {patientData.name}
       </h1>
       <p>DOB: {patientData.patientDob}</p>
       <p>Surgery: {patientData.surgery}</p>
 
       <div className="mt-10">
-        <h1 className="text-2xl font-bold">Comments</h1>
+        <h1 className="text-xl font-bold mb-2 ml-2">Comments</h1>
         <Textarea
             onChange={(e) => setValue(e.target.value)}
             id="description"
-            className="max-w-sm"
+            style={textareaStyle}
             placeholder="Start typing here..."
-            rows={6}
+            rows={1}
             value={value}
           />
 
