@@ -11,8 +11,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@tanstack/virtual-core": "3.9.0",
-      "@sentry/cli": "2.22.2"
+      "@tanstack/virtual-core": "3.9.0"
     }
   },
   "dependencies": {
@@ -87,8 +86,5 @@
     "prettier-plugin-tailwindcss": "^0.6.1",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
-  },
-  "overrides": {
-    "@sentry/cli": "2.22.2"
   }
 }
