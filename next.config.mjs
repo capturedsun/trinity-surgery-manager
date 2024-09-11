@@ -22,7 +22,7 @@ export default withSentryConfig(nextConfig, {
 org: "kepler-v0",
 project: "trinity-surgery-manager",
 
-authToken: "87ffe7866a1811efa1df32615c0bae48",
+authToken: "process.env.SENTRY_AUTH_TOKEN",
 
 // Only print logs for uploading source maps in CI
 silent: !process.env.CI,
