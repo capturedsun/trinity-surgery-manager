@@ -19,7 +19,7 @@ export default withSentryConfig(nextConfig, {
 // For all available options, see:
 // https://github.com/getsentry/sentry-webpack-plugin#options
 
-org: "kepler-3d",
+org: "kepler-v0",
 project: "trinity-surgery-manager",
 
 // Only print logs for uploading source maps in CI
@@ -39,8 +39,6 @@ tunnelRoute: "/monitoring",
 
 // Hides source maps from generated client bundles
 hideSourceMaps: true,
-
-telemetry: false,
 
 // Automatically tree-shake Sentry logger statements to reduce bundle size
 disableLogger: true,
