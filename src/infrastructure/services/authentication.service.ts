@@ -15,14 +15,14 @@ export class AuthenticationService implements IAuthenticationService {
     private _usersRepository: IUsersRepository,
   ) { }
 
-  async validateSession(): Promise<{ user: User; session: Session }> {
+  async validateSession(sessionId: Session["id"]): Promise<{ user: User; session: Session }> {
     return await startSpan(
       { name: "AuthenticationService > validateSession" },
       async () => {
-        const supabase = createClient()
-        const { data, error } = await supabase.auth.getSession()
+        const supabase = createClient();
+        const { data, error } = await supabase.auth.getSession();
 
-        if (error || !data.session) {
+        if (error || !data.session || data.session.id !== sessionId) {
           throw new UnauthenticatedError("Unauthenticated");
         }
 
