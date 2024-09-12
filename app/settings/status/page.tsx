@@ -68,7 +68,7 @@ export default function Statuses() {
                   <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-800 mt-3 divide-dashed">
                     {tags.map((tag: StatusTag) => (
                       <li key={tag.id} className="flex items-center justify-between py-2.5">
-                        <Badge className="inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2" showSquare variant={tag.style_variant ?? "default"}>
+                        <Badge className="inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2" showSquare variant={tag.style_variant as BadgeProps["variant"] ?? "default"}>
                           {tag.label}
                         </Badge>
                         <div className="flex items-center gap-2">
