@@ -27,12 +27,12 @@ export const getOrganizationStatusTags = async (orgCode: string) => {
     return categorizedTags
 };
 
-export const updateStatusTag = async (statusTag: StatusTag) => {
+export const updateStatusTag = async (tag: Partial<StatusTag>) => {
     const supabase = createClient();
     const { data, error } = await supabase
         .from('statuses')
-        .update(statusTag)
-        .eq('id', statusTag.id);
+        .update(tag)
+        .eq('id', tag.id);
 
     if (error) {
         console.error('Error updating status tag:', error);

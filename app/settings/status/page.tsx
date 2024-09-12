@@ -15,8 +15,8 @@ export default function Statuses() {
   const [categorizedTags, setCategorizedTags] = useState<CategorizedTags[]>([])
   const orgCode = userData?.org_code
 
-  const handleSave = async (tag: StatusTag) => {
-    updateStatusTag(tag)
+  const handleSave = async (tag: Partial<StatusTag>) => {
+    await updateStatusTag(tag)
   }
 
   useEffect(() => {
