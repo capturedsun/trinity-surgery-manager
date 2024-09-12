@@ -12,6 +12,7 @@ import {
 import { useUser } from "@/app/context/UserContext"
 import { cx, focusInput } from "@/app/lib/utils"
 import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react"
+import Image from "next/image"
 import React from "react"
 import { ModalAddWorkspace } from "./ModalAddWorkspace"
 
@@ -59,7 +60,7 @@ export const WorkspacesDropdownDesktop = () => {
               "disabled:pointer-events-none shadow-sm",
               "border-gray-300 dark:border-gray-800",
               "text-gray-900 dark:text-gray-50",
-              "bg-white dark:bg-gray-950",
+              `${dropdownOpen ? "bg-emerald-50" : "bg-white"} dark:bg-gray-950`,
               "hover:bg-emerald-50 dark:hover:bg-emerald-900/60",
               "disabled:text-gray-400 disabled:dark:text-gray-600",
               "shadow-[0px_0px_0px_1px_rgba(0,0,0,0.07),0px_2px_3px_-1px_rgba(0,0,0,0.08),0px_1px_0px_0px_rgba(0,0,0,0.02)]",
@@ -68,10 +69,11 @@ export const WorkspacesDropdownDesktop = () => {
             )}
           >
             <div className="flex w-full items-center justify-start gap-x-2">
+              <Image src="/icon.png" alt="logo" width={20} height={20} />
               <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
                 Trinity Orthopedics
               </p>
-              <span className="rounded-lg px-1 text-xs font-medium leading-normal bg-gray-100 text-gray-1100 border">Free</span>
+              <span className="rounded-lg px-1 text-xs font-medium leading-normal bg-emerald-100 text-emerald-800 border border-gray-200">Free</span>
               <svg className="opacity-50 relative ml-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 6.5L8.5 4L11 6.5" stroke="black" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M11 9.5L8.5 12L6 9.5" stroke="black" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>

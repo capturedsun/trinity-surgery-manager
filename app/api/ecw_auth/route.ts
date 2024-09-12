@@ -7,10 +7,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 async function constructECWAuthorizationRequest() {
-    const authorizationEndpoint = process.env.ECW_AUTHORIZATION_ENDPOINT
-    const tokenEndpoint = process.env.ECW_TOKEN_ENDPOINT
-    const ECW_CLIENT_ID = process.env.ECW_CLIENT_ID
-    const ECW_REDIRECT_URI = process.env.ECW_REDIRECT_URI
+    const ECW_AUTHORIZATION_ENDPOINT_SANDBOX = process.env.ECW_AUTHORIZATION_ENDPOINT_SANDBOX
+    const ECW_CLIENT_ID_SANDBOX = process.env.ECW_CLIENT_ID_SANDBOX
+    const ECW_CLIENT_SECRET_SANDBOX = process.env.ECW_CLIENT_SECRET_SANDBOX
+    const ECW_AUD_STAGING = process.env.ECW_AUD_STAGING
 
     const codeVerifier = crypto.randomBytes(64).toString('hex')
         .replace(/=/g, '')
@@ -26,28 +26,27 @@ async function constructECWAuthorizationRequest() {
 
     const params = {
         response_type: 'code',
-        client_id: ECW_CLIENT_ID,
-        redirect_uri: ECW_REDIRECT_URI,
+        client_id: ECW_CLIENT_ID_SANDBOX,
+        client_secret: ECW_CLIENT_SECRET_SANDBOX,
+        redirect_uri: 'https://trinity-surgery-manager.vercel.app/api/callback',
         state: 'random_state_value',
-        scope: 'openid fhirUser offline_access user/Encounter.read user/Patient.read',
-        aud: tokenEndpoint,
+        scope: 'user/Patient.read openid',
+        aud: ECW_AUD_STAGING,
         code_challenge: codeChallenge,
         code_challenge_method: 'S256',
     };
 
-    console.log(params)
-
-    const authorizeUrl = `${authorizationEndpoint}?${querystring.stringify(params)}`;
-    return authorizeUrl;
+    console.log(process.env.NODE_ENV)
+    console.log(`${ECW_AUTHORIZATION_ENDPOINT_SANDBOX}?${querystring.stringify(params)}`)
+    return `${ECW_AUTHORIZATION_ENDPOINT_SANDBOX}?${querystring.stringify(params)}`;
 }
 
 export async function GET() {
     try {
         const authorizeUrl = await constructECWAuthorizationRequest();
         const response = await fetch(authorizeUrl)
-        const data = await response.json()
-        console.log("response: ", data)
-        return NextResponse.json({ success: true, message: 'Connected to the database' });
+        const html = await response.text();
+        return new NextResponse(html, { headers: { 'Content-Type': 'text/html' } });
     } catch (error) {
         console.error('Error initiating authentication:', error);
         return NextResponse.json({ success: false, message: 'Database connection failed' }, { status: 500 });

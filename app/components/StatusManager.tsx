@@ -18,6 +18,7 @@ const statusManagerVariants = tv({
 });
 
 interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
+  className?: string;
   statusID: string;
 }
 
@@ -34,15 +35,18 @@ const StatusManager = React.forwardRef<HTMLDivElement, StatusManagerProps>(
       <div ref={forwardedRef} className={cx(statusManagerVariants(), className)} {...props}>
         <Select
           value={selectedStatus}
-          onValueChange={(value) => {
+          onValueChange={(value: string) => {
             setSelectedStatus(value);
             // Optionally, add additional logic here to handle the selected value change
           }}
         >
-          <Badge className="relative cursor-pointer hover:ring-2 transition" variant={(status?.variant as BadgeProps["variant"]) ?? ("default" as BadgeProps["variant"])}>
+          <Badge 
+            className="relative cursor-pointer hover:ring-2 transition inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2" 
+            showSquare={status?.variant !== "default"}
+            variant={(status?.variant as BadgeProps["variant"]) ?? "default"}
+          >
             {status?.label}
-            <SelectTrigger style={{ all: "unset", position: "absolute", top: "0px", left: "0px", zIndex: "10", width: "100%", height: "100%", opacity: "0px" }} className="">
-            </SelectTrigger>
+            <SelectTrigger style={{ all: "unset", position: "absolute", inset: 0, zIndex: 10, opacity: 0 }} />
           </Badge>
           <SelectContent>
             {statuses

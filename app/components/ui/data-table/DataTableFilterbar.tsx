@@ -9,6 +9,7 @@ import { useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
 import { ViewOptions } from "./DataTableViewOptions"
+import { ModalECWAuth } from "@/app/components/ModalECWAuth"
 
 import axios from 'axios'
 
@@ -19,6 +20,16 @@ interface DataTableToolbarProps<TData> {
 export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [htmlContent, setHtmlContent] = useState<string | null>(null);
+
+  async function handleECWAuth() {
+    try {
+        const res = await axios.get('/api/ecw_auth', { responseType: 'text' });
+        setHtmlContent(res.data);
+    } catch (error) {
+        console.error(error);
+    }
+}
 
   const debouncedSetFilterValue = useDebouncedCallback((value) => {
     table.getColumn("name")?.setFilterValue(value)
@@ -79,18 +90,19 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
       </div>
       <div className="flex items-center gap-2">
         <Button
+          id="ecw-auth-button"
           variant="secondary"
           className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
-          onClick={async () => {
-            try {
-              const res = await axios.get("/api/ecw_auth")
-              console.log(res)
-            } catch (error) {
-              console.log(error)
-            }
-          }}>
+          onClick={handleECWAuth}
+        >
           test
         </Button>
+        {htmlContent && (
+          <div
+            className="html-content fixed top-0 left-0 w-screen h-screen"
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+          />
+        )}
         <Button
           variant="secondary"
           className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
