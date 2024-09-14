@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { DI_SYMBOLS } from "@/di/types";
 import { type IUsersRepository } from "@/src/application/repositories/users.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";
