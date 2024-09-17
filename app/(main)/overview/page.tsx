@@ -172,7 +172,7 @@ export default function Overview() {
         >
           Referrals
         </h1>
-        <div className="mt-4 grid grid-cols-1 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10 xl:grid-cols-3">
+        <div className="mt-4 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10">
           {/* <ProgressBarCard
             title="Usage"
             change="+0.2%"
@@ -195,7 +195,7 @@ export default function Overview() {
           /> */}
           <CategoryBarCard
             title="Status Bottlenecks"
-            className="sm:col-span-1 xl:col-span-1"
+            className="sm:col-span-1 xl:col-span-1 mb-8"
           />
           <CircleChartCard
             title="Referral-to-Appointment"

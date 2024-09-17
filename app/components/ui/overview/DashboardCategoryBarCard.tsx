@@ -39,11 +39,11 @@ const chartdata = [
     count: 2,
   },
   {
-    status: "Accepted- Per Patient Request Follow Up to Schedule",
+    status: "Accepted - Call Patient",
     count: 0,
   },
   {
-    status: "Accepted- Patient will call back to schedule",
+    status: "Accepted - Patient Will Call",
     count: 6,
   },
 ]
