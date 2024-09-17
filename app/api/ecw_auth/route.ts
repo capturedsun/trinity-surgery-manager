@@ -44,9 +44,7 @@ async function constructECWAuthorizationRequest() {
 export async function GET() {
     try {
         const authorizeUrl = await constructECWAuthorizationRequest();
-        const response = await fetch(authorizeUrl)
-        const html = await response.text();
-        return new NextResponse(html, { headers: { 'Content-Type': 'text/html' } });
+        return new NextResponse(authorizeUrl, { headers: { 'Content-Type': 'text/html' } });
     } catch (error) {
         console.error('Error initiating authentication:', error);
         return NextResponse.json({ success: false, message: 'Database connection failed' }, { status: 500 });

@@ -25,7 +25,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   async function handleECWAuth() {
     try {
         const res = await axios.get('/api/ecw_auth', { responseType: 'text' });
-        setHtmlContent(res.data);
+        window.open(res.data, '_blank');
     } catch (error) {
         console.error(error);
     }
