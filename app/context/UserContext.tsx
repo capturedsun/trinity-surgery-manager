@@ -1,43 +1,24 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { User } from "@/app/data/schema";
+import React, { useEffect, ReactNode } from "react";
+import { User } from "@/src/entities/models/user";
+import { useUserStore } from "@/src/store/userStore";
 
-const UserContext = createContext<any>(null);
-
-export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [userData, setUserData] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export const UserProvider: React.FC<{ children: ReactNode, user: User }> = ({ children, user }) => {
+  const setUser = useUserStore((state: any) => state.setUser);
+  const setLoading = useUserStore((state: any) => state.setLoading);
 
   useEffect(() => {
-    const fetchUserData = async (retries = 3) => {
-      try {
-        const res = await fetch('/api/user', { method: 'GET' });
-        const data = await res.json();
-        setUserData(data?.user);
-        setError(null);
-      } catch (error) {
-        if (retries > 0) {
-          setTimeout(() => fetchUserData(retries - 1), 1000);
-        } else {
-          console.error("Error fetching user data:", error);
-          setError("Failed to fetch user data");
-          setUserData(null);
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
+    setUser(user);
+    setLoading(false);
+  }, [user, setUser, setLoading]);
 
-    fetchUserData();
-  }, []);
-
-  return (
-    <UserContext.Provider value={{ userData, error, loading }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <>{children}</>;
 };
 
-export const useUser = () => useContext(UserContext);
+export const useUser = () => {
+  const user = useUserStore((state: any) => state.user);
+  const error = useUserStore((state: any) => state.error);
+  const loading = useUserStore((state: any) => state.loading);
+  return { user, error, loading };
+};

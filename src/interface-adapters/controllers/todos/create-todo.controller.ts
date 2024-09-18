@@ -33,7 +33,7 @@ export async function createTodoController(
         throw new UnauthenticatedError("Must be logged in to create a todo");
       }
       const authenticationService = getInjection("IAuthenticationService");
-      const { user } = await authenticationService.validateSession(sessionId);
+      const { user } = await authenticationService.validateSession();
 
       const { data, error: inputParseError } = inputSchema.safeParse(input);
 

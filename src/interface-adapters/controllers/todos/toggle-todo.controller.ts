@@ -28,7 +28,7 @@ export async function toggleTodoController(
     }
 
     const authenticationService = getInjection("IAuthenticationService");
-    const { session } = await authenticationService.validateSession(sessionId);
+    const { user } = await authenticationService.validateSession();
 
     const { data, error: inputParseError } = inputSchema.safeParse(input);
 
@@ -38,7 +38,7 @@ export async function toggleTodoController(
 
     const todo = await toggleTodoUseCase(
       { todoId: data.todoId },
-      session.userId,
+      user.id,
     );
 
     return presenter(todo);

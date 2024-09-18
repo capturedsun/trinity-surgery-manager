@@ -25,9 +25,9 @@ export async function getTodosForUserController(
     }
 
     const authenticationService = getInjection("IAuthenticationService");
-    const { session } = await authenticationService.validateSession(sessionId);
+    const { user } = await authenticationService.validateSession();
 
-    const todos = await getTodosForUserUseCase(session.userId);
+    const todos = await getTodosForUserUseCase(user.id);
 
     return presenter(todos);
   });

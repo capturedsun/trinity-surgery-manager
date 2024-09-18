@@ -3,7 +3,6 @@ import { DI_SYMBOLS } from "@/di/types";
 import { type IUsersRepository } from "@/src/application/repositories/users.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";
 import { AuthenticationError, UnauthenticatedError } from "@/src/entities/errors/auth";
-import { Session } from "@/src/entities/models/session";
 import { User } from "@/src/entities/models/user";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { startSpan } from "@sentry/nextjs";
@@ -12,30 +11,34 @@ import { inject, injectable } from "inversify";
 @injectable()
 export class AuthenticationService implements IAuthenticationService {
   constructor(
-    @inject(DI_SYMBOLS.IUsersRepository)
-    private _usersRepository: IUsersRepository,
+    @inject(DI_SYMBOLS.IUsersRepository) 
+    private usersRepository: IUsersRepository,
   ) { }
 
-  async validateSession(sessionId: Session["id"]): Promise<{ user: User; session: Session }> {
+  async validateSession(): Promise<{ user: User }> {
     return await startSpan(
       { name: "AuthenticationService > validateSession" },
       async () => {
-        const supabase = createClient();
-        const { data, error } = await supabase.auth.getSession();
-
-        if (error || !data.session || data.session.id !== sessionId) {
-          throw new UnauthenticatedError("Unauthenticated");
+        const supabase = createClient()
+        const { data: authData, error: authError } = await supabase.auth.getUser()
+        
+        if (authError || !authData.user) {
+          throw new UnauthenticatedError("Failed to authenticate user")
         }
 
-        const user = await this._usersRepository.getUser(data.session.user.id);
+        const { data: user, error: userError } = await supabase
+          .from('users')
+          .select('*')
+          .eq('id', authData.user.id)
+          .single()
 
-        if (!user) {
-          throw new UnauthenticatedError("User doesn't exist");
+        if (userError || !user) {
+          throw new UnauthenticatedError("User not found in database")
         }
 
-        return { user, session: data.session };
-      },
-    );
+        return { user }
+      }
+    )
   }
 
   async createSession(

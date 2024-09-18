@@ -1,7 +1,6 @@
 "use client"
 import { Button } from "@/app/components/Button";
 import { Input } from "@/app/components/Input";
-import { signIn } from "@/app/(auth)/actions";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -14,16 +13,35 @@ export default function Login({
   const [error, setError] = useState<string>();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    event.preventDefault()
     setIsLoading(true)
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(event.currentTarget)
 
-    const res = await signIn(formData);
-    if (res && res.error) {
-      setError(res.error);
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'signIn',
+          username: formData.get('username'),
+          password: formData.get('password')
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Sign in failed')
+      }
+      
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'An error occurred')
+    } finally {
+      setIsLoading(false)
     }
-    setIsLoading(false)
-  };
+  }
 
   return (
     <div className="self-start mt-[clamp(2rem,10vw,5rem)] box-border flex flex-col items-stretch justify-center w-[25rem] max-w-[calc(100vw-2.5rem)] rounded-[.75rem] text-[#212126] relative overflow-hidden border-0 shadow-[0_5px_15px_0_rgba(0,0,0,0.08),0_15px_35px_-5px_rgba(25,28,33,0.2),0_0_0_1px_rgba(0,0,0,0.07)] bg-white transition-all duration-200 text-center z-10 border-solid border-[rgba(0,0,0,0.03)] p-10 gap-8">

@@ -16,7 +16,6 @@ import {
 } from "@/app/components/Dropdown"
 import { useUser } from "@/app/context/UserContext"
 // import { logout } from "@/app/utils/supabase/authActions"
-import { signOut } from "@/app/(auth)/actions"
 import {
   RiArrowRightUpLine,
   RiComputerLine,
@@ -47,6 +46,23 @@ export function DropdownUserProfile({
 
   if (!mounted) {
     return null
+  }
+
+  const handleSignOut = async () => {
+    const response = await fetch('/api/auth', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'signOut'
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (data.error) {
+      console.error(data.error)
+    }
+    router.push('/sign-in')
   }
   return (
     <>
@@ -117,7 +133,7 @@ export function DropdownUserProfile({
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={async () => { await signOut() }}>Sign out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

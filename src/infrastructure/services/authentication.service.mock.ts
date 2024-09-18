@@ -20,7 +20,7 @@ export class MockAuthenticationService implements IAuthenticationService {
     this._sessions = {};
   }
 
-  async validateSession(sessionId: Session["id"]): Promise<{ user: User; session: Session }> {
+  async validateSession(): Promise<{ user: User }> {
     const result = this._sessions[sessionId] ?? { user: null, session: null };
 
     if (!result.user || !result.session) {
@@ -29,7 +29,7 @@ export class MockAuthenticationService implements IAuthenticationService {
 
     const user = await this._usersRepository.getUser(result.user.id);
 
-    return { user: user!, session: result.session };
+    return { user: user! };
   }
 
   async createSession(

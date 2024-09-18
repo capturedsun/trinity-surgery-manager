@@ -75,8 +75,8 @@ export const WorkspacesDropdownDesktop = () => {
               </p>
               <span className="rounded-lg px-1 text-xs font-medium leading-normal bg-emerald-100 text-emerald-800 border border-gray-200">Free</span>
               <svg className="opacity-50 relative ml-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 6.5L8.5 4L11 6.5" stroke="black" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M11 9.5L8.5 12L6 9.5" stroke="black" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6 6.5L8.5 4L11 6.5" stroke="black" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M11 9.5L8.5 12L6 9.5" stroke="black" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
 
             </div>
