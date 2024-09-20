@@ -1,17 +1,17 @@
-import 'reflect-metadata';
+import { createClient } from "@/app/utils/supabase/client";
 import { DI_SYMBOLS } from "@/di/types";
 import { type IUsersRepository } from "@/src/application/repositories/users.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";
 import { AuthenticationError, UnauthenticatedError } from "@/src/entities/errors/auth";
 import { User } from "@/src/entities/models/user";
-import { createClient } from "@/src/infrastructure/supabase/server";
 import { startSpan } from "@sentry/nextjs";
 import { inject, injectable } from "inversify";
+import 'reflect-metadata';
 
 @injectable()
 export class AuthenticationService implements IAuthenticationService {
   constructor(
-    @inject(DI_SYMBOLS.IUsersRepository) 
+    @inject(DI_SYMBOLS.IUsersRepository)
     private usersRepository: IUsersRepository,
   ) { }
 
@@ -21,7 +21,7 @@ export class AuthenticationService implements IAuthenticationService {
       async () => {
         const supabase = createClient()
         const { data: authData, error: authError } = await supabase.auth.getUser()
-        
+
         if (authError || !authData.user) {
           throw new UnauthenticatedError("Failed to authenticate user")
         }

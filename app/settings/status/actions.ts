@@ -1,7 +1,7 @@
 "use server"
 
 import { StatusTag } from "@/app/data/schema";
-import { createClient } from "@/src/infrastructure/supabase/server";
+import { createClient } from "@/app/utils/supabase/server";
 
 export const getOrganizationStatusTags = async (orgCode: string) => {
     const supabase = createClient();

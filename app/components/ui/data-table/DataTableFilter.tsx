@@ -365,7 +365,7 @@ export function DataTableFilter<TData, TValue>({
               {getDisplayedFilter()}
             </div>
             <PopoverClose className="w-full" asChild>
-              <Button type="submit" className="w-full sm:py-1">
+              <Button type="submit" variant="solid" className="w-full sm:py-1">
                 Apply
               </Button>
             </PopoverClose>

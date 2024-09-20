@@ -50,6 +50,37 @@ const buttonVariants = tv({
         // gradient overlay
         "after:absolute after:content-[''] after:rounded-[inherit] after:-z-[1] after:inset-0 after:opacity-100 after:transition-[background-color,background,border-color,color,fill,stroke,opacity,box-shadow,transform] after:duration-100 after:bg-gradient-to-b after:from-white/[0.11] after:to-transparent",
       ],
+      solid: [
+        // base
+        "isolate",
+        // border
+        "border-[#1a1a1a]",
+        // text color
+        "text-white dark:text-gray-200",
+        
+        // background color
+        "bg-black dark:bg-[#0a0a0a]",
+        
+        // hover color
+        "hover:bg-[#333333] dark:hover:bg-[#1a1a1a]",
+        
+        // hover border
+        "hover:border-[#333333] dark:hover:border-[#1a1a1a]",
+        
+        // disabled
+        "disabled:bg-[#333333]/50 disabled:text-white/50",
+        "disabled:dark:bg-[#1a1a1a]/50 disabled:dark:text-gray-200/50",
+        "disabled:shadow-none",
+        
+        // custom box shadow
+        "shadow-[0_0_0_1px_rgb(26,26,26),inset_0_1px_1px_0_rgba(255,255,255,0.05),0_2px_3px_0_rgba(0,0,0,0.2),0_1px_1px_0_rgba(0,0,0,0.24)]",
+        
+        // hover alpha overlay
+        "hover:after:bg-[hsla(0,0%,100%,0.03)]",
+        
+        // gradient overlay
+        "after:absolute after:content-[''] after:rounded-[inherit] after:-z-[1] after:inset-0 after:opacity-100 after:transition-[background-color,background,border-color,color,fill,stroke,opacity,box-shadow,transform] after:duration-100 after:bg-gradient-to-b after:from-white/[0.07] after:to-transparent",
+      ],
       secondary: [
         // border
         "border-gray-300 dark:border-gray-800",

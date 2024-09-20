@@ -43,12 +43,12 @@ const badgeVariants = tv({
 })
 const badgeSquareStyle = (variant: BadgeProps['variant']) => {
   const variantClasses = {
-    default: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm',
-    neutral: 'bg-gray-500 dark:bg-gray-600 shadow-sm',
-    success: 'bg-emerald-500 dark:bg-emerald-600 shadow-sm',
-    error: 'bg-red-500 dark:bg-red-600 shadow-sm',
-    warning: 'bg-yellow-500 dark:bg-yellow-600 shadow-sm',
-    progress: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm',
+    default: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm border-indigo-400',
+    neutral: 'bg-gray-500 dark:bg-gray-600 shadow-sm border-gray-400',
+    success: 'bg-emerald-500 dark:bg-emerald-600 shadow-sm border-emerald-400',
+    error: 'bg-red-500 dark:bg-red-600 shadow-sm border-red-400',
+    warning: 'bg-yellow-500 dark:bg-yellow-600 shadow-sm border-yellow-400',
+    progress: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm border-indigo-400',
   }
 
   return variantClasses[variant as keyof typeof variantClasses] || variantClasses.default
@@ -71,7 +71,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         {showSquare && (
           <span
             className={cx(
-              "inline-block size-2 rounded-sm bg-rose-900",
+              "inline-block size-2 rounded-full border",
               badgeSquareStyle(variant)
             )}
           />

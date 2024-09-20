@@ -1,7 +1,4 @@
-
-import { drizzle } from 'drizzle-orm/postgres-js'
-import postgres from 'postgres'
-
+import { drizzle } from 'drizzle-orm/postgres-js';
 import { 
     networkProviders, 
     organizations, 
@@ -10,24 +7,29 @@ import {
     users, 
     statuses, 
     surgeryOrders 
-}   from "./schema";
+} from './schema';
 
-const connectionString = process.env.DATABASE_URL
+let client: any;
 
-const client = postgres(connectionString as string, {
-    prepare: false
-});
+if (typeof window === 'undefined') {
+  const postgres = require('postgres');
+  const connectionString = process.env.DATABASE_URL;
 
-export const db = drizzle(
-    client, { 
-        schema: { 
-            users, 
-            patients, 
-            patientActivity, 
-            organizations, 
-            networkProviders, 
-            statuses, 
-            surgeryOrders 
-        } 
-    }
-);
+  client = postgres(connectionString as string, {
+    prepare: false,
+  });
+}
+
+export const db = client ? drizzle(
+  client, { 
+    schema: { 
+      users, 
+      patients, 
+      patientActivity, 
+      organizations, 
+      networkProviders, 
+      statuses, 
+      surgeryOrders 
+    } 
+  }
+) : null;

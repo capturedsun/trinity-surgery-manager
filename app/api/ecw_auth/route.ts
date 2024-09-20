@@ -35,9 +35,7 @@ async function constructECWAuthorizationRequest() {
         code_challenge: codeChallenge,
         code_challenge_method: 'S256',
     };
-
-    console.log(process.env.NODE_ENV)
-    console.log(`${ECW_AUTHORIZATION_ENDPOINT_SANDBOX}?${querystring.stringify(params)}`)
+    
     return `${ECW_AUTHORIZATION_ENDPOINT_SANDBOX}?${querystring.stringify(params)}`;
 }
 
