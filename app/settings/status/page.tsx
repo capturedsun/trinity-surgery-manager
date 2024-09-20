@@ -5,15 +5,14 @@ import { Button } from "@/app/components/Button"
 import { ModalManageStatusTag } from "@/app/components/ui/settings/ModalManageStatusTag"
 import { CategorizedTags, StatusTag } from "@/app/data/schema"
 import { RiAddLine, RiEditLine } from "@remixicon/react"
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from "react"
 import { useUser } from "@/app/context/UserContext"
 import { getOrganizationStatusTags, updateStatusTag } from "./actions"
 
 export default function Statuses() {
-  const { data: userData, isLoading: isUserDataLoading } = useUser()
+  const { user } = useUser()
   const [categorizedTags, setCategorizedTags] = useState<CategorizedTags[]>([])
-  const orgCode = userData?.org_code
+  const orgCode = user?.org_code
 
   const handleSave = async (tag: Partial<StatusTag>) => {
     await updateStatusTag(tag)
@@ -52,7 +51,7 @@ export default function Statuses() {
               <ModalManageStatusTag
                 categories={categorizedTags ?? []}
                 onSave={handleSave}>
-                <Button variant="light" className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit">
+                <Button variant="solid" className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit">
                   <RiAddLine className="-ml-1 size-4 shrink-0" aria-hidden="true" />
                   Add status
                 </Button>

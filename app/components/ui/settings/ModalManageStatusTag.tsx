@@ -175,6 +175,7 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
             </DialogClose>
             <Button
               type="submit"
+              variant="solid"
               className="w-full sm:w-fit"
               disabled={!isFormValid || !hasChanged}
               isLoading={isLoading}

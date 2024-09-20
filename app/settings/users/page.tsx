@@ -36,7 +36,7 @@ export default function Users() {
             </p>
           </div>
           <ModalAddUser>
-            <Button className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit">
+            <Button variant="solid" className="mt-4 w-full gap-2 sm:mt-0 sm:w-fit">
               <RiAddLine className="-ml-1 size-4 shrink-0" aria-hidden="true" />
               Add user
             </Button>
