@@ -17,6 +17,13 @@ export const networkProviders = pgTable('network_providers', {
   status: text('status'),
 })
 
+export const todos = pgTable('todos', {
+  id: integer('id').primaryKey(),
+  createdAt: timestamp('created_at', { withTimezone: true }),
+  todo: text('todo'),
+  userId: text('user_id'),
+})
+
 // Organizations Table
 export const organizations = pgTable('organizations', {
   id: integer('id').primaryKey(),

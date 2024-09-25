@@ -1,7 +1,7 @@
-import { create } from 'zustand';
 import { User } from "@/src/entities/models/user";
+import { create } from 'zustand';
 
-interface UserState {
+interface UserStore {
   user: User | null;
   error: string | null;
   loading: boolean;
@@ -10,7 +10,7 @@ interface UserState {
   setLoading: (loading: boolean) => void;
 }
 
-export const useUserStore = create<UserState>((set) => ({
+export const useUserStore = create<UserStore>((set) => ({
   user: null,
   error: null,
   loading: true,

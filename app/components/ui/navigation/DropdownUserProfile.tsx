@@ -14,7 +14,6 @@ import {
   DropdownMenuSubMenuTrigger,
   DropdownMenuTrigger,
 } from "@/app/components/Dropdown"
-import { useUser } from "@/app/context/UserContext"
 // import { logout } from "@/app/utils/supabase/authActions"
 import {
   RiArrowRightUpLine,
@@ -25,6 +24,8 @@ import {
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import * as React from "react"
+
+import { useUser } from "@/app/hooks/useUser"
 
 export type DropdownUserProfileProps = {
   children: React.ReactNode
@@ -38,8 +39,7 @@ export function DropdownUserProfile({
   const router = useRouter();
   const [mounted, setMounted] = React.useState(false)
   const { theme, setTheme } = useTheme()
-  const user = useUser();
-
+  const { data: user, isLoading, error } = useUser()
   React.useEffect(() => {
     setMounted(true)
   }, [])
@@ -69,7 +69,7 @@ export function DropdownUserProfile({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
         <DropdownMenuContent align={align}>
-          <DropdownMenuLabel>{user?.userData?.email}</DropdownMenuLabel>
+          <DropdownMenuLabel>{user?.first_name} {user?.last_name}</DropdownMenuLabel>
           <DropdownMenuGroup>
             <DropdownMenuSubMenu>
               <DropdownMenuSubMenuTrigger>Theme</DropdownMenuSubMenuTrigger>

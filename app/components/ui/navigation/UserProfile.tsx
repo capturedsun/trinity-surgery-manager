@@ -4,11 +4,11 @@ import { Button } from "@/app/components/Button"
 import { cx, focusRing } from "@/app/lib/utils"
 import { RiMore2Fill } from "@remixicon/react"
 
-import { useAppDataContext } from '@/app/providers/app-data-provider';
+import { useUser } from "@/app/hooks/useUser"
 import { DropdownUserProfile } from "./DropdownUserProfile"
 
 export const UserProfileDesktop = () => {
-  const { user, isLoading, error } = useAppDataContext();
+  const { data: user, isLoading, error } = useUser();
   return (
     <DropdownUserProfile>
       <Button
@@ -53,7 +53,7 @@ export const UserProfileDesktop = () => {
   )
 }
 export const UserProfileMobile = () => {
-  const { user, isLoading, error } = useAppDataContext();
+  const { data: user, isLoading, error } = useUser()
 
   return (
     <DropdownUserProfile align="end">

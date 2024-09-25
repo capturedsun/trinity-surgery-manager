@@ -26,12 +26,12 @@ export function signUpUseCase(input: {
       { name: "hash password", op: "function" },
       () =>
         input.password
-        // hash(input.password, {
-        //   memoryCost: 19456,
-        //   timeCost: 2,
-        //   outputLen: 32,
-        //   parallelism: 1,
-        // }),
+      // hash(input.password, {
+      //   memoryCost: 19456,
+      //   timeCost: 2,
+      //   outputLen: 32,
+      //   parallelism: 1,
+      // }),
     );
 
     const authenticationService = getInjection("IAuthenticationService");

@@ -1,13 +1,13 @@
 import { inject, injectable } from "inversify";
 
+import { SESSION_COOKIE } from "@/config";
+import { DI_SYMBOLS } from "@/di/types";
+import { type IUsersRepository } from "@/src/application/repositories/users.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";
 import { UnauthenticatedError } from "@/src/entities/errors/auth";
-import { User } from "@/src/entities/models/user";
-import { Session, sessionSchema } from "@/src/entities/models/session";
-import { type IUsersRepository } from "@/src/application/repositories/users.repository.interface";
 import { Cookie } from "@/src/entities/models/cookie";
-import { DI_SYMBOLS } from "@/di/types";
-import { SESSION_COOKIE } from "@/config";
+import { Session, sessionSchema } from "@/src/entities/models/session";
+import { User } from "@/src/entities/models/user";
 
 @injectable()
 export class MockAuthenticationService implements IAuthenticationService {

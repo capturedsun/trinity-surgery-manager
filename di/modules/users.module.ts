@@ -1,7 +1,7 @@
 import { ContainerModule, interfaces } from "inversify";
 
-import { UsersRepository } from "@/src/infrastructure/repositories/users.repository";
 import { IUsersRepository } from "@/src/application/repositories/users.repository.interface";
+import { UsersRepository } from "@/src/infrastructure/repositories/users.repository";
 import { MockUsersRepository } from "@/src/infrastructure/repositories/users.repository.mock";
 
 import { DI_SYMBOLS } from "../types";

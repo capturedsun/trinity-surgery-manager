@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 
 export async function GET() {
   const supabase = createClient()
-
+  console.log("GET /api/user")
   const { data: user, error: userError } = await supabase
     .from('users')
     .select('*')

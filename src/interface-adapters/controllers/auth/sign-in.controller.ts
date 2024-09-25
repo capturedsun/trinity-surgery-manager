@@ -1,5 +1,6 @@
-import { z } from "zod";
 import { startSpan } from "@sentry/nextjs";
+import 'server-only';
+import { z } from "zod";
 
 import { signInUseCase } from "@/src/application/use-cases/auth/sign-in.use-case";
 import { InputParseError } from "@/src/entities/errors/common";
@@ -15,8 +16,8 @@ export async function signInController(
   return await startSpan({ name: "signIn Controller" }, async () => {
     const { data, error: inputParseError } = inputSchema.safeParse(input);
 
-    if (inputParseError)  throw new InputParseError("Invalid data", { cause: inputParseError });
+    if (inputParseError) throw new InputParseError("Invalid data", { cause: inputParseError });
 
-    return await signInUseCase(data);
+    await signInUseCase(data);
   });
 }

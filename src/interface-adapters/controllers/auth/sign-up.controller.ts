@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { startSpan } from "@sentry/nextjs";
+import { z } from "zod";
 
 import { signUpUseCase } from "@/src/application/use-cases/auth/sign-up.use-case";
 import { InputParseError } from "@/src/entities/errors/common";

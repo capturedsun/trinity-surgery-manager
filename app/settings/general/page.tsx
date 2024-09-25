@@ -12,12 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/Select"
-import { useUser } from "@/app/context/UserContext"
 import { roles } from "@/app/data/data"
 import { RiExternalLinkLine } from "@remixicon/react"
 
 export default function General() {
-  const userState = useUser();
 
   return (
     <>

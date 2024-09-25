@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/components/Dropdown"
-import { useUser } from "@/app/context/UserContext"
 import { cx, focusInput } from "@/app/lib/utils"
 import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react"
 import Image from "next/image"
@@ -28,8 +27,6 @@ const workspaces = [
 ]
 
 export const WorkspacesDropdownDesktop = () => {
-  const userState = useUser();
-  console.log(userState);
   const [dropdownOpen, setDropdownOpen] = React.useState(false)
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false)
   const dropdownTriggerRef = React.useRef<null | HTMLButtonElement>(null)

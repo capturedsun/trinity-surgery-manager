@@ -1,4 +1,4 @@
-import { createClient } from "@/app/utils/supabase/client";
+import { createClient } from "@/app/utils/supabase/server";
 import { DI_SYMBOLS } from "@/di/types";
 import { type IUsersRepository } from "@/src/application/repositories/users.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";

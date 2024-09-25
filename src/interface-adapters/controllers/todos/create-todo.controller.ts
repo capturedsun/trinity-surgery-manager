@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { startSpan } from "@sentry/nextjs";
+import { z } from "zod";
 
 import { getInjection } from "@/di/container";
 import { createTodoUseCase } from "@/src/application/use-cases/todos/create-todo.use-case";
