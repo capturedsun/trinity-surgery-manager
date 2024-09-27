@@ -1,5 +1,4 @@
 import { ManifestForm } from "@/app/components/ui/letter/ManifestForm"
-import Notice from "@/app/components/Notice"
 
 export default function Letter() {
   return (
@@ -12,7 +11,6 @@ export default function Letter() {
           Surgery Letter
         </h1>
         <ManifestForm />
-        <Notice/>
       </section>
     </>
   )

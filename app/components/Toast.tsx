@@ -8,6 +8,7 @@ import {
   RiErrorWarningFill,
   RiInformationFill,
   RiLoader2Fill,
+  RiCloseLine,
 } from "@remixicon/react"
 
 import { cx } from "@/app/lib/utils"
@@ -111,93 +112,66 @@ const Toast = React.forwardRef<
       <ToastPrimitives.Root
         ref={forwardedRef}
         className={cx(
-          // base
-          "flex h-fit min-h-16 w-full overflow-hidden rounded-md border shadow-lg shadow-black/5",
-          // background color
-          "bg-white dark:bg-[#090E1A]",
-          // border color
-          "border-gray-200 dark:border-gray-800",
-          // swipe
+          "flex flex-col gap-4 justify-center items-center cursor-default select-none text-sm",
           "data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none",
-          // transition
           "data-[state=open]:animate-slideLeftAndFade",
           "data-[state=closed]:animate-hide",
-          className,
+          className
         )}
         tremor-id="tremor-raw"
         {...props}
       >
-        <div
-          className={cx(
-            // base
-            "flex flex-1 items-start gap-3 p-4",
-            // border
-            !disableDismiss || action
-              ? "border-r border-gray-200 dark:border-gray-800"
-              : "",
-          )}
-        >
-          {Icon}
-          <div className="flex flex-col gap-1">
-            {title && (
-              <ToastPrimitives.Title className="text-sm font-semibold text-gray-900 dark:text-gray-50">
-                {title}
-              </ToastPrimitives.Title>
-            )}
-            {description && (
-              <ToastPrimitives.Description className="text-sm text-gray-600 dark:text-gray-400">
-                {description}
-              </ToastPrimitives.Description>
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col">
-          {action && (
-            <>
-              <ToastPrimitives.Action
-                altText={action.altText}
-                className={cx(
-                  // base
-                  "flex flex-1 items-center justify-center px-6 text-sm font-semibold transition-colors",
-                  // hover
-                  "hover:bg-gray-50 hover:dark:bg-gray-900/30",
-                  // text color
-                  "text-gray-800 dark:text-gray-100",
-                  // active
-                  "active:bg-gray-100 active:dark:bg-gray-800",
-                  {
-                    "text-red-600 dark:text-red-500": variant === "error",
-                  },
+        <div className={cx(
+          "relative z-10 h-fit w-[19rem] p-[1px] rounded-[1.3rem] bg-neutral-300 flex justify-center items-center shadow-lg transition-all duration-300"
+        )}>
+          <div className="relative z-30 h-full w-full p-[1px] rounded-[1.25rem] bg-gradient-to-b from-indigo-50 to-indigo-100">
+            <div className={cx("relative z-40 h-full w-full rounded-[1.2rem] bg-indigo-100 p-4 flex flex-col")}>
+              <div className="flex flex-col gap-2">
+                {!disableDismiss && (
+                  <ToastPrimitives.Close
+                    className={cx(
+                      "absolute top-2 right-2 p-2 flex h-fit flex-1 items-center justify-center  text-sm transition-opacity",
+                      "w-fit opacity-60 hover:opacity-100",
+                      "text-gray-600 dark:text-gray-400",
+                    )}
+                    aria-label="Close"
+                  >
+                    <RiCloseLine className="size-5 h-fit p-0 shrink-0 text-indigo-900 dark:text-gray-50" aria-hidden="true" />
+                  </ToastPrimitives.Close>
                 )}
-                onClick={(event) => {
-                  event.preventDefault()
-                  action.onClick()
-                }}
-                type="button"
-              >
-                {action.label}
-              </ToastPrimitives.Action>
-              <div className="h-px w-full bg-gray-200 dark:bg-gray-800" />
-            </>
-          )}
-          {!disableDismiss && (
-            <ToastPrimitives.Close
-              className={cx(
-                // base
-                "flex flex-1 items-center justify-center px-6 text-sm transition-colors",
-                // text color
-                "text-gray-600 dark:text-gray-400",
-                // hover
-                "hover:bg-gray-50 hover:dark:bg-gray-900/30",
-                // active
-                "active:bg-gray-100",
-                action ? "h-1/2" : "h-full",
-              )}
-              aria-label="Close"
-            >
-              Close
-            </ToastPrimitives.Close>
-          )}
+                {title && (
+                  <ToastPrimitives.Title className="font-semibold text-indigo-900 dark:text-gray-50">
+                    {title}
+                  </ToastPrimitives.Title>
+                )}
+                {description && (
+                  <ToastPrimitives.Description className="text-sm text-gray-600 dark:text-gray-400">
+                    {description}
+                  </ToastPrimitives.Description>
+                )}
+              </div>
+              <div className="flex flex-col">
+                {action && (
+                  <>
+                    {/* <ToastPrimitives.Action
+                      altText={action.altText}
+                      className={cx(
+                        "inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 group-[.destructive]:border-muted/40 group-[.destructive]:hover:border-destructive/30 group-[.destructive]:hover:bg-destructive group-[.destructive]:hover:text-destructive-foreground group-[.destructive]:focus:ring-destructive"
+                      )}
+                      onClick={(event) => {
+                        event.preventDefault()
+                        action.onClick()
+                      }}
+                      type="button"
+                    >
+                      {action.label}
+                    </ToastPrimitives.Action>
+                    <div className="h-px w-full bg-gray-200 dark:bg-gray-800" /> */}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </ToastPrimitives.Root>
     )

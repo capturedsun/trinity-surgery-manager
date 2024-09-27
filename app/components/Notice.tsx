@@ -47,7 +47,7 @@ interface NoticeProps extends VariantProps<typeof noticeVariants> {
 }
 
 
- const Notice = ({children, className}: NoticeProps) => {
+ export const Notice = ({children, className}: NoticeProps) => {
   return (
     <div className={cx("flex flex-col gap-4 justify-center items-center cursor-default select-none text-sm", className)}>
       <div
@@ -59,14 +59,14 @@ interface NoticeProps extends VariantProps<typeof noticeVariants> {
 
 
             <div className="self-end mt-auto flex flex-col gap-2">
-              <h2 className={cx("scroll-mt-10 font-semibold text-gray-900 dark:text-gray-50", className)}>Optimize Your Workflow</h2>
+              <h2 className={cx("scroll-mt-10 font-semibold text-indigo-900 dark:text-gray-50", className)}>Optimize Your Workflow</h2>
               <p className={cx("font-normal text-neutral-500", className)}>
                 Click here to streamline your tasks.
                 <br />
                 Automate repetitive processes and focus on your priorities.
               </p>
 
-              <p className={cx("text-black underline underline-offset-2 text-left w-20 whitespace-nowrap", className)}>
+              <p className={cx("text-indigo-900 underline underline-offset-2 text-left w-20 whitespace-nowrap", className)}>
                 <Link href="/">
                   Learn More
                 </Link>
@@ -78,5 +78,3 @@ interface NoticeProps extends VariantProps<typeof noticeVariants> {
     </div>
   )
 }
-
-export default Notice

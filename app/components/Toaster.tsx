@@ -4,7 +4,7 @@ import { useToast } from "@/app/lib/useToast"
 
 import { Toast, ToastProvider, ToastViewport } from "@/app/components/Toast"
 
-const Toaster = () => {
+export const Toaster = () => {
   const { toasts } = useToast()
 
   return (
@@ -16,5 +16,3 @@ const Toaster = () => {
     </ToastProvider>
   )
 }
-
-export { Toaster }
