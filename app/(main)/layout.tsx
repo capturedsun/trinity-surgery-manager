@@ -1,8 +1,12 @@
 import { ThemeProvider } from "next-themes";
 import { Sidebar } from "@/app/components/ui/navigation/Sidebar";
 import { QueryProvider } from "@/app/providers/QueryProvider";
+import { createClient } from "@/app/utils/supabase/server"
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+
+export default async function Layout({ children }: { children: React.ReactNode }) {
+
+
   return (
     <div className="mx-auto max-w-screen-2xl">
       <ThemeProvider defaultTheme="system" attribute="class">
@@ -16,5 +20,5 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </QueryProvider>
       </ThemeProvider>
     </div>
-  );
+  )
 }

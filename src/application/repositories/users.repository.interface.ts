@@ -1,9 +1,8 @@
 import type { User } from "@/src/entities/models/user";
-import 'server-only';
 
 export interface IUsersRepository {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-
+  getUser(): Promise<User | undefined>;
   createUser(input: User): Promise<User>;
+  updateUser(input: User): Promise<User>;
+  deleteUser(id: string): Promise<void>;
 }

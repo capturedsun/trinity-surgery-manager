@@ -8,7 +8,7 @@ import { signInController } from "@/src/interface-adapters/controllers/auth/sign
 import { signOutController } from "@/src/interface-adapters/controllers/auth/sign-out.controller";
 import { signUpController } from "@/src/interface-adapters/controllers/auth/sign-up.controller";
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   const { action, ...data } = await request.json()
 
   switch (action) {
@@ -60,7 +60,7 @@ async function handleSignOut() {
   return withServerActionInstrumentation("signOut", { recordResponse: true }, async () => {
     try {
       await signOutController()
-      redirect("/sign-in")
+      return NextResponse.json({ ok: true, redirect: "/sign-in" })
     } catch (err) {
       if (err instanceof UnauthenticatedError) {
         return NextResponse.json({ error: "Not authenticated" }, { status: 401 })

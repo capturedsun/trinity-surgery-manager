@@ -1,5 +1,6 @@
 import { ITodosRepository } from "@/src/application/repositories/todos.repository.interface";
 import { IUsersRepository } from "@/src/application/repositories/users.repository.interface";
+import { IOrganizationRepository } from "@/src/application/repositories/organization.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";
 
 export const DI_SYMBOLS = {
@@ -9,6 +10,7 @@ export const DI_SYMBOLS = {
   // Repositories
   ITodosRepository: Symbol.for("ITodosRepository"),
   IUsersRepository: Symbol.for("IUsersRepository"),
+  IOrganizationRepository: Symbol.for("IOrganizationRepository"),
 };
 
 export interface DI_RETURN_TYPES {
@@ -18,4 +20,5 @@ export interface DI_RETURN_TYPES {
   // Repositories
   ITodosRepository: ITodosRepository;
   IUsersRepository: IUsersRepository;
+  IOrganizationRepository: IOrganizationRepository;
 }

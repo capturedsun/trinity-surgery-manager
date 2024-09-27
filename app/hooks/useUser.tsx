@@ -1,6 +1,7 @@
 import { User } from "@/src/entities/models/user"
 import { toast } from "@/app/lib/useToast"
 import {useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { redirect } from "next/navigation";
 
 type GetUser = () => Promise<User>;
 type GetUsers = () => Promise<User[]>;
@@ -14,7 +15,7 @@ const getUsers: GetUsers = async (): Promise<User[]> => {
   })
   if (!response.ok) {
     const errorData = await response.json()
-    throw new Error(errorData.error || 'Failed to fetch users. JARVIS, initiate protocol "User Not Found".')
+    throw new Error(errorData.error || 'Failed to fetch users')
   }
   return response.json()
 }

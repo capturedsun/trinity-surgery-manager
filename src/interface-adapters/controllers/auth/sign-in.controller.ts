@@ -1,5 +1,4 @@
 import { startSpan } from "@sentry/nextjs";
-import 'server-only';
 import { z } from "zod";
 
 import { signInUseCase } from "@/src/application/use-cases/auth/sign-in.use-case";

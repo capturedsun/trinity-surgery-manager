@@ -1,6 +1,5 @@
-import { startSpan } from "@sentry/nextjs";
-
 import { getInjection } from "@/di/container";
+import { startSpan } from "@sentry/nextjs";
 import type { Todo } from "@/src/entities/models/todo";
 
 export function getTodosForUserUseCase(userId: string): Promise<Todo[]> {

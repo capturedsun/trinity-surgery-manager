@@ -1,19 +1,27 @@
-import { createClient } from "@/app/utils/supabase/server"
-import { NextResponse } from "next/server"
+import { captureException, withServerActionInstrumentation } from "@sentry/nextjs";
+import { NextRequest, NextResponse } from "next/server"
+import { userController } from "@/src/interface-adapters/controllers/user/user.controller"
 
 export async function GET() {
-  const supabase = createClient()
-  console.log("GET /api/user")
-  const { data: user, error: userError } = await supabase
-    .from('users')
-    .select('*')
-    .single()
+  return withServerActionInstrumentation("getUser", { recordResponse: true }, async () => {
+    try {
+      const user = await userController()
+      return NextResponse.json({ ok: true, user })
+    } catch (err) {
+      captureException(err)
+      return NextResponse.json({ ok: false, error: err }, { status: 500 })
+    }
+  })
+}
 
-  if (userError) {
-    return NextResponse.json({ ok: false, error: userError.message }, { status: 401 })
-  } else if (!user) {
-    return NextResponse.json({ ok: false, error: "User not found" }, { status: 404 })
-  }
+export async function PATCH(req: NextRequest) {
+  return withServerActionInstrumentation("updateUser", { recordResponse: true }, async () => {
+    return NextResponse.json({ ok: true, user: {} })
+  })
+}
 
-  return NextResponse.json({ ok: true, user })
+export async function DELETE(req: NextRequest) {
+  return withServerActionInstrumentation("deleteUser", { recordResponse: true }, async () => {
+    return NextResponse.json({ ok: true, user: {} })
+  })
 }

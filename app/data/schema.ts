@@ -1,3 +1,7 @@
+// **************************************************
+// DEPRECATED, WILL MOVE OVER TO /SRC/ENTITIES/MODELS/
+// **************************************************
+
 export type Usage = {
   surgeryOrder: string
   status: string

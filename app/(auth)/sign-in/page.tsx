@@ -24,7 +24,7 @@ export default function Login({
 
     try {
       const response = await fetch('/api/auth', {
-        method: 'GET',
+        method: 'POST',
         body: JSON.stringify({
           action: 'signIn',
           username: formData.get('username'),

@@ -65,6 +65,7 @@ export class AuthenticationService implements IAuthenticationService {
     return await startSpan({ name: "supabase.invalidateSession", op: "function" }, () => {
       const supabase = createClient()
       supabase.auth.signOut()
+      return Promise.resolve()
     });
   }
 }
