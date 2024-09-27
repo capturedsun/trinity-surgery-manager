@@ -13,6 +13,7 @@ import { cx, focusInput } from "@/app/lib/utils"
 import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react"
 import Image from "next/image"
 import React from "react"
+import { useEffect, useRef, useReducer } from "react"
 import { ModalAddWorkspace } from "./ModalAddWorkspace"
 
 const workspaces = [
@@ -26,15 +27,50 @@ const workspaces = [
   // Add more workspaces...
 ]
 
-export const WorkspacesDropdownDesktop = () => {
+export const WorkspacesDropdownDesktop = ({ isOpen }: { isOpen: boolean }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false)
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false)
   const dropdownTriggerRef = React.useRef<null | HTMLButtonElement>(null)
   const focusRef = React.useRef<null | HTMLButtonElement>(null)
-
+  const organizationLogoRef = React.useRef<null | HTMLImageElement>(null)
+  const organizationMetaRef = React.useRef<null | HTMLDivElement>(null)
+  const [dropdownMenuPadding, setDropdownMenuPadding] = React.useState(0.75)
+  const [dropDownMenuWidthInPixels, setDropDownMenuWidthInPixels] = React.useState(500)
+  const [computedWidthOfLogo, setComputedWidthOfLogo] = React.useState<null | number>(null)
+  const [computedWidthOfMeta, setComputedWidthOfMeta] = React.useState<null | number>(null)
   const handleDialogItemSelect = () => {
     focusRef.current = dropdownTriggerRef.current
   }
+
+  useEffect(() => {
+    if (organizationLogoRef.current) {
+      const width = window.getComputedStyle(organizationLogoRef.current).width;
+      console.log(width, "width OF organization logo")
+      setComputedWidthOfLogo(parseFloat(width))
+    }
+    if (organizationMetaRef.current) {
+      const width = window.getComputedStyle(organizationMetaRef.current).width;
+      console.log(width, "width OF organization meta")
+      setComputedWidthOfMeta(parseFloat(width))
+    }
+  }, []);
+
+  useEffect(() => {
+    if (computedWidthOfLogo && computedWidthOfMeta) {
+      if (isOpen) {
+        setDropDownMenuWidthInPixels((remToPx(dropdownMenuPadding) + (computedWidthOfMeta || 0) + (computedWidthOfLogo || 0))*2);
+      } else {
+        setDropDownMenuWidthInPixels((remToPx(dropdownMenuPadding)*2) + (computedWidthOfLogo || 0))
+      }
+    } 
+  }, [isOpen]);
+
+  const remToPx = (rem: number): number => {
+    const rootFontSize = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
+    return rem * rootFontSize;
+  };  
 
   const handleDialogItemOpenChange = (open: boolean) => {
     setHasOpenDialog(open)
@@ -52,12 +88,14 @@ export const WorkspacesDropdownDesktop = () => {
       >
         <DropdownMenuTrigger asChild>
           <button
+            style={{ width: `${dropDownMenuWidthInPixels}px` }}
             className={cx(
-              "relative w-full inline-flex items-center justify-center whitespace-nowrap rounded-[0.75rem] px-[0.75rem] py-[0.75rem] text-center text-base font-medium transition-all ease-in-out duration-200 font-500 text-[0.8125rem] leading-[1.38462] h-fit",
+              "relative transition-width duration-200 ease-in-out max-w-fit inline-flex items-center overflow-hidden justify-center whitespace-nowrap rounded-[0.75rem]  py-[0.75rem] text-center text-base font-medium font-500 text-[0.8125rem] leading-[1.38462] h-fit",
+              `px-[0.75rem]`,
               "disabled:pointer-events-none shadow-sm",
               "border-gray-300 dark:border-gray-800",
               "text-gray-900 dark:text-gray-50",
-              `${dropdownOpen ? "bg-emerald-50" : "bg-white"} dark:bg-gray-950`,
+              dropdownOpen ? "bg-emerald-50" : "bg-white",
               "hover:bg-emerald-50 dark:hover:bg-emerald-900/60",
               "disabled:text-gray-400 disabled:dark:text-gray-600",
               "shadow-[0px_0px_0px_1px_rgba(0,0,0,0.07),0px_2px_3px_-1px_rgba(0,0,0,0.08),0px_1px_0px_0px_rgba(0,0,0,0.02)]",
@@ -66,16 +104,23 @@ export const WorkspacesDropdownDesktop = () => {
             )}
           >
             <div className="flex w-full items-center justify-start gap-x-2">
-              <Image src="/icon.png" alt="logo" width={20} height={20} />
-              <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
-                Trinity Orthopedics
-              </p>
-              <span className="rounded-lg px-1 text-xs font-medium leading-normal bg-emerald-100 text-emerald-800 border border-gray-200">Free</span>
-              <svg className="opacity-50 relative ml-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 6.5L8.5 4L11 6.5" stroke="black" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M11 9.5L8.5 12L6 9.5" stroke="black" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-
+              <Image ref={organizationLogoRef} src="/icon.png" alt="logo" width={20} height={20} />
+              <div
+                ref={organizationMetaRef}
+                className={cx(
+                  "transition-all duration-200 ease-in-out flex gap-x-2 items-center",
+                  isOpen ? "opacity-100"  : "opacity-0"
+                )}
+              >
+                <p className="truncate whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">
+                  Trinity Orthopedics
+                </p>
+                <span className="rounded-lg px-1 text-xs font-medium leading-normal bg-emerald-100 text-emerald-800 border border-gray-200">Free</span>
+                <svg className="opacity-50 relative ml-auto" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 6.5L8.5 4L11 6.5" stroke="black" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M11 9.5L8.5 12L6 9.5" stroke="black" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
             </div>
           </button>
         </DropdownMenuTrigger>

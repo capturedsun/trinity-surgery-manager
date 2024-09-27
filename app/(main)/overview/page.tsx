@@ -1,19 +1,12 @@
 "use client"
 import { CategoryBarCard } from "@/app/components/ui/overview/DashboardCategoryBarCard"
-import { ChartCard } from "@/app/components/ui/overview/DashboardChartCard"
 import { CircleChartCard } from "@/app/components/ui/overview/DashboardCircleChart"
-import { Filterbar } from "@/app/components/ui/overview/DashboardFilterbar"
-import { ProgressBarCard } from "@/app/components/ui/overview/DashboardProgressBarCard"
 import { overviews } from "@/app/data/overview-data"
 import { OverviewData } from "@/app/data/schema"
-import { cx } from "@/app/lib/utils"
 import { subDays, toDate } from "date-fns"
 import React from "react"
 import { DateRange } from "react-day-picker"
-import { Toaster } from "@/app/components/Toaster"
 import { useToast } from "@/app/lib/useToast"
-import { Button } from "@/app/components/Button"
-import { Notice } from "@/app/components/Notice"
 
 
 export type PeriodValue = "previous-period" | "last-year" | "no-comparison"
@@ -167,7 +160,6 @@ export default function Overview() {
   const [selectedCategories, setSelectedCategories] = React.useState<string[]>(
     categories.map((category) => category.title),
   )
-  const { toast } = useToast()
 
   return (
     <>
@@ -214,21 +206,6 @@ export default function Overview() {
             data={donutChartData}
           />
         </div>
-        <Toaster />
-        <Button onClick={() => toast({
-          title: "Error",
-          action: {
-            label: "Dismiss",
-            altText: "Dismiss",
-            onClick: () => {
-              console.log("Dismiss")
-            }
-          },
-          description: "This is an error toast",
-          variant: "error",
-        })}>
-          Show Toast
-        </Button>
       </section>
       {/* <section aria-labelledby="usage-overview">
         <h1
