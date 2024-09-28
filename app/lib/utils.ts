@@ -75,3 +75,14 @@ export const formatters: { [key: string]: any } = {
     }).format(number),
   unit: (number: number) => `${usNumberformatter(number)}`,
 }
+
+export const remToPx = (rem: number): number => {
+  const rootFontSize = parseFloat(
+    getComputedStyle(document.documentElement).fontSize
+  );
+  return rem * rootFontSize;
+}; 
+
+export const tailwindSizeToPx = (size: number): number => {
+  return size * 4; // 1 unit = 4px in Tailwind
+}

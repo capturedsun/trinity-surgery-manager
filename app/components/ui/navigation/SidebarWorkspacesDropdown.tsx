@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/components/Dropdown"
-import { cx, focusInput } from "@/app/lib/utils"
+import { cx, focusInput, remToPx, tailwindSizeToPx } from "@/app/lib/utils"
 import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react"
 import Image from "next/image"
 import React from "react"
@@ -27,7 +27,7 @@ const workspaces = [
   // Add more workspaces...
 ]
 
-export const WorkspacesDropdownDesktop = ({ isOpen }: { isOpen: boolean }) => {
+export const WorkspacesDropdownDesktop = ({ isOpen, navWidth, setNavWidth, navPaddingTW }: { isOpen: boolean, navWidth: number, setNavWidth: (width: number) => void, navPaddingTW: number }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false)
   const [hasOpenDialog, setHasOpenDialog] = React.useState(false)
   const dropdownTriggerRef = React.useRef<null | HTMLButtonElement>(null)
@@ -36,8 +36,8 @@ export const WorkspacesDropdownDesktop = ({ isOpen }: { isOpen: boolean }) => {
   const organizationMetaRef = React.useRef<null | HTMLDivElement>(null)
   const [dropdownMenuPadding, setDropdownMenuPadding] = React.useState(0.75)
   const [dropDownMenuWidthInPixels, setDropDownMenuWidthInPixels] = React.useState(500)
-  const [computedWidthOfLogo, setComputedWidthOfLogo] = React.useState<null | number>(null)
   const [computedWidthOfMeta, setComputedWidthOfMeta] = React.useState<null | number>(null)
+  const [computedWidthOfLogo, setComputedWidthOfLogo] = React.useState<null | number>(null)
   const handleDialogItemSelect = () => {
     focusRef.current = dropdownTriggerRef.current
   }
@@ -45,33 +45,30 @@ export const WorkspacesDropdownDesktop = ({ isOpen }: { isOpen: boolean }) => {
   useEffect(() => {
     if (organizationLogoRef.current) {
       const width = window.getComputedStyle(organizationLogoRef.current).width;
-      console.log(width, "width OF organization logo")
+      console.log(width)
       setComputedWidthOfLogo(parseFloat(width))
     }
     if (organizationMetaRef.current) {
       const width = window.getComputedStyle(organizationMetaRef.current).width;
-      console.log(width, "width OF organization meta")
       setComputedWidthOfMeta(parseFloat(width))
     }
   }, []);
 
   useEffect(() => {
     if (computedWidthOfLogo && computedWidthOfMeta) {
+      let width = 0
       if (isOpen) {
-        setDropDownMenuWidthInPixels((remToPx(dropdownMenuPadding) + (computedWidthOfMeta || 0) + (computedWidthOfLogo || 0))*2);
+        width = (remToPx(dropdownMenuPadding) + (computedWidthOfMeta || 0) + (computedWidthOfLogo || 0))*2;
+        setDropDownMenuWidthInPixels(width);
+        setNavWidth(72*4)
       } else {
-        setDropDownMenuWidthInPixels((remToPx(dropdownMenuPadding)*2) + (computedWidthOfLogo || 0))
+        width = (remToPx(dropdownMenuPadding)*2) + (computedWidthOfLogo || 0)
+        setDropDownMenuWidthInPixels(width)
+        setNavWidth(width + tailwindSizeToPx(navPaddingTW)*2)
       }
     } 
   }, [isOpen]);
-
-  const remToPx = (rem: number): number => {
-    const rootFontSize = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
-    );
-    return rem * rootFontSize;
-  };  
-
+  
   const handleDialogItemOpenChange = (open: boolean) => {
     setHasOpenDialog(open)
     if (open === false) {
@@ -80,7 +77,6 @@ export const WorkspacesDropdownDesktop = ({ isOpen }: { isOpen: boolean }) => {
   }
   return (
     <>
-      {/* sidebar (lg+) */}
       <DropdownMenu
         open={dropdownOpen}
         onOpenChange={setDropdownOpen}
