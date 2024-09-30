@@ -66,7 +66,7 @@ const MorphingShape = ({ isOpen }: { isOpen: boolean }) => (
 
 
 export function Sidebar() {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
   const [isShifted, setIsShifted] = useState(false)
   const [navWidth, setNavWidth] = useState(72*4)
   const navPaddingTW = 4
@@ -152,17 +152,15 @@ export function Sidebar() {
                   >
                     <div 
                       className={cx(
-                        "w-[20px] h-[20px] flex items-center justify-center group",
+                        "w-[20px] h-[20px] flex items-center justify-center group relative",
+                        "after:content-[attr(data-name)] after:absolute after:left-full after:ml-2 after:whitespace-nowrap",
+                        isOpen ? "after:opacity-100": "after:opacity-0",
+                        "after:transition-opacity after:duration-200 ",
                       )}
+                      data-name={item.name}
                     >
                       <item.icon className="size-4 shrink-0 group-active:size-3.5 duration-200 ease-in-out" aria-hidden="true" />
                     </div>
-                    <span className={cx(
-                      isOpen ? "opacity-100" : "opacity-0",
-                      "transition duration-200 ease-linear"
-                    )}>
-                      {item.name}
-                    </span>
                   </Link>
                 </li>
               ))}
