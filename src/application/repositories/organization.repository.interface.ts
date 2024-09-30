@@ -6,7 +6,7 @@ export interface IOrganizationRepository {
   getOrganization(organizationId: string): Promise<Organization>;
   updateOrganization(input: Partial<Organization>): Promise<Organization>;
 
-  getStatuses(organizationId: string): Promise<Status[]>;
+  getStatuses(): Promise<Status[]>;
   createStatus(input: Status): Promise<Status>;
   updateStatus(id: number, input: Partial<Status>): Promise<Status>;
   deleteStatus(id: number): Promise<void>;

@@ -1,7 +1,7 @@
 // Tremor Raw TabNavigation [v0.0.0]
 
 import * as NavigationMenuPrimitives from "@radix-ui/react-navigation-menu";
-import * as React from "react";
+import * as React from 'react'
 
 import { cx, focusRing } from "@/app/lib/utils";
 
@@ -60,7 +60,6 @@ const TabNavigationLink = React.forwardRef<
         disabled ? "pointer-events-none" : "",
       )}
       ref={forwardedRef}
-      onSelect={() => { }}
       asChild={asChild}
       {...props}
     >

@@ -19,8 +19,8 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <ThemeProvider defaultTheme="system" attribute="class">
         <QueryProvider>
           <Sidebar />
-          <main className="lg:pl-72 relative mx-auto max-w-[1800px]">
-            <div className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
+          <main className="relative mx-auto max-w-[1800px] pl-72">
+            <div className=" p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
               {children}
             </div>
           </main>

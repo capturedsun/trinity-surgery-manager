@@ -14,8 +14,10 @@ import {
 } from "@/app/components/Select"
 import { roles } from "@/app/data/data"
 import { RiExternalLinkLine } from "@remixicon/react"
+import { useUser } from "@/app/hooks/useUser"
 
 export default function General() {
+  const { data: user, isLoading: isUserLoading, error: userError } = useUser()
 
   return (
     <>
@@ -40,13 +42,13 @@ export default function General() {
                     <Label htmlFor="first-name" className="font-medium">
                       First name
                     </Label>
-                    {userState.loading === false && (
+                    {isUserLoading === false && (
                       <Input
                         type="text"
                         id="first-name"
                         name="first-name"
                         autoComplete="given-name"
-                        value={userState.userData.first_name}
+                        value={user?.first_name}
                         placeholder=""
                         className="mt-2"
                       />
@@ -56,13 +58,13 @@ export default function General() {
                     <Label htmlFor="last-name" className="font-medium">
                       Last name
                     </Label>
-                    {userState.loading === false && (
+                    {isUserLoading === false && (
                       <Input
                         type="text"
                         id="last-name"
                         name="last-name"
                         autoComplete="family-name"
-                        value={userState.userData.last_name}
+                        value={user?.last_name}
                         placeholder=""
                         className="mt-2"
                       />
@@ -72,13 +74,13 @@ export default function General() {
                     <Label htmlFor="email" className="font-medium">
                       Email
                     </Label>
-                    {userState.loading === false && (
+                    {isUserLoading === false && (
                       <Input
                         type="email"
                         id="email"
                         name="email"
                         autoComplete="email"
-                        value={userState.userData.email || ""}
+                        value={""}
                         placeholder=""
                         className="mt-2"
                       />
@@ -88,7 +90,7 @@ export default function General() {
                     <Label htmlFor="email" className="font-medium">
                       Role
                     </Label>
-                    {userState.loading === false && (
+                    {isUserLoading === false && (
                       <Select defaultValue="member">
                         <SelectTrigger
                           name="role"

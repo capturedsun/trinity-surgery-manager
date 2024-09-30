@@ -20,14 +20,14 @@ import {
   SelectValue,
 } from "@/app/components/Select"
 import { updateStatusTag } from "@/app/settings/actions"
-import { CategorizedTags, StatusTag } from "@/app/data/schema"
+import { CategorizedStatuses, Status } from "@/src/entities/models/status"
 import { useEffect, useState } from "react"
 
 export type ModalManageStatusTagProps = {
   children: React.ReactNode
-  categories: CategorizedTags[]
-  existingTag?: StatusTag
-  onSave: (tag: Partial<StatusTag>) => void
+  categories: CategorizedStatuses
+  existingTag?: Status
+  onSave: (tag: Partial<Status>) => void
 }
 
 const styleVariants: BadgeProps["variant"][] = ["default", "neutral", "success", "error", "warning", "progress"]
@@ -54,22 +54,22 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const tagData: Partial<StatusTag> = {
-      label: name,
-      description,
-      category: selectedCategory,
-      style_variant: selectedStyleVariant,
-    }
-    if (existingTag) {
-      tagData.id = existingTag.id
-    }
-    setIsLoading(true)
-    const updatedTag = await updateStatusTag(tagData)
-    setIsLoading(false)
-    if (updatedTag) {
-      onSave(updatedTag as Partial<StatusTag>)
-      setIsOpen(false)
-    }
+    // const tagData: Partial<Status> = {
+    //   label: name,
+    //   description,
+    //   category: selectedCategory,
+    //   style_variant: selectedStyleVariant,
+    // }
+    // if (existingTag) {
+    //   tagData.id = existingTag.id
+    // }
+    // setIsLoading(true)
+    // const updatedTag = await updateStatusTag(tagData)
+    // setIsLoading(false)
+    // if (updatedTag) {
+    //   onSave(updatedTag as Partial<Status>)
+    //   setIsOpen(false)
+    // }
   }
 
   const modalTitle = existingTag ? "Edit status tag" : "Add a new status tag"
@@ -79,9 +79,7 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-lg">
-        <form
-          onSubmit={handleSubmit}
-        >
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>{modalTitle}</DialogTitle>
             <DialogDescription className="mt-1 text-sm leading-6">
@@ -129,9 +127,9 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
                   <SelectValue placeholder="Select category..." />
                 </SelectTrigger>
                 <SelectContent align="end">
-                  {categories.map((categoryObj) => (
-                    <SelectItem key={categoryObj.category} value={categoryObj.category}>
-                      {categoryObj.category.charAt(0).toUpperCase() + categoryObj.category.slice(1)}
+                  {Object.keys(categories).map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category.charAt(0).toUpperCase() + category.slice(1)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -152,10 +150,10 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
                 >
                   <SelectValue placeholder="Select style variant..." />
                 </SelectTrigger>
-                <SelectContent align="end" className="">
+                <SelectContent align="end">
                   {styleVariants.map((variant) => (
-                    <SelectItem key={variant} value={variant || ""} className="">
-                      <Badge variant={variant} className="">
+                    <SelectItem key={variant} value={variant || ""}>
+                      <Badge variant={variant}>
                         {variant}
                       </Badge>
                     </SelectItem>

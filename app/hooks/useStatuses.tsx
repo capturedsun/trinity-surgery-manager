@@ -15,7 +15,10 @@ const getStatuses: GetStatuses = async (): Promise<Status[]> => {
     const errorData = await response.json()
     throw new Error(errorData.error || 'Failed to fetch statuses.')
   }
-  return response.json()
+  const data = await response.json()
+  console.log(data.statuses, "data")
+
+  return data.statuses
 }
 
 const editStatus: EditStatus = async (statusData: Partial<Status>): Promise<Status> => {

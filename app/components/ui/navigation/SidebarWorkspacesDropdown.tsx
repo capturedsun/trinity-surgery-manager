@@ -72,7 +72,6 @@ export const WorkspacesDropdownDesktop = ({ isOpen, navWidth, setNavWidth, navPa
   useEffect(() => {
     if (organizationLogoRef.current) {
       const width = window.getComputedStyle(organizationLogoRef.current).width;
-      console.log(width)
       setComputedWidthOfLogo(parseFloat(width))
     }
     if (organizationMetaRef.current) {
@@ -148,6 +147,7 @@ export const WorkspacesDropdownDesktop = ({ isOpen, navWidth, setNavWidth, navPa
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
+          className="!min-w-58 !rounded-[0.75rem]"
           hidden={hasOpenDialog}
           onCloseAutoFocus={(event) => {
             if (focusRef.current) {
@@ -158,15 +158,19 @@ export const WorkspacesDropdownDesktop = ({ isOpen, navWidth, setNavWidth, navPa
           }}
         >
           <DropdownMenuGroup>
-            <DropdownMenuLabel>
+            <DropdownMenuLabel className="py-1">
               {user?.first_name} {user?.last_name}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem 
               onClick={handleSignOut}
-              className="cursor-pointer flex items-center gap-x-2.5"
+              className={cx(
+                "cursor-pointer flex items-center gap-x-2.5",
+                "hover:bg-gray-100 hover:dark:bg-gray-900",
+                "rounded-bl-[0.60rem] rounded-br-[0.60rem]"
+              )}
             >
-              <RiLogoutBoxRLine className="size-4 shrink-0 text-gray-500" aria-hidden="true" />
+              <RiLogoutBoxRLine className="size-4 shrink-0" aria-hidden="true" />
               Sign out
             </DropdownMenuItem>
           </DropdownMenuGroup>
