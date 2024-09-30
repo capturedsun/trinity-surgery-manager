@@ -20,7 +20,6 @@ import { useState, useEffect } from "react"
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
   { name: "Patients", href: siteConfig.baseLinks.patients, icon: RiGroupFill },
-  { name: "Letter", href: siteConfig.baseLinks.letter, icon: RiFileList3Line },
   {
     name: "Settings",
     href: siteConfig.baseLinks.settings.general,
@@ -66,7 +65,7 @@ const MorphingShape = ({ isOpen }: { isOpen: boolean }) => (
 
 
 export function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
   const [isShifted, setIsShifted] = useState(false)
   const [navWidth, setNavWidth] = useState(72*4)
   const navPaddingTW = 4

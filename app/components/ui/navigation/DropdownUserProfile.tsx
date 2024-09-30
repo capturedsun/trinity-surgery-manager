@@ -69,6 +69,7 @@ export function DropdownUserProfile({
       router.push(data.redirect)
     }
   }
+  
   return (
     <>
       <DropdownMenu>

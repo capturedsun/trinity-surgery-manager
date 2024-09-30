@@ -10,12 +10,14 @@ import {
   DropdownMenuTrigger,
 } from "@/app/components/Dropdown"
 import { cx, focusInput, remToPx, tailwindSizeToPx } from "@/app/lib/utils"
-import { RiArrowRightSLine, RiExpandUpDownLine } from "@remixicon/react"
+import { RiArrowRightSLine, RiExpandUpDownLine, RiLogoutBoxRLine } from "@remixicon/react"
 import Image from "next/image"
 import React from "react"
+import { toast } from "@/app/lib/useToast"
+import { useRouter } from "next/navigation"
 import { useEffect, useRef, useReducer } from "react"
 import { ModalAddWorkspace } from "./ModalAddWorkspace"
-
+import { useUser } from "@/app/hooks/useUser"
 const workspaces = [
   {
     value: "trinity-orthopedics",
@@ -38,8 +40,33 @@ export const WorkspacesDropdownDesktop = ({ isOpen, navWidth, setNavWidth, navPa
   const [dropDownMenuWidthInPixels, setDropDownMenuWidthInPixels] = React.useState(500)
   const [computedWidthOfMeta, setComputedWidthOfMeta] = React.useState<null | number>(null)
   const [computedWidthOfLogo, setComputedWidthOfLogo] = React.useState<null | number>(null)
+  const { data: user, isLoading, error } = useUser()
+  const router = useRouter()
+
   const handleDialogItemSelect = () => {
     focusRef.current = dropdownTriggerRef.current
+  }
+
+  const handleSignOut = async () => {
+    const response = await fetch('/api/auth', {
+      method: 'POST',
+      body: JSON.stringify({
+        action: 'signOut'
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const data = await response.json()
+    if (data.error) {
+      toast({
+        title: "Error",
+        description: data.error,
+        variant: "error",
+      })
+    } else if (data.redirect) {
+      router.push(data.redirect)
+    }
   }
 
   useEffect(() => {
@@ -132,15 +159,22 @@ export const WorkspacesDropdownDesktop = ({ isOpen, navWidth, setNavWidth, navPa
         >
           <DropdownMenuGroup>
             <DropdownMenuLabel>
-              Workspaces ({workspaces.length})
+              {user?.first_name} {user?.last_name}
             </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem 
+              onClick={handleSignOut}
+              className="cursor-pointer flex items-center gap-x-2.5"
+            >
+              <RiLogoutBoxRLine className="size-4 shrink-0 text-gray-500" aria-hidden="true" />
+              Sign out
+            </DropdownMenuItem>
           </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <ModalAddWorkspace
+          {/* <ModalAddWorkspace
             onSelect={handleDialogItemSelect}
             onOpenChange={handleDialogItemOpenChange}
             itemName="Add workspace"
-          />
+          /> */}
         </DropdownMenuContent>
       </DropdownMenu>
     </>
