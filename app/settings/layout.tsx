@@ -23,9 +23,10 @@ export default async function Layout({
     <div className="">
       <ThemeProvider defaultTheme="system" attribute="class">
         <QueryProvider>
-          <Sidebar />
-            <main className="lg:pl-72 relative mx-auto max-w-screen-3xl">
-              <div className="p-4 sm:px-6 sm:pb-10 sm:pt-10 lg:px-10 lg:pt-7">
+          <main className="w-full h-screen flex flex-row relative">
+            <Sidebar />
+            <div className="relative w-full flex flex-col items-center overflow-scroll">
+              <div className="p-4 sm:px-6 sm:pb-10 sm:pt-7 lg:px-10 lg:max-w-[800px] lg:pt-7 w-full ">
                 <h1 className="title">
                   Settings
                 </h1>
@@ -42,7 +43,8 @@ export default async function Layout({
                 </TabNavigation>
                 <div className="pt-6">{children}</div>
               </div>
-            </main>
+            </div>
+          </main>
         </QueryProvider>
       </ThemeProvider>
     </div>

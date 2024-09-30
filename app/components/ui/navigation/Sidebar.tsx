@@ -82,7 +82,7 @@ export function Sidebar() {
       <nav 
         style={{ width: `${navWidth}px` }}
         className={cx(
-          "fixed inset-y-0 z-50 flex flex-col transition-width duration-300 ease-in-out",
+          "sticky left-0 top-0 h-screen max-h-screen z-50 flex flex-col transition-width duration-300 ease-in-out",
         )}>
         <div className={cx(
           isShifted ? 
