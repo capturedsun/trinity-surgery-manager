@@ -64,12 +64,11 @@ const Toast = React.forwardRef<
     forwardedRef,
   ) => {
     let Icon: React.ReactNode
-
     switch (variant) {
       case "success":
         Icon = (
           <RiCheckboxCircleFill
-            className="size-5 shrink-0 text-emerald-600 dark:text-emerald-500"
+            className="size-5 shrink-0 text-indigo-600 dark:text-indigo-500"
             aria-hidden="true"
           />
         )
@@ -139,11 +138,14 @@ const Toast = React.forwardRef<
                     <RiCloseLine className="size-5 h-fit p-0 shrink-0 text-indigo-900 dark:text-gray-50" aria-hidden="true" />
                   </ToastPrimitives.Close>
                 )}
-                {title && (
-                  <ToastPrimitives.Title className="font-semibold text-indigo-900 dark:text-gray-50">
-                    {title}
-                  </ToastPrimitives.Title>
-                )}
+                <div className="flex flex-row gap-2">
+                  {Icon}
+                  {title && (
+                    <ToastPrimitives.Title className="font-semibold text-indigo-900 dark:text-gray-50">
+                      {title}
+                    </ToastPrimitives.Title>
+                  )}
+                </div>
                 {description && (
                   <ToastPrimitives.Description className="text-sm text-gray-600 dark:text-gray-400">
                     {description}

@@ -1,13 +1,13 @@
 import { Status } from "@/src/entities/models/status"
-import { toast } from "@/app/lib/useToast"
+import { useToast } from "@/app/lib/useToast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-type GetStatuses = () => Promise<Status[]>
+type GetStatuses = (categorized: boolean) => Promise<Status[]>
 type EditStatus = (statusData: Partial<Status>) => Promise<Status>
 type DeleteStatus = () => Promise<void>
 
-const getStatuses: GetStatuses = async (): Promise<Status[]> => {
-  const response = await fetch('/api/organization/statuses', {
+const getStatuses: GetStatuses = async (sortByCategory: boolean): Promise<Status[]> => {
+  const response = await fetch(`/api/organization/statuses?categorized=${sortByCategory}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   })
@@ -22,7 +22,7 @@ const getStatuses: GetStatuses = async (): Promise<Status[]> => {
 
 const editStatus: EditStatus = async (statusData: Partial<Status>): Promise<Status> => {
   const response = await fetch('/api/organization/statuses', {
-    method: 'PUT',
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(statusData),
   })
@@ -48,50 +48,63 @@ const deleteStatus: DeleteStatus = async (): Promise<void> => {
   return response.json()
 }
 
-export const useStatus = () => {
+export const useStatus = (sortByCategory: boolean) => {
   return useQuery({
     queryKey: ['statuses'],
     queryFn: async () => {
-      const data = await getStatuses()
+      const data = await getStatuses(sortByCategory)
       return data
     },
   })
 }
 
-export const useStatuses = () => {
+export const useStatuses = (sortByCategory: boolean) => {
   return useQuery({
     queryKey: ['statuses'],
     queryFn: async () => {
-      const data = await getStatuses()
+      const data = await getStatuses(sortByCategory)
       return data
     },
   })
 }
 
-export const useUpdateStatus = () => {
+export const useUpdateStatus = (options?: {
+    onSuccess?: (data: Status) => void,
+    onError?: (error: any) => void,
+  }
+) => {
+  const { toast } = useToast()
   const client = useQueryClient()
   const { mutate: updateStatusInfo } = useMutation({
     mutationFn: editStatus,
-    onMutate: async (newStatusData: Status) => {
+    onMutate: async (newStatusData: Partial<Status>) => {
       const previousStatusData = client.getQueryData<Status>(['statuses'])
-      client.setQueryData<Status>(['statuses', newStatusData.id], newStatusData)
+      client.setQueryData<Status>(['statuses', newStatusData.id], newStatusData as Status)
       return { previousStatusData }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       client.invalidateQueries({ queryKey: ['statuses'] })
       toast({
         variant: "success",
         title: "Updated Status",
         description: "We've updated the status",
+        duration: 2000,
       })
+      if (options?.onSuccess) {
+        options.onSuccess(data)
+      }
     },
-    onError: (error) => {
-      console.error('Error updating status:', error)
+    onError: (error: any) => {
+      console.error('Error updating status:', error.message || error)
       toast({
         variant: "error",
         title: "Update Failed",
         description: "We've failed to update the status",
+        duration: 2000,
       })
+      if (options?.onError) {
+        options.onError(error)
+      }
     },
   })
 
@@ -99,6 +112,7 @@ export const useUpdateStatus = () => {
 }
 
 export const useDeleteStatus = () => {
+  const { toast } = useToast()
   const client = useQueryClient()
   const { mutate: deleteStatusMutation } = useMutation({
     mutationFn: deleteStatus,

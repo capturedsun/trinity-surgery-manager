@@ -2,14 +2,14 @@
 
 import { Button } from "@/app/components/Button"
 import { Searchbar } from "@/app/components/Searchbar"
-import { statuses, surgeries } from "@/app/data/data"
+import { surgeries } from "@/app/data/data"
 import { RiDownloadLine } from "@remixicon/react"
 import { Table } from "@tanstack/react-table"
 import { useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
 import { ViewOptions } from "./DataTableViewOptions"
-import { ModalECWAuth } from "@/app/components/ModalECWAuth"
+import { useStatuses } from "@/app/hooks/useStatuses"
 
 import axios from 'axios'
 
@@ -21,15 +21,16 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
   const [searchTerm, setSearchTerm] = useState<string>("")
   const [htmlContent, setHtmlContent] = useState<string | null>(null);
+  const { data: statuses, isLoading: isStatusesLoading, error: statusesError } = useStatuses(false)
 
   async function handleECWAuth() {
     try {
-        const res = await axios.get('/api/ecw_auth', { responseType: 'text' });
-        window.open(res.data, '_blank');
+      const res = await axios.get('/api/ecw_auth', { responseType: 'text' });
+      window.open(res.data, '_blank');
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
-}
+  }
 
   const debouncedSetFilterValue = useDebouncedCallback((value) => {
     table.getColumn("name")?.setFilterValue(value)
@@ -44,11 +45,11 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-x-6">
       <div className="flex w-full flex-col gap-2 sm:w-fit sm:flex-row sm:items-center">
-        {table.getColumn("status")?.getIsVisible() && (
+        {table.getColumn("status")?.getIsVisible() && !isStatusesLoading && statuses && (
           <DataTableFilter
             column={table.getColumn("status")}
             title="Status"
-            options={statuses}
+            options={statuses.map((status) => ({ label: status.label, value: status.id.toString() }))}
             type="select"
           />
         )}

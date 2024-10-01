@@ -22,18 +22,16 @@ import {
 import { CategorizedStatuses, Status } from "@/src/entities/models/status"
 import { useEffect, useState } from "react"
 import { useUpdateStatus } from "@/app/hooks/useStatuses"
-import { Toaster } from "@/app/components/Toaster"
 
 export type ModalManageStatusTagProps = {
   children: React.ReactNode
   categories: CategorizedStatuses
   existingTag?: Status
-  onSave: (tag: Partial<Status>) => void
 }
 
 const styleVariants: BadgeProps["variant"][] = ["default", "neutral", "success", "error", "warning", "progress"]
 
-export function ModalManageStatusTag({ children, categories, existingTag, onSave }: ModalManageStatusTagProps) {
+export function ModalManageStatusTag({ children, categories, existingTag }: ModalManageStatusTagProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
@@ -43,8 +41,15 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
   const [isFormValid, setIsFormValid] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-
-  const updateStatusInfo = useUpdateStatus()
+  const updateStatus = useUpdateStatus({
+    onSuccess: () => {
+      setIsLoading(false)
+      setIsOpen(false)
+    },
+    onError: () => {
+      setIsLoading(false)
+    }
+  })
 
   useEffect(() => {
     if (existingTag) {
@@ -68,6 +73,7 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsLoading(true)
     const tagData: Partial<Status> = {
       label: name,
       description,
@@ -77,7 +83,13 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
     if (existingTag) {
       tagData.id = existingTag.id
     }
-    updateStatusInfo(tagData as Status)
+    try {
+      await updateStatus(tagData as Partial<Status>)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const modalTitle = existingTag ? "Edit status tag" : "Add a new status tag"

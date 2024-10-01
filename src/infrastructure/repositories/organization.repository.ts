@@ -72,8 +72,11 @@ export class OrganizationRepository implements IOrganizationRepository {
         .from('statuses')
         .update(input)
         .eq('id', input.id)
+        .select()
         .single()
+        
       if (error || !status) {
+        console.log(error)
         throw new DatabaseOperationError("Cannot update status.");
       }
       return status

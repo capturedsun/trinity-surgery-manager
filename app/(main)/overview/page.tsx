@@ -6,9 +6,10 @@ import { OverviewData } from "@/app/data/schema"
 import { subDays, toDate } from "date-fns"
 import React from "react"
 import { DateRange } from "react-day-picker"
-import { Toaster } from "@/app/components/Toaster"
 import { Button } from "@/app/components/Button"
+
 import { useToast } from "@/app/lib/useToast"
+import { Toaster } from "@/app/components/Toaster"
 
 
 
@@ -178,20 +179,21 @@ export default function Overview() {
         <div className="mt-4 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10">
           <Button
             isLoading={isLoading}
+            className={`my-4`}
             onClick={() => {
               setIsLoading(true)
               setTimeout(() => {
                 toast({
                   variant: "success",
                   title: "Updated Status",
-                  description: "Please wait..",
-                  duration: 2000,
+                  description: "Go to overview to see how toast is used",
+                  duration: 5000,
                 })
                 setIsLoading(false)
               }, 2000)
             }}
           >
-            Trigger Toast
+            Test Toast Trigger
           </Button>
           <Toaster />
           {/* <ProgressBarCard
