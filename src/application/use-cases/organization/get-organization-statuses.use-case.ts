@@ -16,7 +16,6 @@ export async function getOrganizationStatusesUseCase(): Promise<CategorizedStatu
         acc[category].push(status)
         return acc
       }, {})
-      console.log(categorizedStatuses)
       return categorizedStatuses
     }
   )

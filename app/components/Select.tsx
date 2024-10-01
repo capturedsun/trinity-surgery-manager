@@ -56,7 +56,7 @@ const SelectTrigger = React.forwardRef<
       )}
       {...props}
     >
-      <span className="truncate">{children}</span>
+      <span className="truncate p-[1px]">{children}</span>
       {/* <SelectPrimitives.Icon asChild>
         <RiArrowDownSLine
           className={cx(

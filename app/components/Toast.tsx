@@ -122,7 +122,7 @@ const Toast = React.forwardRef<
         {...props}
       >
         <div className={cx(
-          "relative z-10 h-fit w-[19rem] p-[1px] rounded-[1.3rem] bg-neutral-300 flex justify-center items-center shadow-lg transition-all duration-300"
+          "relative z-10 h-fit p-[1px] w-full  rounded-[1.3rem] bg-neutral-300 flex justify-center items-center shadow-lg transition-all duration-300"
         )}>
           <div className="relative z-30 h-full w-full p-[1px] rounded-[1.25rem] bg-gradient-to-b from-indigo-50 to-indigo-100">
             <div className={cx("relative z-40 h-full w-full rounded-[1.2rem] bg-indigo-100 p-4 flex flex-col")}>

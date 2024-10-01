@@ -65,13 +65,13 @@ export class OrganizationRepository implements IOrganizationRepository {
     })
   }
 
-  async updateStatus(id: number, input: Partial<Status>): Promise<Status> {
+  async updateStatus(input: Partial<Status>): Promise<Status> {
     return await startSpan({ name: "OrganizationRepository > updateStatus" }, async () => {
       const supabase = createClient()
       const { data: status, error } = await supabase
         .from('statuses')
         .update(input)
-        .eq('id', id)
+        .eq('id', input.id)
         .single()
       if (error || !status) {
         throw new DatabaseOperationError("Cannot update status.");

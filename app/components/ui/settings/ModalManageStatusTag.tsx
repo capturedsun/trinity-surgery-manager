@@ -19,9 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/Select"
-import { updateStatusTag } from "@/app/settings/actions"
 import { CategorizedStatuses, Status } from "@/src/entities/models/status"
 import { useEffect, useState } from "react"
+import { useUpdateStatus } from "@/app/hooks/useStatuses"
+import { Toaster } from "@/app/components/Toaster"
 
 export type ModalManageStatusTagProps = {
   children: React.ReactNode
@@ -39,8 +40,11 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
   const [selectedCategory, setSelectedCategory] = useState("")
   const [selectedStyleVariant, setSelectedStyleVariant] = useState<BadgeProps["variant"]>("default")
   const [hasChanged, setHasChanged] = useState(false)
-  const isFormValid = name.trim() !== "" && selectedCategory.trim() !== ""
+  const [isFormValid, setIsFormValid] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+
+
+  const updateStatusInfo = useUpdateStatus()
 
   useEffect(() => {
     if (existingTag) {
@@ -52,24 +56,28 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
     }
   }, [existingTag])
 
+  useEffect(() => {
+    if (isOpen) {
+      if (name?.trim() !== "" && selectedCategory?.trim() !== "" && selectedStyleVariant?.toString() !== "") {
+        setIsFormValid(true)
+      } else {
+        setIsFormValid(false)
+      }
+    }
+  }, [name, selectedCategory, selectedStyleVariant, isOpen])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // const tagData: Partial<Status> = {
-    //   label: name,
-    //   description,
-    //   category: selectedCategory,
-    //   style_variant: selectedStyleVariant,
-    // }
-    // if (existingTag) {
-    //   tagData.id = existingTag.id
-    // }
-    // setIsLoading(true)
-    // const updatedTag = await updateStatusTag(tagData)
-    // setIsLoading(false)
-    // if (updatedTag) {
-    //   onSave(updatedTag as Partial<Status>)
-    //   setIsOpen(false)
-    // }
+    const tagData: Partial<Status> = {
+      label: name,
+      description,
+      category: selectedCategory,
+      style_variant: selectedStyleVariant,
+    }
+    if (existingTag) {
+      tagData.id = existingTag.id
+    }
+    updateStatusInfo(tagData as Status)
   }
 
   const modalTitle = existingTag ? "Edit status tag" : "Add a new status tag"
@@ -127,11 +135,15 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
                   <SelectValue placeholder="Select category..." />
                 </SelectTrigger>
                 <SelectContent align="end">
-                  {Object.keys(categories).map((category) => (
+                  {categories ? Object.keys(categories).map((category) => (
                     <SelectItem key={category} value={category}>
                       {category.charAt(0).toUpperCase() + category.slice(1)}
                     </SelectItem>
-                  ))}
+                  )) : (
+                    <SelectItem key="no-categories" value="">
+                      No categories found
+                    </SelectItem>
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -141,7 +153,7 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
               </Label>
               <Select
                 onValueChange={(value) => setSelectedStyleVariant(value as BadgeProps["variant"])}
-                value={selectedStyleVariant}
+                defaultValue={selectedStyleVariant}
               >
                 <SelectTrigger
                   id="style-variant-status"
@@ -152,9 +164,12 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
                 </SelectTrigger>
                 <SelectContent align="end">
                   {styleVariants.map((variant) => (
-                    <SelectItem key={variant} value={variant || ""}>
+                    <SelectItem 
+                      key={variant} 
+                      value={variant || ""}
+                    >
                       <Badge variant={variant}>
-                        {variant}
+                        {variant ? variant.charAt(0).toUpperCase() + variant.slice(1) : "Default"}
                       </Badge>
                     </SelectItem>
                   ))}
@@ -175,7 +190,7 @@ export function ModalManageStatusTag({ children, categories, existingTag, onSave
               type="submit"
               variant="solid"
               className="w-full sm:w-fit"
-              disabled={!isFormValid || !hasChanged}
+              disabled={!isFormValid}
               isLoading={isLoading}
             >
               {submitButtonText}

@@ -118,7 +118,7 @@ export function Sidebar() {
         </div>
         <aside 
           className={cx(
-            "flex grow flex-col gap-y-6 overflow-y-auto  bg-white p-4 dark:border-gray-800 dark:bg-gray-950",
+            "relative flex grow flex-col gap-y-6 overflow-y-auto  bg-white p-4 dark:border-gray-800 dark:bg-gray-950",
             `p-${navPaddingTW}`,
           )}
         >

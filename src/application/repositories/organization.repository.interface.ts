@@ -8,6 +8,6 @@ export interface IOrganizationRepository {
 
   getStatuses(): Promise<Status[]>;
   createStatus(input: Status): Promise<Status>;
-  updateStatus(id: number, input: Partial<Status>): Promise<Status>;
+  updateStatus(input: Partial<Status>): Promise<Status>;
   deleteStatus(id: number): Promise<void>;
 }

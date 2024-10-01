@@ -49,6 +49,9 @@ export default function General() {
                         name="first-name"
                         autoComplete="given-name"
                         value={user?.first_name}
+                        onChange={(e) => {
+                          console.log(e.target.value)
+                        }}
                         placeholder=""
                         className="mt-2"
                       />
@@ -65,6 +68,9 @@ export default function General() {
                         name="last-name"
                         autoComplete="family-name"
                         value={user?.last_name}
+                        onChange={(e) => {
+                          console.log(e.target.value)
+                        }}
                         placeholder=""
                         className="mt-2"
                       />
@@ -82,6 +88,9 @@ export default function General() {
                         autoComplete="email"
                         value={""}
                         placeholder=""
+                        onChange={(e) => {
+                          console.log(e.target.value)
+                        }}
                         className="mt-2"
                       />
                     )}

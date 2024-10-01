@@ -4,7 +4,6 @@ import { Sidebar } from "@/app/components/ui/navigation/Sidebar"
 import { QueryProvider } from "@/app/providers/QueryProvider"
 import { ThemeProvider } from "next-themes"
 import Link from "next/link"
-
 const navigationSettings = [
   { name: "General", href: siteConfig.baseLinks.settings.general },
   { name: "Billing & Usage", href: siteConfig.baseLinks.settings.billing },
@@ -18,7 +17,6 @@ export default async function Layout({
   children: React.ReactNode
 }>) {
 
-
   return (
     <div className="">
       <ThemeProvider defaultTheme="system" attribute="class">
@@ -26,7 +24,7 @@ export default async function Layout({
           <main className="w-full h-screen flex flex-row relative">
             <Sidebar />
             <div className="relative w-full flex flex-col items-center overflow-scroll">
-              <div className="p-4 sm:px-6 sm:pb-10 sm:pt-7 lg:px-10 lg:max-w-[800px] lg:pt-7 w-full ">
+              <div className="p-4 sm:px-6 sm:pb-10 sm:pt-7 lg:px-10 lg:max-w-[1000px] lg:pt-7 w-full ">
                 <h1 className="title">
                   Settings
                 </h1>
@@ -34,8 +32,9 @@ export default async function Layout({
                   {navigationSettings.map((item) => (
                     <TabNavigationLink
                       key={item.name}
+                      href={item.href}
                       asChild
-                      active={item.name === "General"}
+                      active={true}
                     >
                       <Link href={item.href}>{item.name}</Link>
                     </TabNavigationLink>

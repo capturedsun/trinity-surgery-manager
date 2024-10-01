@@ -48,9 +48,6 @@ export function ManifestForm() {
   const [date, setDate] = useState<Date>()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState(initialFormData)
-  console.log("retrigger")
-  //   const { toast } = useToast();
-  //   const dispatch = useAppDispatch()
 
   const handleChange = (event: any) => {
     setFormData({

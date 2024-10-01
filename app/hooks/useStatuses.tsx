@@ -16,7 +16,6 @@ const getStatuses: GetStatuses = async (): Promise<Status[]> => {
     throw new Error(errorData.error || 'Failed to fetch statuses.')
   }
   const data = await response.json()
-  console.log(data.statuses, "data")
 
   return data.statuses
 }

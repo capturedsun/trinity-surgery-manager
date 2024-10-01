@@ -6,7 +6,10 @@ import { OverviewData } from "@/app/data/schema"
 import { subDays, toDate } from "date-fns"
 import React from "react"
 import { DateRange } from "react-day-picker"
+import { Toaster } from "@/app/components/Toaster"
+import { Button } from "@/app/components/Button"
 import { useToast } from "@/app/lib/useToast"
+
 
 
 export type PeriodValue = "previous-period" | "last-year" | "no-comparison"
@@ -148,6 +151,8 @@ const overviewsDates = overviews.map((item) => toDate(item.date).getTime())
 const maxDate = toDate(Math.max(...overviewsDates))
 
 export default function Overview() {
+  const { toast } = useToast()  
+  const [isLoading, setIsLoading] = React.useState(false)
   const [selectedDates, setSelectedDates] = React.useState<
     DateRange | undefined
   >({
@@ -171,6 +176,24 @@ export default function Overview() {
           Referrals
         </h1>
         <div className="mt-4 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10">
+          <Button
+            isLoading={isLoading}
+            onClick={() => {
+              setIsLoading(true)
+              setTimeout(() => {
+                toast({
+                  variant: "success",
+                  title: "Updated Status",
+                  description: "Please wait..",
+                  duration: 2000,
+                })
+                setIsLoading(false)
+              }, 2000)
+            }}
+          >
+            Trigger Toast
+          </Button>
+          <Toaster />
           {/* <ProgressBarCard
             title="Usage"
             change="+0.2%"

@@ -1,8 +1,8 @@
 // Tremor Raw TabNavigation [v0.0.0]
-
+"use client"
 import * as NavigationMenuPrimitives from "@radix-ui/react-navigation-menu";
 import * as React from 'react'
-
+import { usePathname } from "next/navigation"
 import { cx, focusRing } from "@/app/lib/utils";
 
 function getSubtree(
@@ -51,46 +51,50 @@ const TabNavigationLink = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitives.Link>,
     "onSelect"
   > & { disabled?: boolean }
->(({ asChild, disabled, className, children, ...props }, forwardedRef) => (
-  <NavigationMenuPrimitives.Item className="flex">
-    <NavigationMenuPrimitives.Link
-      aria-disabled={disabled}
-      className={cx(
-        "group relative flex shrink-0 select-none items-center justify-center",
-        disabled ? "pointer-events-none" : "",
-      )}
-      ref={forwardedRef}
-      asChild={asChild}
-      {...props}
-    >
-      {getSubtree({ asChild, children }, (children) => (
-        <span
-          className={cx(
-            // base
-            "-mb-px flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-3 pb-2 text-sm font-medium transition-all",
-            // text color
-            "text-gray-500 dark:text-gray-500",
-            // hover
-            "group-hover:text-gray-700 group-hover:dark:text-gray-400",
-            // border hover
-            "group-hover:border-gray-300 group-hover:dark:border-gray-400",
-            // selected
-            "group-data-[active]:border-emerald-600 group-data-[active]:text-emerald-600",
-            "group-data-[active]:dark:border-emerald-500 group-data-[active]:dark:text-emerald-500",
-            // disabled
-            disabled
-              ? "pointer-events-none text-gray-300 dark:text-gray-700"
-              : "",
-            focusRing,
-            className,
-          )}
-        >
-          {children}
-        </span>
-      ))}
-    </NavigationMenuPrimitives.Link>
-  </NavigationMenuPrimitives.Item>
-))
+>(({ asChild, disabled, href, className, children, ...props }, forwardedRef) => {
+  const pathname = usePathname()
+  const isActive = pathname === href
+  return (
+    <NavigationMenuPrimitives.Item className="flex">
+      <NavigationMenuPrimitives.Link
+        aria-disabled={disabled}
+        className={cx(
+          "group relative flex shrink-0 select-none items-center justify-center",
+          disabled ? "pointer-events-none" : "",
+        )}
+        ref={forwardedRef}
+        asChild={asChild}
+        {...props}
+      >
+        {getSubtree({ asChild, children }, (children) => (
+          <span
+            className={cx(
+              // base
+              "-mb-px flex items-center justify-center whitespace-nowrap border-b-2 border-transparent px-3 pb-2 text-sm font-medium transition-all",
+              // text color
+              "text-gray-500 dark:text-gray-500",
+              // hover
+              "group-hover:text-gray-700 group-hover:dark:text-gray-400",
+              // border hover
+              "group-hover:border-gray-300 group-hover:dark:border-gray-400",
+              // selected
+              isActive ? 
+              "group-data-[active]:border-emerald-600 group-data-[active]:text-emerald-600" : "",
+              // disabled
+              disabled
+                ? "pointer-events-none text-gray-300 dark:text-gray-700"
+                : "",
+              focusRing,
+              className,
+            )}
+          >
+            {children}
+          </span>
+        ))}
+        </NavigationMenuPrimitives.Link>
+      </NavigationMenuPrimitives.Item>
+  )
+})
 
 TabNavigationLink.displayName = "TabNavigationLink"
 
