@@ -3,6 +3,7 @@ import { useToast } from "@/app/lib/useToast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 type GetStatuses = (categorized: boolean) => Promise<Status[]>
+type AddStatus = (statusData: Partial<Status>) => Promise<Status>
 type EditStatus = (statusData: Partial<Status>) => Promise<Status>
 type DeleteStatus = () => Promise<void>
 
@@ -18,6 +19,21 @@ const getStatuses: GetStatuses = async (sortByCategory: boolean): Promise<Status
   const data = await response.json()
 
   return data.statuses
+}
+
+const addStatus: AddStatus = async (statusData: Partial<Status>): Promise<Status> => {
+  const response = await fetch('/api/organization/statuses', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(statusData),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json()
+    throw new Error(errorData.error || 'Failed to add status.')
+  }
+
+  return response.json()
 }
 
 const editStatus: EditStatus = async (statusData: Partial<Status>): Promise<Status> => {
@@ -109,6 +125,43 @@ export const useUpdateStatus = (options?: {
   })
 
   return updateStatusInfo
+}
+
+export const useAddStatus = (options?: {
+  onSuccess?: (data: Status) => void,
+  onError?: (error: any) => void,
+}) => {
+  const { toast } = useToast()
+  const client = useQueryClient()
+  const { mutateAsync: addStatusInfo } = useMutation({
+    mutationFn: addStatus,
+    onSuccess: (data) => {
+      client.invalidateQueries({ queryKey: ['statuses'] })
+      toast({
+        variant: "success",
+        title: "Added Status",
+        description: "We've added the status",
+        duration: 2000,
+      })
+      if (options?.onSuccess) {
+        options.onSuccess(data)
+      }
+    },
+    onError: (error: any) => {
+      console.error('Error adding status:', error.message || error)
+      toast({
+        variant: "error",
+        title: "Add Failed",
+        description: "We've failed to add the status",
+        duration: 2000,
+      })
+      if (options?.onError) {
+        options.onError(error)
+      }
+    },
+  })
+
+  return addStatusInfo
 }
 
 export const useDeleteStatus = () => {

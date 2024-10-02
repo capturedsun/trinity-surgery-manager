@@ -3,7 +3,8 @@ import { withServerActionInstrumentation } from "@sentry/nextjs"
 import { captureException } from "@sentry/nextjs"
 import { 
   getStatusesController, 
-  modifyStatusController 
+  modifyStatusController,
+  createStatusController
 } from "@/src/interface-adapters/controllers/organization/organization.controller"
 
 export function GET(request: Request) {
@@ -14,6 +15,19 @@ export function GET(request: Request) {
     try {
       const categorizedStatuses = await getStatusesController(categorized)
       return NextResponse.json({ ok: true, statuses: categorizedStatuses })
+    } catch (err) {
+      captureException(err)
+      return NextResponse.json({ ok: false, error: err }, { status: 500 })
+    }
+  })
+}
+
+export function POST(request: Request) {
+  return withServerActionInstrumentation("addOrganizationStatus", { recordResponse: true }, async () => {
+    try {
+      const statusData = await request.json()
+      const newStatus = await createStatusController(statusData)
+      return NextResponse.json({ ok: true, status: newStatus })
     } catch (err) {
       captureException(err)
       return NextResponse.json({ ok: false, error: err }, { status: 500 })

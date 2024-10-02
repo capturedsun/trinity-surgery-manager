@@ -6,7 +6,15 @@ import { createOrganizationStatusUseCase } from "@/src/application/use-cases/org
 import { Organization } from "@/src/entities/models/organization"
 import { NotFoundError } from "@/src/entities/errors/common"
 import { Status, CategorizedStatuses } from "@/src/entities/models/status"
-import { stat } from "fs"
+
+function camelCaseLabel(status: Status): Status {
+  return {
+    ...status,
+    name: status.label.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) =>
+      index === 0 ? match.toLowerCase() : match.toUpperCase()
+    ).replace(/\s+/g, '')
+  }
+}
 
 function presenterOrganization(organization: Organization) {
   return startSpan({ name: "getOrganization Presenter", op: "serialize" }, () => ({
@@ -81,7 +89,7 @@ export async function getStatusesController(sortByCategory: boolean): Promise<St
 
 export async function createStatusController(status: Status): Promise<Status> {
   return await startSpan({ name: "createOrganizationStatus Controller" }, async () => {
-    const newStatus = await createOrganizationStatusUseCase(status)
+    const newStatus = await createOrganizationStatusUseCase(camelCaseLabel(status))
     if (!newStatus) {
       throw new NotFoundError("Failed to create status")
     }

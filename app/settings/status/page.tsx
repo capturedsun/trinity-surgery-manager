@@ -16,15 +16,6 @@ export default function Statuses() {
   const [isSubmitStatus, setIsSubmitStatus] = useState(false)
   const { data: user, isLoading, error } = useUser()
   const { data: categorizedStatuses, isLoading: isStatusesLoading, error: statusesError } = useStatuses(true)
-  const updateStatusMutation = useUpdateStatus()
-
-  const handleSave = (status: Partial<Status>) => {
-    setIsSubmitStatus(true)
-    setTimeout(() => {
-      updateStatusMutation(status as Status)
-      setIsSubmitStatus(false)
-    }, 2000)
-  }
 
   return (
     <>
@@ -80,7 +71,7 @@ export default function Statuses() {
                               <ModalManageStatusTag 
                                 categories={categorizedStatuses} 
                                 existingTag={tag} 
-                                onSave={(status) => handleSave(status as Partial<Status>)}>
+                              >
                                 <Button variant="ghost" className="group size-8 hover:border hover:border-gray-300 hover:bg-gray-50 data-[state=open]:border-gray-300 data-[state=open]:bg-gray-50 hover:dark:border-gray-700 hover:dark:bg-gray-900 data-[state=open]:dark:border-gray-700 data-[state=open]:dark:bg-gray-900">
                                   <RiEditLine className="size-4 shrink-0 text-gray-500 group-hover:text-gray-700 group-hover:dark:text-gray-400" aria-hidden="true" />
                                 </Button>

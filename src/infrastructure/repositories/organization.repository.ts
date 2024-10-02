@@ -57,6 +57,7 @@ export class OrganizationRepository implements IOrganizationRepository {
       const { data: status, error } = await supabase
         .from('statuses')
         .insert(input)
+        .select()
         .single()
       if (error || !status) {
         throw new DatabaseOperationError("Cannot create status.");

@@ -21,7 +21,7 @@ import {
 } from "@/app/components/Select"
 import { CategorizedStatuses, Status } from "@/src/entities/models/status"
 import { useEffect, useState } from "react"
-import { useUpdateStatus } from "@/app/hooks/useStatuses"
+import { useUpdateStatus, useAddStatus } from "@/app/hooks/useStatuses"
 
 export type ModalManageStatusTagProps = {
   children: React.ReactNode
@@ -42,6 +42,16 @@ export function ModalManageStatusTag({ children, categories, existingTag }: Moda
   const [isLoading, setIsLoading] = useState(false)
 
   const updateStatus = useUpdateStatus({
+    onSuccess: () => {
+      setIsLoading(false)
+      setIsOpen(false)
+    },
+    onError: () => {
+      setIsLoading(false)
+    }
+  })
+
+  const addStatus = useAddStatus({
     onSuccess: () => {
       setIsLoading(false)
       setIsOpen(false)
@@ -73,6 +83,7 @@ export function ModalManageStatusTag({ children, categories, existingTag }: Moda
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log("submit")
     setIsLoading(true)
     const tagData: Partial<Status> = {
       label: name,
@@ -80,11 +91,13 @@ export function ModalManageStatusTag({ children, categories, existingTag }: Moda
       category: selectedCategory,
       style_variant: selectedStyleVariant,
     }
-    if (existingTag) {
-      tagData.id = existingTag.id
-    }
     try {
-      await updateStatus(tagData as Partial<Status>)
+      if (existingTag) {
+        tagData.id = existingTag.id
+        await updateStatus(tagData as Partial<Status>)
+      } else {
+        await addStatus(tagData as Partial<Status>)
+      }
     } catch (error) {
       console.error(error)
     } finally {
