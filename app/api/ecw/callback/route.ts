@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server'
 import { Buffer } from 'buffer'
 import crypto from 'crypto'
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 function generateCodeVerifier() {
   return crypto.randomBytes(32).toString('base64url')
-}
-
-function generateCodeChallenge(verifier: string) {
-  return crypto.createHash('sha256').update(verifier).digest('base64url')
 }
 
 export async function GET(request: Request) {

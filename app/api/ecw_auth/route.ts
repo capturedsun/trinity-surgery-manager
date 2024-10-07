@@ -1,8 +1,6 @@
-// pages/api/authenticate.js
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import querystring from 'querystring';
-import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 dotenv.config();
 
