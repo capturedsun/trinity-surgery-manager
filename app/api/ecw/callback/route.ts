@@ -49,6 +49,11 @@ async function fetchToken(code: string) {
   console.log('Basic auth generated')
   
   console.log('Sending token request...')
+  console.log(basicAuth, 'basicAuth')
+  console.log(code, 'code')
+  console.log(redirectUri, 'redirectUri')
+  console.log(codeVerifier, 'codeVerifier')
+  
   const response = await fetch(tokenUrl, {
     method: 'POST',
     headers: {
