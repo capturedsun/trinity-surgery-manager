@@ -5,10 +5,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-function generateCodeVerifier() {
-  return crypto.randomBytes(32).toString('base64url')
-}
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
@@ -26,6 +22,13 @@ export async function GET(request: Request) {
     console.error('Token fetch error:', error)
     return NextResponse.json({ error: 'Failed to fetch token' }, { status: 500 })
   }
+}
+
+function generateCodeVerifier() {
+  return crypto.randomBytes(64).toString('hex')
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
 }
 
 async function fetchToken(code: string) {
