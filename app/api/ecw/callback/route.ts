@@ -30,19 +30,24 @@ export async function GET(request: Request) {
 }
 
 async function fetchToken(code: string) {
+  console.log('Fetching token...')
   const clientId = process.env.ECW_CLIENT_ID
   const clientSecret = process.env.ECW_CLIENT_SECRET
   const redirectUri = process.env.ECW_REDIRECT_URI
   const tokenUrl = process.env.ECW_TOKEN_ENDPOINT
 
   if (!clientId || !clientSecret || !redirectUri || !tokenUrl) {
+    console.error('Missing environment variables')
     throw new Error('Missing environment variables')
   }
 
   const codeVerifier = generateCodeVerifier()
+  console.log('Code verifier generated')
 
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
+  console.log('Basic auth generated')
   
+  console.log('Sending token request...')
   const response = await fetch(tokenUrl, {
     method: 'POST',
     headers: {
@@ -58,8 +63,10 @@ async function fetchToken(code: string) {
   })
 
   if (!response.ok) {
+    console.error('Token fetch failed:', response.status, response.statusText)
     throw new Error('Token fetch failed')
   }
 
+  console.log('Token fetched successfully')
   return response.json()
 }
