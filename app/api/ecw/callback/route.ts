@@ -13,8 +13,6 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const state = searchParams.get('state')
-  console.log('Code:', code)
-  console.log('State:', state)
 
   if (!code || !state) {
     return NextResponse.json({ error: 'Missing code or state' }, { status: 400 })
@@ -31,10 +29,10 @@ export async function GET(request: Request) {
 }
 
 async function fetchToken(code: string) {
-  console.log('Fetching token...')
+
   const clientId = process.env.ECW_CLIENT_ID_SANDBOX
   const clientSecret = process.env.ECW_CLIENT_SECRET_SANDBOX
-  const redirectUri = process.env.ECW_REDIRECT_URI_SANDBOX
+  const redirectUri = "https://trinity-surgery-manager.vercel.app/api/ecw/callback"
   const tokenUrl = process.env.ECW_TOKEN_ENDPOINT_STAGING
 
   if (!clientId || !clientSecret || !redirectUri || !tokenUrl) {
