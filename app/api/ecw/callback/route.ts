@@ -14,6 +14,8 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const state = searchParams.get('state')
+  console.log('Code:', code)
+  console.log('State:', state)
 
   if (!code || !state) {
     return NextResponse.json({ error: 'Missing code or state' }, { status: 400 })
@@ -31,10 +33,10 @@ export async function GET(request: Request) {
 
 async function fetchToken(code: string) {
   console.log('Fetching token...')
-  const clientId = process.env.ECW_CLIENT_ID
-  const clientSecret = process.env.ECW_CLIENT_SECRET
-  const redirectUri = process.env.ECW_REDIRECT_URI
-  const tokenUrl = process.env.ECW_TOKEN_ENDPOINT
+  const clientId = process.env.ECW_CLIENT_ID_SANDBOX
+  const clientSecret = process.env.ECW_CLIENT_SECRET_SANDBOX
+  const redirectUri = process.env.ECW_REDIRECT_URI_SANDBOX
+  const tokenUrl = process.env.ECW_TOKEN_ENDPOINT_STAGING
 
   if (!clientId || !clientSecret || !redirectUri || !tokenUrl) {
     console.error('Missing environment variables')
@@ -42,7 +44,6 @@ async function fetchToken(code: string) {
   }
 
   const codeVerifier = generateCodeVerifier()
-  console.log('Code verifier generated')
 
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
   console.log('Basic auth generated')
@@ -68,5 +69,7 @@ async function fetchToken(code: string) {
   }
 
   console.log('Token fetched successfully')
-  return response.json()
+  const data = await response.json()
+  console.log('Token data:', data)
+  return data
 }
