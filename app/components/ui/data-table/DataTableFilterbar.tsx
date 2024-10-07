@@ -96,7 +96,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
         <Button
           id="ecw-auth-button"
           variant="secondary"
-          className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex bg-indigo-600 text-white hover:bg-indigo-400"
+          className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex bg-indigo-600 text-white hover:bg-indigo-400 shadow-[inset_0_2px_4px_0_rgba(99,102,241,1)]"
           onClick={handleECWAuth}
           isLoading={isLoading}
         >
