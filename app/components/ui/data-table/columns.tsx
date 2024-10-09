@@ -2,7 +2,7 @@
 
 
 import { ReferralCard } from "@/app/components/ReferralCard"
-import { StatusManager } from "@/app/components/StatusManager"
+import { StatusManager } from "@/app/components/Table/StatusManager"
 
 import { Usage } from "@/app/data/schema"
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
