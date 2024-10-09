@@ -9,7 +9,7 @@ async function constructECWAuthorizationRequest() {
     const ECW_CLIENT_ID_SANDBOX = process.env.ECW_CLIENT_ID_SANDBOX
     const ECW_CLIENT_SECRET_SANDBOX = process.env.ECW_CLIENT_SECRET_SANDBOX
     const ECW_AUD_STAGING = process.env.ECW_AUD_STAGING
-
+    console.log('test');
     const codeVerifier = crypto.randomBytes(64).toString('hex')
         .replace(/=/g, '')
         .replace(/\+/g, '-')
