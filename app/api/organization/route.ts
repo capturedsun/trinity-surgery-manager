@@ -1,7 +1,6 @@
+import { organizationController } from "@/src/controllers/organization/organization.controller"
+import { captureException, withServerActionInstrumentation } from "@sentry/nextjs"
 import { NextResponse } from "next/server"
-import { withServerActionInstrumentation } from "@sentry/nextjs"
-import { captureException } from "@sentry/nextjs"
-import { organizationController } from "@/src/interface-adapters/controllers/organization/organization.controller"
 
 export async function GET() {
   return withServerActionInstrumentation("getOrganization", { recordResponse: true }, async () => {

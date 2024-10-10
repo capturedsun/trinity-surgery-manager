@@ -84,7 +84,7 @@ export const columns = [
         const statusID = statuses.communication as string;
 
         return (
-          <StatusManager statusID={statusID} />
+          <StatusManager statusID={statusID} statusCode={"comm-status"}/>
         );
       }
     },
@@ -105,7 +105,7 @@ export const columns = [
         const statusID = statuses.insurance as string;
 
         return (
-          <StatusManager statusID={statusID} />
+          <StatusManager statusID={statusID} statusCode={"insurance-status"}/>
         );
       }
     },
@@ -126,7 +126,7 @@ export const columns = [
         const statusID = statuses.clearance as string;
 
         return (
-          <StatusManager statusID={statusID} />
+          <StatusManager statusID={statusID} statusCode={"clearance-status"}/>
         );
       }
     },

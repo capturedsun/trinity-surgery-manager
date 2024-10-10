@@ -9,6 +9,8 @@ import { statuses } from "@/app/data/data";
 import React from "react";
 import { tv } from "tailwind-variants";
 import { cx } from "@/app/lib/utils";
+import { useUpdateSurgeryOrder } from "@/app/hooks/useSurgeryOrders"
+import { SurgeryOrder } from "@/src/entities/models/surgeryOrder";
 
 const statusManagerVariants = tv({
   base: "flex gap-2",
@@ -17,22 +19,38 @@ const statusManagerVariants = tv({
 interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
   className?: string;
   statusID: string;
+  statusCode: string;
 }
 
-const StatusManager = ({ className, statusID, ...props }: StatusManagerProps) => {
+const StatusManager = ({ className, statusID, statusCode, ...props }: StatusManagerProps) => {
 	if (statusID === "") statusID = "none";
     const [selectedStatus, setSelectedStatus] = React.useState<string>(statusID);
-
     const status = statuses.find((item) => item.value === selectedStatus);
     const type = status?.type;
+
+	const updateSurgeryOrder = useUpdateSurgeryOrder({
+		onSuccess: () => {
+		},
+		onError: () => {
+		}
+	})
+	
+	const onStatusChange = async (value: string) => {
+		try {
+			console.log(statusCode, value)
+			await updateSurgeryOrder({[statusCode]: value} as Partial<SurgeryOrder>)
+		} catch (error) {
+			console.error(error)
+		}
+	}
 
     return (
 		<div className={cx(statusManagerVariants(), className)} {...props}>
 			<Select
 			value={selectedStatus}
 			onValueChange={(value: string) => {
-				console.log("value change");
 				setSelectedStatus(value);
+				onStatusChange(value);
 			}}
 			>
 			<Badge

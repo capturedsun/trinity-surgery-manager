@@ -1,5 +1,5 @@
+import { checkSessionController } from '@/src/controllers/auth/check-session.controller';
 import { NextResponse } from 'next/server';
-import { checkSessionController } from '@/src/interface-adapters/controllers/auth/check-session.controller';
 
 export async function GET() {
   try {

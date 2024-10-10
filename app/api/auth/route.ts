@@ -1,12 +1,11 @@
-import { captureException, withServerActionInstrumentation } from "@sentry/nextjs";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
+import { signInController } from "@/src/controllers/auth/sign-in.controller";
+import { signOutController } from "@/src/controllers/auth/sign-out.controller";
+import { signUpController } from "@/src/controllers/auth/sign-up.controller";
 import { AuthenticationError, UnauthenticatedError } from "@/src/entities/errors/auth";
 import { InputParseError } from "@/src/entities/errors/common";
-import { signInController } from "@/src/interface-adapters/controllers/auth/sign-in.controller";
-import { signOutController } from "@/src/interface-adapters/controllers/auth/sign-out.controller";
-import { signUpController } from "@/src/interface-adapters/controllers/auth/sign-up.controller";
+import { captureException, withServerActionInstrumentation } from "@sentry/nextjs";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const { action, ...data } = await request.json()

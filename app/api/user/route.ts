@@ -1,6 +1,6 @@
+import { userController } from "@/src/controllers/user/user.controller";
 import { captureException, withServerActionInstrumentation } from "@sentry/nextjs";
-import { NextRequest, NextResponse } from "next/server"
-import { userController } from "@/src/interface-adapters/controllers/user/user.controller"
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   return withServerActionInstrumentation("getUser", { recordResponse: true }, async () => {

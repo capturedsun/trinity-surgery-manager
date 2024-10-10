@@ -1,11 +1,10 @@
+import {
+  createStatusController,
+  getStatusesController,
+  modifyStatusController
+} from "@/src/controllers/organization/organization.controller"
+import { captureException, withServerActionInstrumentation } from "@sentry/nextjs"
 import { NextResponse } from "next/server"
-import { withServerActionInstrumentation } from "@sentry/nextjs"
-import { captureException } from "@sentry/nextjs"
-import { 
-  getStatusesController, 
-  modifyStatusController,
-  createStatusController
-} from "@/src/interface-adapters/controllers/organization/organization.controller"
 
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url)
