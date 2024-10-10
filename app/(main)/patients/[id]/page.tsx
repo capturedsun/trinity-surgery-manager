@@ -32,7 +32,7 @@ const PatientDetailsPage = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <h1 className="text-2xl font-bold text-gray-900 sm:text-2xl dark:text-gray-50">
+      <h1 className="text-2xl font-bold text-gray-900 sm:text-2xl ">
         {patientData.name}
       </h1>
       <p>DOB: {patientData.patientDob}</p>

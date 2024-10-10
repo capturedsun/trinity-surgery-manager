@@ -13,27 +13,21 @@ const badgeVariants = tv({
     variant: {
       default: [
         "bg-indigo-50 text-indigo-800 ring-indigo-500/30",
-        "dark:bg-indigo-400/10 dark:text-indigo-400 dark:ring-indigo-400/30",
       ],
       neutral: [
         "bg-gray-50 text-gray-700 ring-gray-500/30",
-        "dark:bg-gray-400/10 dark:text-gray-300 dark:ring-gray-400/20",
       ],
       success: [
         "bg-emerald-50 text-emerald-800 ring-emerald-600/30",
-        "dark:bg-emerald-400/10 dark:text-emerald-400 dark:ring-emerald-400/20",
       ],
       error: [
         "bg-red-50 text-red-800 ring-red-600/20",
-        "dark:bg-red-400/10 dark:text-red-400 dark:ring-red-400/20",
       ],
       warning: [
         "bg-yellow-50 text-yellow-800 ring-yellow-600/30",
-        "dark:bg-yellow-400/10 dark:text-yellow-500 dark:ring-yellow-400/20",
       ],
       progress: [
         "bg-indigo-50 text-indigo-800 ring-indigo-600/30",
-        "dark:bg-indigo-400/10 dark:text-indigo-500 dark:ring-indigo-400/20",
       ],
     },
   },
@@ -43,12 +37,12 @@ const badgeVariants = tv({
 })
 const badgeSquareStyle = (variant: BadgeProps['variant']) => {
   const variantClasses = {
-    default: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm border-indigo-400',
-    neutral: 'bg-gray-500 dark:bg-gray-600 shadow-sm border-gray-400',
-    success: 'bg-emerald-500 dark:bg-emerald-600 shadow-sm border-emerald-400',
-    error: 'bg-red-500 dark:bg-red-600 shadow-sm border-red-400',
-    warning: 'bg-yellow-500 dark:bg-yellow-600 shadow-sm border-yellow-400',
-    progress: 'bg-indigo-500 dark:bg-indigo-600 shadow-sm border-indigo-400',
+    default: 'bg-indigo-500 shadow-sm border-indigo-400',
+    neutral: 'bg-gray-500 shadow-sm border-gray-400',
+    success: 'bg-emerald-500 shadow-sm border-emerald-400',
+    error: 'bg-red-500 shadow-sm border-red-400',
+    warning: 'bg-yellow-500 shadow-sm border-yellow-400',
+    progress: 'bg-indigo-500 shadow-sm border-indigo-400',
   }
 
   return variantClasses[variant as keyof typeof variantClasses] || variantClasses.default

@@ -25,20 +25,19 @@ const buttonVariants = tv({
         // border
         "border-[hsla(153,100%,12%,1)]",
         // text color
-        "text-white dark:text-gray-50",
+        "text-white ",
         
         // background color
-        "bg-[hsla(153,100%,12%,1)] dark:bg-[hsla(333,100%,12%,1)]",
+        "bg-[hsla(153,100%,12%,1)] ",
         
         // hover color
-        "hover:bg-[hsla(153,100%,22%,1)] dark:hover:bg-[hsla(333,100%,22%,1)]",
+        "hover:bg-[hsla(153,100%,22%,1)] ",
         
         // hover border
-        "hover:border-[hsla(153,100%,22%,1)] dark:hover:border-[hsla(333,100%,22%,1)]",
+        "hover:border-[hsla(153,100%,22%,1)] ",
         
         // disabled
         "disabled:bg-[hsla(153,100%,22%,0.5)] disabled:text-white/50",
-        "disabled:dark:bg-[hsla(333,100%,22%,0.5)] disabled:dark:text-gray-50/50",
         "disabled:shadow-none",
         
         // custom box shadow
@@ -56,20 +55,19 @@ const buttonVariants = tv({
         // border
         "border-[#1a1a1a]",
         // text color
-        "text-white dark:text-gray-200",
+        "text-white ",
         
         // background color
-        "bg-black dark:bg-[#0a0a0a]",
+        "bg-black ",
         
         // hover color
-        "hover:bg-[#333333] dark:hover:bg-[#1a1a1a]",
+        "hover:bg-[#333333] ",
         
         // hover border
-        "hover:border-[#333333] dark:hover:border-[#1a1a1a]",
+        "hover:border-[#333333] ",
         
         // disabled
         "disabled:bg-[#333333]/50 disabled:text-white/50",
-        "disabled:dark:bg-[#1a1a1a]/50 disabled:dark:text-gray-200/50",
         "disabled:shadow-none",
         
         // custom box shadow
@@ -83,16 +81,15 @@ const buttonVariants = tv({
       ],
       secondary: [
         // border
-        "border-gray-300 dark:border-gray-800",
+        "border-gray-300 ",
         // text color
-        "text-gray-900 dark:text-gray-50",
+        "text-gray-900",
         // background color
-        "bg-white dark:bg-gray-950",
+        "bg-white",
         // hover color
-        "hover:bg-gray-50 dark:hover:bg-gray-900/60",
+        "hover:bg-gray-50",
         // disabled
         "disabled:text-gray-400",
-        "disabled:dark:text-gray-600",
         // shadow
         "shadow-[0px_0px_0px_1px_rgba(0,0,0,0.07),0px_2px_3px_-1px_rgba(0,0,0,0.08),0px_1px_0px_0px_rgba(0,0,0,0.02)]",
       ],
@@ -102,14 +99,13 @@ const buttonVariants = tv({
         // border
         "border-transparent",
         // text color
-        "text-gray-900 dark:text-gray-50",
+        "text-gray-900",
         // background color
-        "bg-gray-200 dark:bg-gray-900",
+        "bg-gray-200",
         // hover color
-        "hover:bg-gray-300/70 dark:hover:bg-gray-800/80",
+        "hover:bg-gray-300/70",
         // disabled
         "disabled:bg-gray-100 disabled:text-gray-400",
-        "disabled:dark:bg-gray-800 disabled:dark:text-gray-600",
       ],
       ghost: [
         // base
@@ -117,10 +113,9 @@ const buttonVariants = tv({
         // border
         "border-transparent border",
         // text color
-        "text-gray-900 dark:text-gray-50",
+        "text-gray-900",
         // disabled
         "disabled:bg-gray-100 disabled:text-gray-400",
-        "disabled:dark:bg-gray-800 disabled:dark:text-gray-600",
       ],
       destructive: [
         // text color
@@ -128,12 +123,11 @@ const buttonVariants = tv({
         // border
         "border-transparent",
         // background color
-        "bg-red-600 dark:bg-red-700",
+        "bg-red-600",
         // hover color
-        "hover:bg-red-700 dark:hover:bg-red-600",
+        "hover:bg-red-700",
         // disabled
         "disabled:bg-red-300 disabled:text-white",
-        "disabled:dark:bg-red-950 disabled:dark:text-red-400",
       ],
     },
   },

@@ -63,20 +63,20 @@ const TimeSegment = ({ segment, state }: TimeSegmentProps) => {
         // base
         "relative block w-full appearance-none rounded-md border px-2.5 py-1.5 text-left uppercase tabular-nums shadow-sm outline-none sm:text-sm",
         // border color
-        "border-gray-200 dark:border-gray-800",
+        "border-gray-200",
         // text color
-        "text-gray-900 dark:text-gray-50",
+        "text-gray-900",
         // background color
-        "bg-white dark:bg-gray-950",
+        "bg-white",
         // focus
         focusInput,
         // invalid (optional)
-        "invalid:border-red-500 invalid:ring-2 invalid:ring-red-200 group-aria-[invalid=true]/time-input:border-red-500 group-aria-[invalid=true]/time-input:ring-2 group-aria-[invalid=true]/time-input:ring-red-200 group-aria-[invalid=true]/time-input:dark:ring-red-400/20",
+        "invalid:border-red-500 invalid:ring-2 invalid:ring-red-200 group-aria-[invalid=true]/time-input:border-red-500 group-aria-[invalid=true]/time-input:ring-2 group-aria-[invalid=true]/time-input:ring-red-200",
         {
           "!w-fit border-none bg-transparent px-0 text-gray-400 shadow-none":
             isDecorator,
           hidden: isSpace,
-          "border-gray-200 bg-gray-100 text-gray-400 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-500":
+          "border-gray-200 bg-gray-100 text-gray-400":
             state.isDisabled,
           "!bg-transparent !text-gray-400": !segment.isEditable,
         },

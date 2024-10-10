@@ -19,15 +19,13 @@ const Checkbox = React.forwardRef<
         // base
         "relative inline-flex size-4 shrink-0 appearance-none items-center justify-center rounded border shadow-sm outline-none transition duration-100 enabled:cursor-pointer",
         // text color
-        "text-white dark:text-gray-50",
+        "text-white",
         // background color
-        "bg-white dark:bg-gray-950",
+        "bg-white",
         // border color
-        "border-gray-300 dark:border-gray-800",
+        "border-gray-300",
         // disabled
         "data-[disabled]:border-gray-300 data-[disabled]:bg-gray-100 data-[disabled]:text-gray-400",
-        "data-[disabled]:dark:border-gray-700 data-[disabled]:dark:bg-gray-800 data-[disabled]:dark:text-gray-500",
-        // "disabled:dark:border-gray-700 disabled:dark:bg-gray-800 disabled:dark:text-gray-500",
         // checked and enabled
         "enabled:data-[state=checked]:border-0 enabled:data-[state=checked]:border-transparent enabled:data-[state=checked]:bg-indigo-600",
         // indeterminate
