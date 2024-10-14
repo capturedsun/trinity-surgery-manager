@@ -24,12 +24,7 @@ export async function GET(request: Request) {
   }
 }
 
-function generateCodeVerifier() {
-  return crypto.randomBytes(64).toString('hex')
-    .replace(/=/g, '')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-}
+
 
 async function fetchToken(code: string) {
 
@@ -43,14 +38,16 @@ async function fetchToken(code: string) {
     throw new Error('Missing environment variables')
   }
 
-  const codeVerifier = generateCodeVerifier()
+  const codeVerifier = crypto.randomBytes(32)
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '')
+    .slice(0, 128);
+
+    
 
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
-  console.log(basicAuth, 'basicAuth')
-  console.log(code, 'code')
-  console.log(redirectUri, 'redirectUri')
-  console.log(codeVerifier, 'codeVerifier')
-  
   const response = await fetch(tokenUrl, {
     method: 'POST',
     headers: {
@@ -62,7 +59,7 @@ async function fetchToken(code: string) {
       code,
       redirect_uri: redirectUri,
       code_verifier: codeVerifier
-    }).toString()
+    })
   })
 
   if (!response.ok) {
