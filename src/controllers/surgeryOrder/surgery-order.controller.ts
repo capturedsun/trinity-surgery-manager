@@ -16,7 +16,8 @@ export async function surgeryOrderController(organizationId: string): Promise<Re
       if (!organization) {
         throw new NotFoundError("Organization not found")
       }
-      return presenterOrganization(organization)
+      // return presenterOrganization(organization)
+      return organization
     }
   )
 }
@@ -27,7 +28,8 @@ export async function modifyStatusController(updatedStatus: Partial<Status>): Pr
     if (!modifiedStatus) {
       throw new NotFoundError("Failed to modify status")
     }
-    return presenterStatus(modifiedStatus)
+    // return presenterStatus(modifiedStatus)
+    return modifiedStatus
   })
 }
 
@@ -37,6 +39,7 @@ export async function createStatusController(status: Status): Promise<Status> {
     if (!newStatus) {
       throw new NotFoundError("Failed to create status")
     }
-    return presenterStatus(newStatus)
+    // return presenterStatus(newStatus)
+    return newStatus
   })
 }

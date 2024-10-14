@@ -46,16 +46,13 @@ async function fetchToken(code: string) {
   const codeVerifier = generateCodeVerifier()
 
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
-  console.log('Basic auth generated')
-  
-  console.log('Sending token request...')
   console.log(basicAuth, 'basicAuth')
   console.log(code, 'code')
   console.log(redirectUri, 'redirectUri')
   console.log(codeVerifier, 'codeVerifier')
   
   const response = await fetch(tokenUrl, {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': `Basic ${basicAuth}`
