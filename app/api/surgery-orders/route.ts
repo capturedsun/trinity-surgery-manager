@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { withServerActionInstrumentation } from "@sentry/nextjs"
 import { captureException } from "@sentry/nextjs"
-import { surgeryOrderController } from "@/src/controllers/surgeryOrder/surgeryOrder.controller"
+import { surgeryOrderController } from "@/src/controllers/surgery-order/surgery-order.controller"
 
 export async function GET() {
   return withServerActionInstrumentation("getSurgeryOrder", { recordResponse: true }, async () => {
