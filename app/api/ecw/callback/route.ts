@@ -2,21 +2,51 @@ import { NextResponse } from 'next/server'
 import { Buffer } from 'buffer'
 import crypto from 'crypto'
 import dotenv from 'dotenv';
+import { createClient } from '@/app/utils/supabase/server';
 
 dotenv.config();
+
+async function getCodeVerifier() {
+  const supabase = createClient()
+
+  const { data: userData, error: userError } = await supabase.auth.getUser()
+  if (userError) {
+      console.error('Error fetching user data:', userError)
+      return
+  }
+  const userId = userData.user.id
+
+  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
+
+  const { data, error } = await supabase
+    .from('user_sessions')
+    .select('code_verifier')
+    .eq('user_id', userId)
+    .gt('created_at', fiveMinutesAgo)
+    .limit(1)
+    .single()
+
+  if (!data) {
+    throw new Error("No recent code verifier found. What, did you fall asleep during login?")
+  }
+
+  if (error) {
+    console.error('Error retrieving code verifier:', error);
+    return null;
+  }
+  return data?.code_verifier;
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const code = searchParams.get('code')
   const state = searchParams.get('state')
-
   if (!code || !state) {
     return NextResponse.json({ error: 'Missing code or state' }, { status: 400 })
   }
 
   try {
     const tokenResponse = await fetchToken(code)
-    console.log('Token response:', tokenResponse)
     return NextResponse.json({ success: true, token: tokenResponse })
   } catch (error) {
     console.error('Token fetch error:', error)
@@ -38,14 +68,9 @@ async function fetchToken(code: string) {
     throw new Error('Missing environment variables')
   }
 
-  const codeVerifier = crypto.randomBytes(32)
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '')
-    .slice(0, 128);
+  const codeVerifier = await getCodeVerifier()
 
-    
+  console.log(codeVerifier, 'codeVerifier')
 
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
   const response = await fetch(tokenUrl, {

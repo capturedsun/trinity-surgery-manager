@@ -2,18 +2,43 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import querystring from 'querystring';
 import dotenv from 'dotenv';
+import { createClient } from '@/app/utils/supabase/server';
 dotenv.config();
+
+async function storeCodeVerifier(codeVerifier: string) {
+    const supabase = createClient()
+    const { data: userData, error: userError } = await supabase.auth.getUser()
+    if (userError) {
+        console.error('Error fetching user data:', userError)
+        return
+    }
+    const userId = userData.user.id
+
+    const { data, error } = await supabase
+        .from('user_sessions')
+        .insert([{ 
+            user_id: userId, 
+            code_verifier: codeVerifier,
+        }]);
+    if (error) {
+        console.error('Error storing code verifier:', error)
+        return
+    }
+    console.log('Code verifier stored successfully')
+}
 
 async function constructECWAuthorizationRequest() {
     const ECW_AUTHORIZATION_ENDPOINT_SANDBOX = process.env.ECW_AUTHORIZATION_ENDPOINT_SANDBOX
     const ECW_CLIENT_ID_SANDBOX = process.env.ECW_CLIENT_ID_SANDBOX
     const ECW_CLIENT_SECRET_SANDBOX = process.env.ECW_CLIENT_SECRET_SANDBOX
     const ECW_AUD_STAGING = process.env.ECW_AUD_STAGING
-    console.log('test');
+    
     const codeVerifier = crypto.randomBytes(64).toString('hex')
         .replace(/=/g, '')
         .replace(/\+/g, '-')
         .replace(/\//g, '_');
+    
+    await storeCodeVerifier(codeVerifier)
 
     const codeChallenge = crypto.createHash('sha256')
         .update(codeVerifier)
