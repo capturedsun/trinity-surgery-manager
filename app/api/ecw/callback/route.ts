@@ -52,7 +52,7 @@ async function fetchToken(code: string) {
   console.log(codeVerifier, 'codeVerifier')
   
   const response = await fetch(tokenUrl, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': `Basic ${basicAuth}`
@@ -62,15 +62,15 @@ async function fetchToken(code: string) {
       code,
       redirect_uri: redirectUri,
       code_verifier: codeVerifier
-    })
+    }).toString()
   })
 
   if (!response.ok) {
-    console.error('Token fetch failed:', response.status, response.statusText)
-    throw new Error('Token fetch failed')
+    const errorBody = await response.text();
+    console.error('Token fetch failed:', response.status, response.statusText, errorBody);
+    throw new Error('Token fetch failed');
   }
 
-  console.log('Token fetched successfully')
   const data = await response.json()
   console.log('Token data:', data)
   return data
