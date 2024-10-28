@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { Buffer } from 'buffer'
+import crypto from 'crypto'
 import dotenv from 'dotenv';
 import { createClient } from '@/app/utils/supabase/server';
 
