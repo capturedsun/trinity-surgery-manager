@@ -39,7 +39,7 @@ async function constructECWAuthorizationRequest() {
         .replace(/\//g, '_');
     
     await storeCodeVerifier(codeVerifier)
-
+    console.log('Code verifier stored successfully')
     const codeChallenge = crypto.createHash('sha256')
         .update(codeVerifier)
         .digest('base64')
