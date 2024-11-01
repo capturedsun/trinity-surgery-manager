@@ -6,6 +6,7 @@ import { createOrganizationStatusUseCase } from "@/src/application/use-cases/org
 import { Organization } from "@/src/entities/models/organization"
 import { NotFoundError } from "@/src/entities/errors/common"
 import { Status, CategorizedStatuses } from "@/src/entities/models/status"
+import { User } from "@/src/entities/models/user"
 
 function camelCaseLabel(status: Status): Status {
   return {
@@ -16,9 +17,10 @@ function camelCaseLabel(status: Status): Status {
   }
 }
 
-function presenterOrganization(organization: Organization) {
+function presenterOrganization(organization: Organization, users: User[]) {
   return startSpan({ name: "getOrganization Presenter", op: "serialize" }, () => ({
-    organization
+    organization,
+    users
   }))
 }
 
@@ -50,15 +52,18 @@ function presenterCategorizedStatuses(statuses: Status[]) {
   )
 }
 
-export async function organizationController(organizationId: string): Promise<ReturnType<typeof presenterOrganization>> {
+export async function organizationController(): Promise<ReturnType<typeof presenterOrganization>> {
   return await startSpan(
     { name: "getOrganization Controller" },
     async () => {
-      const organization = await getOrganizationUseCase(organizationId)
+      const organization = await getOrganizationUseCase()
       if (!organization) {
         throw new NotFoundError("Organization not found")
       }
-      return presenterOrganization(organization)
+      if (!organization.users) {
+        throw new NotFoundError("Organization users not found")
+      }
+      return presenterOrganization(organization.organization, organization.users)
     }
   )
 }

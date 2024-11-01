@@ -100,7 +100,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
           onClick={handleECWAuth}
           isLoading={isLoading}
         >
-         Test ECW Auth
+         Connect ECW Auth
         </Button>
         {htmlContent && (
           <div

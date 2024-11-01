@@ -5,21 +5,62 @@ import { DatabaseOperationError } from "@/src/entities/errors/common";
 import { IOrganizationRepository } from "@/src/application/repositories/organization.repository.interface";
 import { Organization } from "@/src/entities/models/organization";
 import { Status } from "@/src/entities/models/status";
+import { User } from "@/src/entities/models/user";
+import { UnauthenticatedError } from "@/src/entities/errors/auth";
 
 @injectable()
 export class OrganizationRepository implements IOrganizationRepository {
-  async getOrganization(organizationId: string): Promise<Organization> {
+  async getOrganization(): Promise<{ organization: Organization, users: User[] }> {
     return await startSpan({ name: "OrganizationRepository > getOrganization" }, async () => {
       const supabase = createClient()
-      const { data: organization, error } = await supabase
-        .from('organizations')
+      const { data: authData, error: authError } = await supabase.auth.getUser()
+
+      if (authError || !authData.user) {
+        throw new UnauthenticatedError("Failed to authenticate user")
+      }
+
+      const { data: user, error: userError } = await supabase
+        .from('users')
         .select('*')
-        .eq('id', organizationId)
+        .eq('id', authData.user.id)
         .single()
+
+      if (userError || !user) {
+        throw new UnauthenticatedError("User not found in database")
+      }
+
+      const organizationCode = user.org_code
+
+      const [{ data: organization, error }, { data: users, error: usersError }] = await Promise.all([
+        supabase
+          .from('organizations')
+          .select('*')
+          .single(),
+        supabase
+          .from('users')
+          .select('*')
+          .eq('org_code', organizationCode)
+      ])
+
+      console.log("test")
+
       if (error || !organization) {
         throw new DatabaseOperationError("Cannot get organization.");
       }
-      return organization
+
+      if (usersError) {
+        throw new DatabaseOperationError("Cannot get organization users.");
+      }
+
+      console.log({
+        organization,
+        users
+      })
+
+      return {
+        organization,
+        users: users || []
+      }
     })
   }
 

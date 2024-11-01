@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import querystring from 'querystring';
-
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 export async function POST(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const code = searchParams.get('code');

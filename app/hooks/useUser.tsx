@@ -1,7 +1,6 @@
 import { User } from "@/src/entities/models/user"
 import { toast } from "@/app/lib/useToast"
 import {useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { redirect } from "next/navigation";
 
 type GetUser = () => Promise<User>;
 type GetUsers = () => Promise<User[]>;
@@ -30,7 +29,6 @@ const getUser: GetUser = async (): Promise<User> => {
     const errorData = await response.json()
     throw new Error(errorData.error || 'Failed to fetch user.')
   }
-
   const { user } = await response.json()
   return user
 }

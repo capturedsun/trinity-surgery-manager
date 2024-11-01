@@ -15,10 +15,11 @@ import {
 import { roles } from "@/app/data/data"
 import { RiExternalLinkLine } from "@remixicon/react"
 import { useUser } from "@/app/hooks/useUser"
+import { useOrganization } from "@/app/hooks/useOrganization"
 
 export default function General() {
   const { data: user, isLoading: isUserLoading, error: userError } = useUser()
-
+  const { data: organization, isLoading: isOrganizationLoading, error: organizationError } = useOrganization()
   return (
     <>
       <div className="space-y-10">

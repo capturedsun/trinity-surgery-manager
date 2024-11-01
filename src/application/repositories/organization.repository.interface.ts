@@ -1,9 +1,10 @@
 import type { Organization } from "@/src/entities/models/organization";
 import type { Status } from "@/src/entities/models/status";
+import type { User } from "@/src/entities/models/user";
 
 
 export interface IOrganizationRepository {
-  getOrganization(organizationId: string): Promise<Organization>;
+  getOrganization(): Promise<{ organization: Organization, users: User[] }>;
   updateOrganization(input: Partial<Organization>): Promise<Organization>;
 
   getStatuses(): Promise<Status[]>;

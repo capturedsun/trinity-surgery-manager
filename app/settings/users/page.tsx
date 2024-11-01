@@ -18,8 +18,13 @@ import { Tooltip } from "@/app/components/Tooltip"
 import { ModalAddUser } from "@/app/components/ui/settings/ModalAddUser"
 import { invitedUsers, roles, users } from "@/app/data/data"
 import { RiAddLine, RiMore2Fill } from "@remixicon/react"
+import { useUser } from "@/app/hooks/useUser"
+import { useOrganization } from "@/app/hooks/useOrganization"
 
 export default function Users() {
+  const { data: user, isLoading: isUsersLoading, error: usersError } = useUser()
+  const { data: organization, isLoading: isOrganizationLoading, error: organizationError } = useOrganization()
+  console.log(organization)
   return (
     <>
       <section aria-labelledby="existing-users">
