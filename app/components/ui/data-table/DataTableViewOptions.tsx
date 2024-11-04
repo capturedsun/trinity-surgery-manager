@@ -409,6 +409,7 @@ function ViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
         <Popover>
           <PopoverTrigger asChild>
             <Button
+              disabled={true}
               variant="secondary"
               className={cx(
                 "ml-auto hidden gap-x-2 px-2 text-sm sm:text-xs lg:flex",

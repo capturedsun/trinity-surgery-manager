@@ -6,11 +6,21 @@ import { Organization } from "@/src/entities/models/organization"
 import { NotFoundError } from "@/src/entities/errors/common"
 import { Status, CategorizedStatuses } from "@/src/entities/models/status"
 import { SurgeryOrder } from "@/src/entities/models/surgery-order"
+import { getSurgeryOrdersUseCase } from "@/src/application/use-cases/surgery-orders/get-surgery-orders.use-case"
 
-export async function surgeryOrderController(): Promise<void> {
+function presenter(surgeryOrders: SurgeryOrder[]): SurgeryOrder[] {
+  return surgeryOrders
+}
+
+export async function surgeryOrdersController(): Promise<ReturnType<typeof presenter>> {
   return await startSpan(
     { name: "getSurgeryOrder Controller" },
     async () => {
+      const surgeryOrders = await getSurgeryOrdersUseCase()
+      if (!surgeryOrders) {
+        throw new NotFoundError("Surgery orders not found")
+      }
+      return presenter(surgeryOrders)
     }
   )
 }

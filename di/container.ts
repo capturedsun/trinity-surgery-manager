@@ -6,6 +6,8 @@ import { TodosModule } from "./modules/todos.module";
 import { DI_RETURN_TYPES, DI_SYMBOLS } from "./types";
 import { UsersModule } from "./modules/users.module";
 import { OrganizationModule } from "./modules/oragnization.module";
+import { SurgeryOrdersModule } from "./modules/surgery-orders.module";
+
 const ApplicationContainer = new Container({
   defaultScope: "Singleton",
 });
@@ -15,6 +17,7 @@ export const initializeContainer = () => {
   ApplicationContainer.load(UsersModule);
   ApplicationContainer.load(AuthenticationModule);
   ApplicationContainer.load(OrganizationModule);
+  ApplicationContainer.load(SurgeryOrdersModule);
 };
 
 export const destroyContainer = () => {
@@ -22,6 +25,7 @@ export const destroyContainer = () => {
   ApplicationContainer.unload(UsersModule);
   ApplicationContainer.unload(TodosModule);
   ApplicationContainer.unload(OrganizationModule);
+  ApplicationContainer.unload(SurgeryOrdersModule);
 };
 
 if (process.env.NODE_ENV !== "test") {

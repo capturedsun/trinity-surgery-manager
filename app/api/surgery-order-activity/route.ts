@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server"
 import { withServerActionInstrumentation } from "@sentry/nextjs"
 import { captureException } from "@sentry/nextjs"
-import { surgeryOrderController } from "@/src/controllers/surgery-order/surgery-order.controller"
+import { surgeryOrdersActivityController } from "@/src/controllers/surgery-order-activity/surgery-orders-activity.controller"
 
 export async function GET() {
   return withServerActionInstrumentation("getSurgeryOrderActivity", { recordResponse: true }, async () => {
     try {
-      const surgeryOrder = await surgeryOrderController()
-      return NextResponse.json({ ok: true, surgeryOrder })
+      const surgeryOrderActivity = await surgeryOrdersActivityController()
+      return NextResponse.json({ ok: true, surgeryOrderActivity })
     } catch (err) {
       captureException(err)
       return NextResponse.json({ ok: false, error: err }, { status: 500 })

@@ -25,12 +25,15 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
+import { useSurgeryOrders } from "@/app/hooks/useSurgeryOrders"
+
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[]
   data: any
 }
 
 export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
+  const { data: surgeryOrders } = useSurgeryOrders()
   const pageSize = 20
   const [rowSelection, setRowSelection] = React.useState({})
   const table = useReactTable({

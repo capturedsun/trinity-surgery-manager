@@ -49,7 +49,7 @@ export const useOrganization = () => {
     queryKey: ['organization'],
     queryFn: async () => {
       const data = await getOrganization();
-      return data;
+      return data
     },
   })
 }

@@ -1,18 +1,11 @@
-import { SurgeryOrder } from "@/src/entities/models/surgeryOrder"
+import { SurgeryOrder } from "@/src/entities/models/surgery-order"
 import { useToast } from "@/app/lib/useToast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-export const useSurgeryOrders = () => {
-    return useQuery({
-      queryKey: ['statuses'],
-      queryFn: async () => {
-        const data = await getSurgeryOrders()
-        return data
-      },
-    })
-}
+type GetSurgeryOrders = () => Promise<SurgeryOrder[]>
+type UpdateSurgeryOrder = (data: Partial<SurgeryOrder>) => Promise<SurgeryOrder>
 
-const getSurgeryOrders = async (): Promise<SurgeryOrder[]> => {
+const getSurgeryOrders: GetSurgeryOrders = async (): Promise<SurgeryOrder[]> => {
     const response = await fetch(`/api/surgery-orders`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -21,12 +14,12 @@ const getSurgeryOrders = async (): Promise<SurgeryOrder[]> => {
       const errorData = await response.json()
       throw new Error(errorData.error || 'Failed to fetch statuses.')
     }
-    const data = await response.json()
+    const res = await response.json()
   
-    return data.statuses
+    return res
 }
 
-const updateSurgeryOrder = async (data: Partial<SurgeryOrder>): Promise<SurgeryOrder> => {
+const updateSurgeryOrder: UpdateSurgeryOrder = async (data: Partial<SurgeryOrder>): Promise<SurgeryOrder> => {
     const response = await fetch('/api/surgery-orders', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -37,8 +30,20 @@ const updateSurgeryOrder = async (data: Partial<SurgeryOrder>): Promise<SurgeryO
       const errorData = await response.json()
       throw new Error(errorData.error || 'Failed to update surgery order.')
     }
-  
-    return response.json()
+    
+    const res = await response.json()
+
+    return res
+}
+
+export const useSurgeryOrders = () => {
+  return useQuery({
+    queryKey: ['surgeryOrders'],
+    queryFn: async () => {
+      const data = await getSurgeryOrders()
+      return data
+    },
+  })
 }
 
 export const useUpdateSurgeryOrder = (options?: {

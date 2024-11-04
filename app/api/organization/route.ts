@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
   return withServerActionInstrumentation("getOrganization", { recordResponse: true }, async () => {
     try {
       const organization = await organizationController()
-      return NextResponse.json({ ok: true, organization })
+      return NextResponse.json({ ok: true, organization: organization.organization, users: organization.users })
     } catch (err) {
       captureException(err)
       return NextResponse.json({ ok: false, error: err }, { status: 500 })

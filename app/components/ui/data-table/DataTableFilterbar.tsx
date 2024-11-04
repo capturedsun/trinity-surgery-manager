@@ -56,14 +56,14 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             type="select"
           />
         )}
-        {table.getColumn("surgery")?.getIsVisible() && (
+        {/* {table.getColumn("surgery")?.getIsVisible() && (
           <DataTableFilter
             column={table.getColumn("surgery")}
             title="Surgery"
             options={surgeries}
             type="checkbox"
           />
-        )}
+        )} */}
         {/* {table.getColumn("costs")?.getIsVisible() && (
           <DataTableFilter
             column={table.getColumn("costs")}
@@ -100,7 +100,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
           onClick={handleECWAuth}
           isLoading={isLoading}
         >
-         Connect ECW Auth
+         Connect ECW
         </Button>
         {htmlContent && (
           <div
@@ -111,6 +111,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
         <Button
           variant="secondary"
           className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"
+          disabled={true}
         >
           <RiDownloadLine className="size-4 shrink-0" aria-hidden="true" />
           Export

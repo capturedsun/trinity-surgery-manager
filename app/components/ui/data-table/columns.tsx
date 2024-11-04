@@ -4,12 +4,12 @@
 import { ReferralCard } from "@/app/components/ReferralCard"
 import { StatusManager } from "@/app/components/Table/StatusManager"
 
-import { Usage } from "@/app/data/schema"
+import { SurgeryOrder } from "@/src/entities/models/surgery-order"
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "./DataTableColumnHeader"
 import { DataTableRowActions } from "./DataTableRowActions"
 
-const columnHelper = createColumnHelper<Usage>()
+const columnHelper = createColumnHelper<SurgeryOrder>()
 
 export const columns = [
   // columnHelper.display({
@@ -42,33 +42,8 @@ export const columns = [
   //     displayName: "Select",
   //   },
   // }),
-  columnHelper.accessor("date", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created" />
-    ),
-    enableSorting: true,
-    meta: {
-      className: "tabular-nums",
-      displayName: "Date",
-    },
-  }),
-  columnHelper.accessor("surgeryOrder", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Surgery Order" />
-    ),
-    enableSorting: true,
-    enableHiding: false,
-    meta: {
-      className: "text-left",
-      displayName: "Name",
-    },
-    cell: ({ row }) => {
-      return (
-        <ReferralCard row={row} />
-      )
-    }
-  }),
-  columnHelper.accessor("status", {
+// ... existing code ...
+  columnHelper.accessor("comm_status", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Comm Status" />
     ),
@@ -78,18 +53,13 @@ export const columns = [
       displayName: "Status",
     },
     cell: ({ row }) => {
-      const statuses = row.getValue("status");
-
-      if (typeof statuses === 'object' && statuses !== null && 'communication' in statuses) {
-        const statusID = statuses.communication as string;
-
-        return (
-          <StatusManager statusID={statusID} statusCode={"comm-status"}/>
-        );
-      }
+      const statusID = row.getValue("comm_status");
+      return (
+        <StatusManager statusID={statusID as string} statusCode={"comm-status"}/>
+      );
     },
   }),
-  columnHelper.accessor("insuranceStatus", {
+  columnHelper.accessor("insurance_status", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Insurance Status" />
     ),
@@ -99,18 +69,13 @@ export const columns = [
       displayName: "Status",
     },
     cell: ({ row }) => {
-      const statuses = row.getValue("status");
-
-      if (typeof statuses === 'object' && statuses !== null && 'insurance' in statuses) {
-        const statusID = statuses.insurance as string;
-
-        return (
-          <StatusManager statusID={statusID} statusCode={"insurance-status"}/>
-        );
-      }
+      const statusID = row.getValue("insurance_status");
+      return (
+        <StatusManager statusID={statusID as string} statusCode={"insurance-status"}/>
+      );
     },
   }),
-  columnHelper.accessor("clearanceStatus", {
+  columnHelper.accessor("clearance_status", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Clearance Status" />
     ),
@@ -120,123 +85,188 @@ export const columns = [
       displayName: "Status",
     },
     cell: ({ row }) => {
-      const statuses = row.getValue("status");
-
-      if (typeof statuses === 'object' && statuses !== null && 'clearance' in statuses) {
-        const statusID = statuses.clearance as string;
-
-        return (
-          <StatusManager statusID={statusID} statusCode={"clearance-status"}/>
-        );
-      }
-    },
-  }),
-  // columnHelper.accessor("costs", {
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Tasks" />
-  //   ),
-  //   enableSorting: true,
-  //   meta: {
-  //     className: "text-right",
-  //     displayName: "Costs",
-  //   },
-  //   cell: ({ getValue }) => {
-  //     return (
-  //       <span className="font-medium">{formatters.currency(getValue())}</span>
-  //     )
-  //   },
-  //   filterFn: (row, columnId, filterValue: ConditionFilter) => {
-  //     const value = row.getValue(columnId) as number
-  //     const [min, max] = filterValue.value as [number, number]
-
-  //     switch (filterValue.condition) {
-  //       case "is-equal-to":
-  //         return value == min
-  //       case "is-between":
-  //         return value >= min && value <= max
-  //       case "is-greater-than":
-  //         return value > min
-  //       case "is-less-than":
-  //         return value < min
-  //       default:
-  //         return true
-  //     }
-  //   },
-  // }),
-  columnHelper.accessor("surgery", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Reason" />
-    ),
-    enableSorting: false,
-    meta: {
-      className: "text-left",
-      displayName: "Surgery",
-    },
-    filterFn: "arrIncludesSome",
-  }),
-  columnHelper.accessor("facility", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Sample" />
-    ),
-    enableSorting: false,
-    meta: {
-      className: "text-left",
-      displayName: "Facility",
-    },
-    cell: ({ getValue }) => {
-      const value = getValue()
-
-      function Indicator({ number }: { number: number }) {
-        let category
-        if (number === 0) {
-          category = "zero"
-        } else if (number < 9) {
-          category = "bad"
-        } else if (number >= 9 && number <= 15) {
-          category = "ok"
-        } else {
-          category = "good"
-        }
-
-        const getBarClass = (index: number) => {
-          if (category === "zero") {
-            return "bg-gray-300 dark:bg-gray-800"
-          } else if (category === "good") {
-            return "bg-indigo-600 dark:bg-indigo-500"
-          } else if (category === "ok" && index < 2) {
-            return "bg-indigo-600 dark:bg-indigo-500"
-          } else if (category === "bad" && index < 1) {
-            return "bg-indigo-600 dark:bg-indigo-500"
-          }
-          return "bg-gray-300 dark:bg-gray-800"
-        }
-
-        return (
-          <div className="flex gap-0.5">
-            <div className={`h-3.5 w-1 rounded-sm ${getBarClass(0)}`} />
-            <div className={`h-3.5 w-1 rounded-sm ${getBarClass(1)}`} />
-            <div className={`h-3.5 w-1 rounded-sm ${getBarClass(2)}`} />
-          </div>
-        )
-      }
-
+      const statusID = row.getValue("clearance_status");
       return (
-        <div className="flex items-center gap-0.5">
-          <span className="w-6">{value}</span>
-          <Indicator number={value} />
-        </div>
-      )
+        <StatusManager statusID={statusID as string} statusCode={"clearance-status"}/>
+      );
     },
   }),
-  columnHelper.display({
-    id: "edit",
-    header: "Edit",
+  columnHelper.accessor("insurance_auth", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Insurance Auth" />
+    ),
     enableSorting: false,
-    enableHiding: false,
+    meta: {
+      className: "text-left",
+      displayName: "Insurance Auth",
+    },
+  }),
+
+  columnHelper.accessor("surgical_assistant", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Surgical Assistant" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Assistant",
+    },
+  }),
+
+  columnHelper.accessor("provider", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Provider" />
+    ),
+    enableSorting: true,
+    meta: {
+      className: "text-left",
+      displayName: "Provider",
+    },
+  }),
+
+  columnHelper.accessor("other_location", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Other Location" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Other Location",
+    },
+  }),
+
+  columnHelper.accessor("surgery_date", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Surgery Date" />
+    ),
+    enableSorting: true,
+    meta: {
+      className: "tabular-nums",
+      displayName: "Surgery Date",
+    },
+  }),
+
+  columnHelper.accessor("pre_op_labs", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Pre-Op Labs" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Pre-Op Labs",
+    },
+  }),
+
+  columnHelper.accessor("clearance", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Clearance" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Clearance",
+    },
+  }),
+
+  columnHelper.accessor("pre_op_visit_dme", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Pre-Op Visit DME" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Pre-Op Visit DME",
+    },
+  }),
+
+  columnHelper.accessor("post_op_visit", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Post-Op Visit" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Post-Op Visit",
+    },
+  }),
+
+  columnHelper.accessor("first_assist", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="First Assist" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "First Assist",
+    },
+  }),
+
+  columnHelper.accessor("hardware_rep", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Hardware Rep" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Hardware Rep",
+    },
+  }),
+
+  columnHelper.accessor("patient_cost", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Patient Cost" />
+    ),
+    enableSorting: true,
     meta: {
       className: "text-right",
-      displayName: "Edit",
+      displayName: "Cost",
     },
-    cell: ({ row }) => <DataTableRowActions row={row} />,
   }),
-] as ColumnDef<Usage>[]
+
+  columnHelper.accessor("surgery_orders_faxed", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Orders Faxed" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-center",
+      displayName: "Faxed",
+    },
+    cell: ({ row }) => (
+      <span>{row.getValue("surgery_orders_faxed") ? "Yes" : "No"}</span>
+    ),
+  }),
+
+  columnHelper.accessor("surgery_instructions", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Instructions" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Instructions",
+    },
+  }),
+
+  columnHelper.accessor("notes", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Notes" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Notes",
+    },
+  }),
+  // columnHelper.display({
+  //   id: "edit",
+  //   header: "Edit",
+  //   enableSorting: false,
+  //   enableHiding: false,
+  //   meta: {
+  //     className: "text-right",
+  //     displayName: "Edit",
+  //   },
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // }),
+] as ColumnDef<SurgeryOrder>[]
