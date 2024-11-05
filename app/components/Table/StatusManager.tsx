@@ -37,8 +37,7 @@ const StatusManager = ({ className, statusID, statusCode, ...props }: StatusMana
 	
 	const onStatusChange = async (value: string) => {
 		try {
-			console.log(statusCode, value)
-			await updateSurgeryOrder({[statusCode]: value} as Partial<SurgeryOrder>)
+			updateSurgeryOrder({[statusCode]: value} as Partial<SurgeryOrder>)
 		} catch (error) {
 			console.error(error)
 		}
