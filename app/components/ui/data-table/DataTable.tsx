@@ -32,12 +32,12 @@ interface DataTableProps<TData> {
   data: any
 }
 
-export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
+export function DataTable<TData>({ columns }: DataTableProps<TData>) {
   const { data: surgeryOrders } = useSurgeryOrders()
   const pageSize = 20
   const [rowSelection, setRowSelection] = React.useState({})
   const table = useReactTable({
-    data,
+    data: surgeryOrders || [],
     columns,
     state: {
       rowSelection,
@@ -86,8 +86,8 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
               ))}
             </TableHead>
             <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
+              {surgeryOrders?.length ? (
+                surgeryOrders?.map((row) => (
                   <TableRow
                     key={row.id}
                     onClick={() => {
@@ -97,27 +97,27 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
                     }
                     className="group select-none hover:bg-gray-50 hover:dark:bg-gray-900"
                   >
-                    {row.getVisibleCells().map((cell, index) => (
+                    {Object.entries(row).map(([key, value]) => (
+                      <div key={key} className="entry-div">
+                        {/* Render the key and value of each entry */}
+                        <strong>{key}: </strong> {value}
+                      </div>
+                    ))}
+                    {/* {Object.keys(row).forEach((key, index) => (
                       <TableCell
-                        key={cell.id}
+                        key={key}
                         className={cx(
-                          row.getIsSelected()
-                            ? "bg-gray-50 dark:bg-gray-900"
-                            : "",
                           // @SEV: first: w-10 is hard value, but somehow you can really modify width of the checkbox value (e.g. w-6 does not make it smaller) -> what's the best formatting option here to make it a lean column?
                           "relative whitespace-nowrap py-1 text-gray-600 first:w-10 dark:text-gray-400",
-                          cell.column.columnDef.meta?.className,
+                          // cell.column.columnDef.meta?.className,
                         )}
                       >
-                        {index === 0 && row.getIsSelected() && (
-                          <div className="absolute inset-y-0 left-0 w-0.5 bg-indigo-600 dark:bg-indigo-500" />
-                        )}
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),
                         )}
                       </TableCell>
-                    ))}
+                    ))} */}
                   </TableRow>
                 ))
               ) : (
@@ -135,7 +135,7 @@ export function DataTable<TData>({ columns, data }: DataTableProps<TData>) {
           <DataTableBulkEditor table={table} rowSelection={rowSelection} />
         </div>
         <DataTablePagination table={table} pageSize={pageSize} />
-      </div>
+        </div>
     </>
   )
 }

@@ -48,10 +48,10 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-x-6">
       <div className="flex w-full flex-col gap-2 sm:w-fit sm:flex-row sm:items-center">
-        {table.getColumn("status")?.getIsVisible() && !isStatusesLoading && statuses && (
+        {table.getColumn("comm_status")?.getIsVisible() && !isStatusesLoading && statuses && (
           <DataTableFilter
-            column={table.getColumn("status")}
-            title="Status"
+            column={table.getColumn("comm_status")}
+            title="Comm Status"
             options={statuses.map((status) => ({ label: status.label, value: status.id.toString() }))}
             type="select"
           />
@@ -73,7 +73,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             formatter={formatters.currency}
           />
         )} */}
-        {table.getColumn("surgeryOrder")?.getIsVisible() && (
+        {/* {table.getColumn("surgeryOrder")?.getIsVisible() && (
           <Searchbar
             type="search"
             placeholder="Search by name..."
@@ -81,7 +81,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
             onChange={handleSearchChange}
             className="w-full sm:max-w-[250px] sm:[&>input]:h-[30px]"
           />
-        )}
+        )} */}
         {isFiltered && (
           <Button
             variant="ghost"

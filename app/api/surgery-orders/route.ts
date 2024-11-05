@@ -7,7 +7,7 @@ export async function GET() {
   return withServerActionInstrumentation("getSurgeryOrders", { recordResponse: true }, async () => {
     try {
       const surgeryOrders = await surgeryOrdersController()
-      return NextResponse.json({ ok: true, surgeryOrders })
+      return NextResponse.json( surgeryOrders )
     } catch (err) {
       captureException(err)
       return NextResponse.json({ ok: false, error: err }, { status: 500 })
