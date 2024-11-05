@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 type GetSurgeryOrders = () => Promise<SurgeryOrder[]>
 type UpdateSurgeryOrder = (data: Partial<SurgeryOrder>) => Promise<SurgeryOrder>
-
+type CreateSurgeryOrder = (data: Partial<SurgeryOrder>) => Promise<SurgeryOrder>
 const getSurgeryOrders: GetSurgeryOrders = async (): Promise<SurgeryOrder[]> => {
     const response = await fetch(`/api/surgery-orders`, {
       method: 'GET',
@@ -17,6 +17,22 @@ const getSurgeryOrders: GetSurgeryOrders = async (): Promise<SurgeryOrder[]> => 
     const res = await response.json()
   
     return res
+}
+
+const createSurgeryOrder: CreateSurgeryOrder = async (data: Partial<SurgeryOrder>): Promise<SurgeryOrder> => {
+  const response = await fetch('/api/surgery-orders', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json()
+    throw new Error(errorData.error || 'Failed to create surgery order.')
+  }
+
+  const res = await response.json()
+  return res
 }
 
 const updateSurgeryOrder: UpdateSurgeryOrder = async (data: Partial<SurgeryOrder>): Promise<SurgeryOrder> => {
@@ -43,6 +59,12 @@ export const useSurgeryOrders = () => {
       const data = await getSurgeryOrders()
       return data
     },
+  })
+}
+
+export const useCreateSurgeryOrder = () => {
+  return useMutation({
+    mutationFn: createSurgeryOrder,
   })
 }
 

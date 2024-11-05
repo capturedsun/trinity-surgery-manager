@@ -25,7 +25,7 @@ import { useUpdateStatus, useAddStatus } from "@/app/hooks/useStatuses"
 
 export type ModalManageStatusTagProps = {
   children: React.ReactNode
-  categories: CategorizedStatuses
+  categories: any
   existingTag?: Status
 }
 

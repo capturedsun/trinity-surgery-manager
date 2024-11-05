@@ -12,15 +12,47 @@ function presenter(surgeryOrders: SurgeryOrder[]): SurgeryOrder[] {
   return surgeryOrders
 }
 
-export async function surgeryOrdersController(): Promise<ReturnType<typeof presenter>> {
-  return await startSpan(
-    { name: "getSurgeryOrder Controller" },
-    async () => {
-      const surgeryOrders = await getSurgeryOrdersUseCase()
-      if (!surgeryOrders) {
-        throw new NotFoundError("Surgery orders not found")
+export const surgeryOrdersController = {
+  async getAll(): Promise<ReturnType<typeof presenter>> {
+    return await startSpan(
+      { name: "getSurgeryOrder Controller" },
+      async () => {
+        const surgeryOrders = await getSurgeryOrdersUseCase()
+        if (!surgeryOrders) {
+          throw new NotFoundError("Surgery orders not found")
+        }
+        return presenter(surgeryOrders)
       }
-      return presenter(surgeryOrders)
-    }
-  )
+    )
+  },
+
+  async create(data: Partial<SurgeryOrder>): Promise<SurgeryOrder> {
+    return await startSpan(
+      { name: "createSurgeryOrder Controller" },
+      async () => {
+        // TODO: Implement create surgery order use case
+        throw new Error("Not implemented")
+      }
+    )
+  },
+
+  async update(data: Partial<SurgeryOrder>): Promise<SurgeryOrder> {
+    return await startSpan(
+      { name: "updateSurgeryOrder Controller" },
+      async () => {
+        // TODO: Implement update surgery order use case
+        throw new Error("Not implemented") 
+      }
+    )
+  },
+
+  async delete(id: string): Promise<void> {
+    return await startSpan(
+      { name: "deleteSurgeryOrder Controller" },
+      async () => {
+        // TODO: Implement delete surgery order use case
+        throw new Error("Not implemented")
+      }
+    )
+  }
 }

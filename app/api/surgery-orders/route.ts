@@ -6,8 +6,20 @@ import { surgeryOrdersController } from "@/src/controllers/surgery-order/surgery
 export async function GET() {
   return withServerActionInstrumentation("getSurgeryOrders", { recordResponse: true }, async () => {
     try {
-      const surgeryOrders = await surgeryOrdersController()
+      const surgeryOrders = await surgeryOrdersController.getAll()
       return NextResponse.json( surgeryOrders )
+    } catch (err) {
+      captureException(err)
+      return NextResponse.json({ ok: false, error: err }, { status: 500 })
+    }
+  })
+}
+
+export async function POST() {
+  return withServerActionInstrumentation("createSurgeryOrder", { recordResponse: true }, async () => {
+    try {
+      const surgeryOrder = await surgeryOrdersController.create(req.body)
+      return NextResponse.json( surgeryOrder )
     } catch (err) {
       captureException(err)
       return NextResponse.json({ ok: false, error: err }, { status: 500 })

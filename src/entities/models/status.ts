@@ -12,7 +12,6 @@ export const selectStatusSchema = z.object({
   style_variant: z.string(),
 })
 
-// Schema for categorized statuses
 export const categorizedStatusesSchema = z.record(z.string(), z.array(selectStatusSchema))
 
 export type Status = z.infer<typeof selectStatusSchema>

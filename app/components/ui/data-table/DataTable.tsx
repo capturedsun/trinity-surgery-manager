@@ -29,7 +29,6 @@ import { useSurgeryOrders } from "@/app/hooks/useSurgeryOrders"
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[]
-  data: any
 }
 
 export function DataTable<TData>({ columns }: DataTableProps<TData>) {
@@ -37,7 +36,7 @@ export function DataTable<TData>({ columns }: DataTableProps<TData>) {
   const pageSize = 20
   const [rowSelection, setRowSelection] = React.useState({})
   const table = useReactTable({
-    data: surgeryOrders || [],
+    data: surgeryOrders as TData[] || [],
     columns,
     state: {
       rowSelection,
