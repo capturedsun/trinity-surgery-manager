@@ -1,7 +1,7 @@
 "use client"
 
 
-import { DynamicCell } from "@/app/components/ReferralCard"
+import { DynamicCell } from "@/app/components/DynamicCell"
 import { StatusManager } from "@/app/components/Table/StatusManager"
 
 import { SurgeryOrder } from "@/src/entities/models/surgery-order"
@@ -54,7 +54,7 @@ export const columns = [
     },
     cell: ({ row }) => {
       const statusID = row.getValue("comm_status");
-      console.log(statusID, "statusID")
+      console.log(row)
       return (
         <StatusManager statusID={statusID as string} statusCode={"comm-status"}/>
       );
