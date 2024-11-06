@@ -41,6 +41,16 @@ export const columns = [
   //   },
   // }),
 // ... existing code ...
+  columnHelper.accessor("patient_name", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Patient Name" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Patient Name",
+    },
+  }),
   columnHelper.accessor("comm_status", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Comm Status" />
@@ -91,23 +101,23 @@ export const columns = [
     },
   }),
   // FOR ONSITE QUICK ADD
-  // columnHelper.accessor("grouped_cell", {
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Meta" />
-  //   ),
-  //   enableSorting: true,
-  //   meta: {
-  //     className: "text-left",
-  //     displayName: "Grouped Cell",
-  //   },
-  //   cell: ({ row }) => {
-  //     return (
-  //       <div className="rounded-lg hover:bg-indigo-50 transition-colors p-1 px-2  cursor-pointer text-black">
-  //         <DynamicCell row={row} />
-  //       </div>
-  //     );
-  //   },
-  // }),
+  columnHelper.accessor("grouped_cell", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Meta" />
+    ),
+    enableSorting: true,
+    meta: {
+      className: "text-left",
+      displayName: "Grouped Cell",
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="rounded-lg hover:bg-indigo-50 transition-colors p-1 px-2  cursor-pointer text-black">
+          <DynamicCell row={row} />
+        </div>
+      );
+    },
+  }),
   columnHelper.accessor("insurance_auth", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Insurance Auth" />
@@ -116,16 +126,6 @@ export const columns = [
     meta: {
       className: "text-left",
       displayName: "Insurance Auth",
-    },
-  }),
-  columnHelper.accessor("patient_name", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Patient Name" />
-    ),
-    enableSorting: false,
-    meta: {
-      className: "text-left",
-      displayName: "Patient Name",
     },
   }),
   columnHelper.accessor("surgical_assistant", {

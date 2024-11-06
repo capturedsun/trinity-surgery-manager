@@ -12,7 +12,7 @@ const DynamicCell = React.forwardRef<HTMLDivElement, DynamicCellProps>(
 		const data = row?.original as SurgeryOrder
 		return (
 			<>
-				{data.facility}
+				{/* {data.surgical_assistant} */}
 				{data.patient_name}
 				{data.date_scheduled}
 			</>
