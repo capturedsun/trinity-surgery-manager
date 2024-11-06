@@ -62,7 +62,6 @@ export const columns = [
     },
     cell: ({ row }) => {
       const statusID = row.getValue("comm_status");
-      console.log(row)
       return (
         <StatusManager statusID={statusID as string} statusCode={"comm-status"}/>
       );

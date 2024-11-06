@@ -5,7 +5,6 @@ import {
   SelectItem,
   SelectTrigger
 } from "@/app/components/Select";
-import { statuses } from "@/app/data/data";
 import React from "react";
 import { tv } from "tailwind-variants";
 import { cx } from "@/app/lib/utils";
@@ -18,14 +17,15 @@ const statusManagerVariants = tv({
 
 interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
   className?: string;
-  statusID: string;
+  statusID: number;
   statusCode: string;
+  statuses: [string];
 }
 
-const StatusManager = ({ className, statusID, statusCode, ...props }: StatusManagerProps) => {
-	if (statusID === "") statusID = "none";
-    const [selectedStatus, setSelectedStatus] = React.useState<string>(statusID);
-    const status = statuses.find((item) => item.value === selectedStatus);
+const StatusManager = ({ className, statusID, statusCode, statuses, ...props }: StatusManagerProps) => {
+	if (statusID === 0) statusID = 0;
+    const [selectedStatusID, setSelectedStatusID] = React.useState<number>(statusID);
+    const status = statuses.find((item) => item.id === selectedStatusID);
     const type = status?.type;
 
 	const updateSurgeryOrder = useUpdateSurgeryOrder({
@@ -46,9 +46,9 @@ const StatusManager = ({ className, statusID, statusCode, ...props }: StatusMana
     return (
 		<div className={cx(statusManagerVariants(), className)} {...props}>
 			<Select
-			value={selectedStatus}
+			value={selectedStatusID}
 			onValueChange={(value: string) => {
-				setSelectedStatus(value);
+				setSelectedStatusID(value);
 				onStatusChange(value);
 			}}
 			>
@@ -61,13 +61,13 @@ const StatusManager = ({ className, statusID, statusCode, ...props }: StatusMana
 				<SelectTrigger style={{ all: "unset", position: "absolute", inset: 0, zIndex: 10, opacity: 0 }} />
 			</Badge>
 			<SelectContent>
-				{statuses
-					.filter((item) => item.type === type && item.value !== "none")
-					.map((filteredStatus) => (
-						<SelectItem key={filteredStatus.value || ""} value={filteredStatus.value || ""}>
-						{filteredStatus.label}
-						</SelectItem>
-					))}
+			{statuses
+				.filter((item) => item.type === type && item.value !== "")
+				.map((filteredStatus) => (
+				<SelectItem key={filteredStatus.value} value={filteredStatus.value}>
+					{filteredStatus.label}
+				</SelectItem>
+				))}
 			</SelectContent>
 			</Select>
 		</div>
