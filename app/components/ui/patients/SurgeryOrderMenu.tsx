@@ -25,7 +25,7 @@ export function SurgeryOrderMenu() {
           </svg>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[200px]">
+      <DropdownMenuContent align="end" className="w-[200px]">
         <DropdownMenuGroup>
           <DropdownMenuItem>
             From ECW

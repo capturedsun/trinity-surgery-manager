@@ -4,26 +4,9 @@ import { useEffect, useState } from 'react';
 import { usage } from "@/app/data/data";
 import { Textarea } from "@/app/components/Textarea";
 
-interface Patient {
-  referralNumber: string;
-  name: string;
-  patientDob: string;
-  surgery: string;
-}
-
 const PatientDetailsPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const [patientData, setPatientData] = useState<Patient | null>(null);
-  const [value, setValue] = useState<string>("");
-
-  useEffect(() => {
-    if (id) {
-      const matchedPatient = usage.find(patient => patient.referralNumber === id);
-      setPatientData(matchedPatient || null);
-    } else {
-      console.error("there is no id");
-    }
-  }, [id]);
+  const params = useParams()
+  const surgeryOrderId = params.id as string
 
   if (!patientData) {
     return <div>Loading...</div>;

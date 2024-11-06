@@ -3,7 +3,7 @@ import { IUsersRepository } from "@/src/application/repositories/users.repositor
 import { IOrganizationRepository } from "@/src/application/repositories/organization.repository.interface";
 import { IAuthenticationService } from "@/src/application/services/authentication.service.interface";
 import { ISurgeryOrdersRepository } from "@/src/application/repositories/surgery-orders.repository.interface";
-// import { ISurgeryOrderActivityRepository } from "@/src/application/repositories/surgery-order-activity.repository.interface";
+import { ISurgeryOrderActivityRepository } from "@/src/application/repositories/surgery-order-activity.repository.interface";
 
 export const DI_SYMBOLS = {
   // Services
@@ -14,7 +14,7 @@ export const DI_SYMBOLS = {
   IUsersRepository: Symbol.for("IUsersRepository"),
   IOrganizationRepository: Symbol.for("IOrganizationRepository"),
   ISurgeryOrdersRepository: Symbol.for("ISurgeryOrdersRepository"),
-  // ISurgeryOrderActivityRepository: Symbol.for("ISurgeryOrderActivityRepository"),
+  ISurgeryOrderActivityRepository: Symbol.for("ISurgeryOrderActivityRepository"),
 };
 
 export interface DI_RETURN_TYPES {
@@ -26,5 +26,5 @@ export interface DI_RETURN_TYPES {
   IUsersRepository: IUsersRepository;
   IOrganizationRepository: IOrganizationRepository;
   ISurgeryOrdersRepository: ISurgeryOrdersRepository;
-  // ISurgeryOrderActivityRepository: ISurgeryOrderActivityRepository;
+  ISurgeryOrderActivityRepository: ISurgeryOrderActivityRepository;
 }
