@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@/app/components/Button"
 import {
   Dialog,
@@ -19,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/Select"
+import { useState } from "react"
 import { useStatuses } from "@/app/hooks/useStatuses"
 import { useCreateSurgeryOrder } from "@/app/hooks/useSurgeryOrders"
 import { Status, CategorizedStatuses } from "@/src/entities/models/status"
@@ -27,6 +29,7 @@ export type ModalAddSurgeryOrderProps = {
 }
 
 export function ModalAddSurgeryOrder({ children }: ModalAddSurgeryOrderProps) {
+  const [isLoading, setIsLoading] = useState(false)
   const { data: organizationStatuses } = useStatuses(true) as { data: CategorizedStatuses | undefined }
   const communicationStatuses = organizationStatuses?.["communication"]
   const clearanceStatuses = organizationStatuses?.["clearance"] 
@@ -34,14 +37,17 @@ export function ModalAddSurgeryOrder({ children }: ModalAddSurgeryOrderProps) {
 
   const createSurgeryOrderInfo = useCreateSurgeryOrder({
     onSuccess: (data) => {
+      setIsLoading(false)
       console.log(data)
     },
     onError: (error) => {
+      setIsLoading(false)
       console.error(error)
     }
   })
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setIsLoading(true)
     const formData = new FormData(e.target as HTMLFormElement)
     const surgeryOrderData = Object.fromEntries(formData.entries())
     createSurgeryOrderInfo(surgeryOrderData)
@@ -190,6 +196,7 @@ export function ModalAddSurgeryOrder({ children }: ModalAddSurgeryOrderProps) {
             <DialogClose asChild>
               <Button
                 type="submit"
+                isLoading={createSurgeryOrderInfo.isPending}
                 className="w-full sm:w-fit"
               >
                 Add Surgery Order

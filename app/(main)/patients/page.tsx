@@ -1,17 +1,19 @@
 import { columns } from "@/app/components/ui/data-table/columns"
 import { DataTable } from "@/app/components/ui/data-table/DataTable"
-import { usage } from "@/app/data/data"
+import { SurgeryOrderMenu } from "@/app/components/ui/patients/SurgeryOrderMenu"
 
 export default async function Patients() {
   return (
     <>
+    <div className="flex justify-between gap-4">
       <h1 className="title">
         Patients
       </h1>
+      <SurgeryOrderMenu/>
+    </div>
       <div className="mt-4 sm:mt-6 lg:mt-10">
         <DataTable columns={columns} />
       </div>
-      {/* <Notice/> */}
     </>
   )
 }

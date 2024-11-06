@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link';
 import React from 'react';
-
+import { SurgeryOrder } from '@/app/data/schema';
 
 interface DynamicCellProps extends React.ComponentPropsWithoutRef<"div"> {
 	row: any;
@@ -9,10 +9,12 @@ interface DynamicCellProps extends React.ComponentPropsWithoutRef<"div"> {
 
 const DynamicCell = React.forwardRef<HTMLDivElement, DynamicCellProps>(
 	({ className, row, ...props }: DynamicCellProps, forwardedRef) => {
-		const data = row?.original
+		const data = row?.original as SurgeryOrder
 		return (
 			<>
-				test
+				{data.facility}
+				{data.patient_name}
+				{data.date_scheduled}
 			</>
 		);
 	}
