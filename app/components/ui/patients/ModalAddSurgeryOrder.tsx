@@ -19,25 +19,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/Select"
-import { useCreateSurgeryOrder } from "@/app/hooks/useSurgeryOrders"
 import { useStatuses } from "@/app/hooks/useStatuses"
+import { useCreateSurgeryOrder } from "@/app/hooks/useSurgeryOrders"
 import { Status, CategorizedStatuses } from "@/src/entities/models/status"
 export type ModalAddSurgeryOrderProps = {
   children: React.ReactNode
 }
 
 export function ModalAddSurgeryOrder({ children }: ModalAddSurgeryOrderProps) {
-  const { mutate: createSurgeryOrder } = useCreateSurgeryOrder()
   const { data: organizationStatuses } = useStatuses(true) as { data: CategorizedStatuses | undefined }
   const communicationStatuses = organizationStatuses?.["communication"]
-  const clearanceStatuses = organizationStatuses?.["clearance"]
+  const clearanceStatuses = organizationStatuses?.["clearance"] 
   const insuranceStatuses = organizationStatuses?.["insurance"]
+
+  const createSurgeryOrderInfo = useCreateSurgeryOrder({
+    onSuccess: (data) => {
+      console.log(data)
+    },
+    onError: (error) => {
+      console.error(error)
+    }
+  })
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const surgeryOrderData = Object.fromEntries(formData.entries())
+    createSurgeryOrderInfo(surgeryOrderData)
+  }
 
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-3xl p-6">
-        <form>
+        <form
+          onSubmit={handleSubmit}
+        >
           <DialogHeader>
             <DialogTitle className="text-lg">Add a new surgery order</DialogTitle>
             <DialogDescription className="mt-1 text-sm leading-6">
@@ -172,7 +188,10 @@ export function ModalAddSurgeryOrder({ children }: ModalAddSurgeryOrderProps) {
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button type="submit" className="w-full sm:w-fit">
+              <Button
+                type="submit"
+                className="w-full sm:w-fit"
+              >
                 Add Surgery Order
               </Button>
             </DialogClose>

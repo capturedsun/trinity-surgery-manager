@@ -9,7 +9,6 @@ import { NextResponse } from "next/server"
 export function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const categorized = searchParams.get('categorized') === 'true'
-  console.log(categorized)
   return withServerActionInstrumentation("getOrganizationStatuses", { recordResponse: true }, async () => {
     try {
       const categorizedStatuses = await getStatusesController(categorized)

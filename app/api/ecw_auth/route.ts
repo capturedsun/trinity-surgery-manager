@@ -24,7 +24,6 @@ async function storeCodeVerifier(codeVerifier: string) {
         console.error('Error storing code verifier:', error)
         return
     }
-    console.log('Code verifier stored successfully')
 }
 
 async function constructECWAuthorizationRequest() {
@@ -39,7 +38,6 @@ async function constructECWAuthorizationRequest() {
         .replace(/\//g, '_');
     
     await storeCodeVerifier(codeVerifier)
-    console.log('Code verifier stored successfully')
     const codeChallenge = crypto.createHash('sha256')
         .update(codeVerifier)
         .digest('base64')

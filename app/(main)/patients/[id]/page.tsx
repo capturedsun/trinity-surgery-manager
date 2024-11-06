@@ -18,7 +18,6 @@ const PatientDetailsPage = () => {
 
   useEffect(() => {
     if (id) {
-      console.log(usage);
       const matchedPatient = usage.find(patient => patient.referralNumber === id);
       setPatientData(matchedPatient || null);
     } else {

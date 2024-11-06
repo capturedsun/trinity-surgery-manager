@@ -70,7 +70,6 @@ async function fetchToken(code: string) {
 
   const codeVerifier = await getCodeVerifier()
 
-  console.log(codeVerifier, 'codeVerifier')
 
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
   const response = await fetch(tokenUrl, {
@@ -94,7 +93,6 @@ async function fetchToken(code: string) {
   }
 
   const data = await response.json()
-  console.log('Token data:', data)
   return data
 }
 

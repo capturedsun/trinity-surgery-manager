@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 type GetSurgeryOrders = () => Promise<SurgeryOrder[]>
 type UpdateSurgeryOrder = (data: Partial<SurgeryOrder>) => Promise<SurgeryOrder>
 type CreateSurgeryOrder = (data: Partial<SurgeryOrder>) => Promise<SurgeryOrder>
+
 const getSurgeryOrders: GetSurgeryOrders = async (): Promise<SurgeryOrder[]> => {
     const response = await fetch(`/api/surgery-orders`, {
       method: 'GET',
@@ -19,18 +20,17 @@ const getSurgeryOrders: GetSurgeryOrders = async (): Promise<SurgeryOrder[]> => 
     return res
 }
 
-const createSurgeryOrder: CreateSurgeryOrder = async (data: Partial<SurgeryOrder>): Promise<SurgeryOrder> => {
+const createSurgeryOrder: CreateSurgeryOrder = async (surgeryOrderData: Partial<SurgeryOrder>): Promise<SurgeryOrder> => {
   const response = await fetch('/api/surgery-orders', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
+    body: JSON.stringify(surgeryOrderData),
   })
 
   if (!response.ok) {
     const errorData = await response.json()
     throw new Error(errorData.error || 'Failed to create surgery order.')
   }
-
   const res = await response.json()
   return res
 }
@@ -62,10 +62,38 @@ export const useSurgeryOrders = () => {
   })
 }
 
-export const useCreateSurgeryOrder = () => {
-  return useMutation({
+export const useCreateSurgeryOrder = (options?: {
+    onSuccess?: (data: Partial<SurgeryOrder>) => void,
+    onError?: (error: any) => void,
+  }
+) => {
+  const { toast } = useToast()
+  const client = useQueryClient()
+  const { mutate: createSurgeryOrderInfo } = useMutation({
     mutationFn: createSurgeryOrder,
+    onSuccess: (data) => {
+      client.invalidateQueries({ queryKey: ['surgeryOrders'] })
+      toast({
+        variant: "success",
+        title: "Added Surgery Order",
+        description: "We've added the surgery order",
+        duration: 2000,
+      })
+      if (options?.onSuccess) {
+        options.onSuccess(data)
+      }
+    },
+    onError: (error: any) => {
+      console.error('Error creating surgery order:', error.message || error)
+      toast({
+        variant: "error",
+        title: "Create Failed",
+        description: "We've failed to create the surgery order",
+        duration: 2000,
+      })
+    }
   })
+  return createSurgeryOrderInfo
 }
 
 export const useUpdateSurgeryOrder = (options?: {
