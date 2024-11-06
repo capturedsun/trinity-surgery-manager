@@ -26,9 +26,10 @@ import { useCreateSurgeryOrder } from "@/app/hooks/useSurgeryOrders"
 import { Status, CategorizedStatuses } from "@/src/entities/models/status"
 export type ModalAddSurgeryOrderProps = {
   children: React.ReactNode
+  className?: string
 }
 
-export function ModalAddSurgeryOrder({ children }: ModalAddSurgeryOrderProps) {
+export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrderProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { data: organizationStatuses } = useStatuses(true) as { data: CategorizedStatuses | undefined }
   const communicationStatuses = organizationStatuses?.["communication"]
@@ -55,7 +56,12 @@ export function ModalAddSurgeryOrder({ children }: ModalAddSurgeryOrderProps) {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger 
+        className={className}
+        asChild
+      >
+        {children}
+      </DialogTrigger>
       <DialogContent className="max-w-3xl p-6">
         <form
           onSubmit={handleSubmit}
@@ -196,7 +202,7 @@ export function ModalAddSurgeryOrder({ children }: ModalAddSurgeryOrderProps) {
             <DialogClose asChild>
               <Button
                 type="submit"
-                isLoading={createSurgeryOrderInfo.isPending}
+                isLoading={isLoading}
                 className="w-full sm:w-fit"
               >
                 Add Surgery Order

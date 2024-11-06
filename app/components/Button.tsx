@@ -10,8 +10,8 @@ import { cx, focusRing } from "@/app/lib/utils"
 const buttonVariants = tv({
   base: [
     // base
-    "relative box-border inline-flex items-center justify-center whitespace-nowrap rounded-[0.375rem] px-[0.75rem] py-[0.375rem] text-center text-base font-medium shadow-sm transition-all ease-in-out duration-200 font-500 text-[0.8125rem] leading-[1.38462] h-fit",
     // disabled
+    "relative box-border inline-flex items-center justify-center whitespace-nowrap rounded-[0.375rem] px-[0.75rem] py-[0.375rem] text-center text-base font-medium shadow-sm transition-all ease-in-out duration-200 font-500 text-[0.8125rem] leading-[1.38462] h-fit",
     "disabled:pointer-events-none",
     // focus
     focusRing,

@@ -40,17 +40,34 @@ export const columns = [
   //     displayName: "Select",
   //   },
   // }),
-// ... existing code ...
-  columnHelper.accessor("patient_name", {
+  // FOR ONSITE QUICK ADD
+  columnHelper.accessor("grouped_cell", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Patient Name" />
+      <DataTableColumnHeader column={column} title="Meta" />
     ),
-    enableSorting: false,
+    enableSorting: true,
     meta: {
       className: "text-left",
-      displayName: "Patient Name",
+      displayName: "Grouped Cell",
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="rounded-lg hover:bg-indigo-50 transition-colors p-1 px-2  cursor-pointer text-black">
+          <DynamicCell row={row} />
+        </div>
+      );
     },
   }),
+  // columnHelper.accessor("patient_name", {
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Patient Name" />
+  //   ),
+  //   enableSorting: false,
+  //   meta: {
+  //     className: "text-left",
+  //     displayName: "Patient Name",
+  //   },
+  // }),
   columnHelper.accessor("comm_status", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Comm Status" />
@@ -62,7 +79,6 @@ export const columns = [
     },
     cell: ({ row }) => {
       const statusID = row.getValue("comm_status");
-      console.log(row)
       return (
         <StatusManager statusID={statusID as string} statusCode={"comm-status"}/>
       );
@@ -97,24 +113,6 @@ export const columns = [
       const statusID = row.getValue("clearance_status");
       return (
         <StatusManager statusID={statusID as string} statusCode={"clearance-status"}/>
-      );
-    },
-  }),
-  // FOR ONSITE QUICK ADD
-  columnHelper.accessor("grouped_cell", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Meta" />
-    ),
-    enableSorting: true,
-    meta: {
-      className: "text-left",
-      displayName: "Grouped Cell",
-    },
-    cell: ({ row }) => {
-      return (
-        <div className="rounded-lg hover:bg-indigo-50 transition-colors p-1 px-2  cursor-pointer text-black">
-          <DynamicCell row={row} />
-        </div>
       );
     },
   }),

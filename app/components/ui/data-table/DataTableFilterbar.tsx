@@ -8,7 +8,6 @@ import { useDebouncedCallback } from "use-debounce"
 import { DataTableFilter } from "./DataTableFilter"
 import { ViewOptions } from "./DataTableViewOptions"
 import { useStatuses } from "@/app/hooks/useStatuses"
-import { ModalAddSurgeryOrder } from "@/app/components/ui/patients/ModalAddSurgeryOrder"
 import axios from 'axios'
 
 interface DataTableToolbarProps<TData> {
@@ -46,14 +45,14 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-x-6">
       <div className="flex w-full flex-col gap-2 sm:w-fit sm:flex-row sm:items-center">
-        {table.getColumn("comm_status")?.getIsVisible() && !isStatusesLoading && statuses && (
+        {/* {table.getColumn("comm_status")?.getIsVisible() && !isStatusesLoading && statuses && (
           <DataTableFilter
             column={table.getColumn("comm_status")}
             title="Comm Status"
             options={statuses.map((status) => ({ label: status.label, value: status.id.toString() }))}
             type="select"
           />
-        )}
+        )} */}
         {/* {table.getColumn("surgery")?.getIsVisible() && (
           <DataTableFilter
             column={table.getColumn("surgery")}
