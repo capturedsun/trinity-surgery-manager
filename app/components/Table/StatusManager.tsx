@@ -10,7 +10,7 @@ import React from "react";
 import { tv } from "tailwind-variants";
 import { cx } from "@/app/lib/utils";
 import { useUpdateSurgeryOrder } from "@/app/hooks/useSurgeryOrders"
-import { SurgeryOrder } from "@/src/entities/models/surgeryOrder";
+import { SurgeryOrder } from "@/src/entities/models/surgery-order"
 
 const statusManagerVariants = tv({
   base: "flex gap-2",
