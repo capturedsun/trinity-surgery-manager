@@ -11,16 +11,17 @@ const DynamicCell = React.forwardRef<HTMLDivElement, DynamicCellProps>(
 	({ className, row, ...props }: DynamicCellProps, forwardedRef) => {
 		const data = row?.original as SurgeryOrder
 		return (
-			<>
-				{/* {data.surgical_assistant} */}
-				{data.patient_name}
-				{data.date_scheduled}
-			</>
-		);
+			<Link href={`${window.location.pathname}/${data.id}`}>
+				<div className={className} {...props} ref={forwardedRef}>
+					{data.patient_name}
+					{data.date_scheduled?.toLocaleDateString()}
+				</div>
+			</Link>
+		)
 	}
-);
+)
 
-DynamicCell.displayName = "DynamicCell";
+DynamicCell.displayName = "DynamicCell"
 
-export { DynamicCell, type DynamicCellProps };
+export { DynamicCell, type DynamicCellProps }
 

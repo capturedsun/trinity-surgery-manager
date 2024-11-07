@@ -74,13 +74,22 @@ export const columns = [
     ),
     enableSorting: true,
     meta: {
-      className: "text-left",
+      className: "text-left", 
       displayName: "Status",
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const statusID = row.getValue("comm_status");
+      const meta = table.options.meta as any
+      const statuses = meta?.["statuses"]
+      
       return (
-        <StatusManager statusID={statusID as string} statusCode={"comm-status"}/>
+        statusID && statuses && (
+          <StatusManager 
+            statusID={statusID as bigint} 
+            statuses={statuses}
+            statusCategory="communication" 
+          />
+        )
       );
     },
   }),
@@ -93,10 +102,18 @@ export const columns = [
       className: "text-left",
       displayName: "Status",
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const statusID = row.getValue("insurance_status");
+      const meta = table.options.meta as any
+      const statuses = meta?.["statuses"]
       return (
-        <StatusManager statusID={statusID as string} statusCode={"insurance-status"}/>
+        statusID && statuses && (
+          <StatusManager 
+            statusID={statusID as bigint} 
+            statuses={statuses}
+            statusCategory="insurance"
+          />
+        )
       );
     },
   }),
@@ -109,10 +126,18 @@ export const columns = [
       className: "text-left",
       displayName: "Status",
     },
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const statusID = row.getValue("clearance_status");
+      const meta = table.options.meta as any
+      const statuses = meta?.["statuses"]
       return (
-        <StatusManager statusID={statusID as string} statusCode={"clearance-status"}/>
+        statusID && statuses && (
+          <StatusManager 
+            statusID={statusID as bigint} 
+            statuses={statuses}
+            statusCategory="clearance"
+          />
+        )
       );
     },
   }),

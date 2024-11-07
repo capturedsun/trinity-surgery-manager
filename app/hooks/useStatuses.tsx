@@ -78,8 +78,7 @@ export const useStatuses = (sortByCategory: boolean) => {
   return useQuery({
     queryKey: ['statuses'],
     queryFn: async () => {
-      const data = await getStatuses(sortByCategory)
-      return data
+      return await getStatuses(sortByCategory)
     },
   })
 }

@@ -26,6 +26,7 @@ import {
 } from "@tanstack/react-table"
 
 import { useSurgeryOrders } from "@/app/hooks/useSurgeryOrders"
+import { useStatuses } from "@/app/hooks/useStatuses"
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData>[]
@@ -33,6 +34,7 @@ interface DataTableProps<TData> {
 
 export function DataTable<TData>({ columns }: DataTableProps<TData>) {
   const { data: surgeryOrders } = useSurgeryOrders()
+  const { data: statuses, isLoading: isStatusesLoading, error: statusesError } = useStatuses(true)
   const pageSize = 20
   const [rowSelection, setRowSelection] = React.useState({})
   const table = useReactTable({
@@ -40,6 +42,9 @@ export function DataTable<TData>({ columns }: DataTableProps<TData>) {
     columns,
     state: {
       rowSelection,
+    },
+    meta: {
+      statuses,
     },
     initialState: {
       pagination: {
@@ -89,11 +94,6 @@ export function DataTable<TData>({ columns }: DataTableProps<TData>) {
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    onClick={() => {
-                        // row.toggleSelected(!row.getIsSelected())
-                        // placeholder
-                      }
-                    }
                     className="group select-none hover:bg-gray-50 hover:dark:bg-gray-900"
                   >
                     {row.getVisibleCells().map((cell, index) => (
