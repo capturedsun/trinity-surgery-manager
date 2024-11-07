@@ -2,11 +2,11 @@ import { SurgeryOrderActivity } from "@/src/entities/models/surgery-order-activi
 import { useToast } from "@/app/lib/useToast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-type GetSurgeryOrderActivities = (surgeryOrderID: number) => Promise<SurgeryOrderActivity[]>
+type GetSurgeryOrderActivity = (surgeryOrderID: string) => Promise<SurgeryOrderActivity[]>
 type CreateSurgeryOrderActivity = (data: Partial<SurgeryOrderActivity>) => Promise<SurgeryOrderActivity>
 
-const getSurgeryOrderActivities: GetSurgeryOrderActivities = async (surgeryOrderID: number): Promise<SurgeryOrderActivity[]> => {
-    const response = await fetch(`/api/surgery-order-activities?surgeryOrderID=${surgeryOrderID}`, {
+const getSurgeryOrderActivity: GetSurgeryOrderActivity = async (surgeryOrderID: string): Promise<SurgeryOrderActivity[]> => {
+    const response = await fetch(`/api/surgery-order-activities?id=${surgeryOrderID}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -31,10 +31,10 @@ const createSurgeryOrderActivity: CreateSurgeryOrderActivity = async (activityDa
   return response.json()
 }
 
-export const useSurgeryOrderActivities = (surgeryOrderID: number) => {
+export const useSurgeryOrderActivity = (surgeryOrderID: string, surgeryOrderActivity?: SurgeryOrderActivity) => {
   return useQuery({
-    queryKey: ['surgeryOrderActivities'],
-    queryFn: () => getSurgeryOrderActivities(surgeryOrderID)
+    queryKey: ['surgeryOrderActivity'],
+    queryFn: () => getSurgeryOrderActivity(surgeryOrderID)
   })
 }
 
@@ -49,7 +49,7 @@ export const useCreateSurgeryOrderActivity = (options?: {
   const { mutate: createActivityInfo } = useMutation({
     mutationFn: createSurgeryOrderActivity,
     onSuccess: (data) => {
-      client.invalidateQueries({ queryKey: ['surgeryOrderActivities'] })
+      client.invalidateQueries({ queryKey: ['surgeryOrderActivity'] })
       toast({
         variant: "success",
         title: "Added Activity",

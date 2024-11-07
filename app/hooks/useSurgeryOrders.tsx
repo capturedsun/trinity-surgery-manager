@@ -1,6 +1,7 @@
 import { SurgeryOrder } from "@/src/entities/models/surgery-order"
 import { useToast } from "@/app/lib/useToast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { cidr } from "drizzle-orm/pg-core"
 
 type GetSurgeryOrders = () => Promise<SurgeryOrder[]>
 type GetSurgeryOrder = (id: string) => Promise<SurgeryOrder>
@@ -21,7 +22,7 @@ const getSurgeryOrders: GetSurgeryOrders = async (): Promise<SurgeryOrder[]> => 
     return res
 }
 const getSurgeryOrder: GetSurgeryOrder = async (id: string): Promise<SurgeryOrder> => {
-    const response = await fetch(`/api/surgery-orders/${id}`, {
+    const response = await fetch(`/api/surgery-orders?id=${id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })

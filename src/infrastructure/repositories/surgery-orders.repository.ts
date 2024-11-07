@@ -27,7 +27,6 @@ export class SurgeryOrdersRepository implements ISurgeryOrdersRepository {
     return await startSpan({ name: "SurgeryOrdersRepository > getSurgeryOrder" }, async () => {
       const supabase = createClient()
       const { data, error } = await supabase.from('surgery_orders').select('*').eq('id', id).single()
-      console.log(data)
       if (error || !data) {
         throw new DatabaseOperationError("Cannot get surgery order.")
       }

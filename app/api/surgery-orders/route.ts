@@ -7,14 +7,13 @@ import { NextRequest } from "next/server"
 export async function GET(req: NextRequest) {
   return withServerActionInstrumentation("getSurgeryOrders", { recordResponse: true }, async () => {
     try {
-      const searchParams = req.nextUrl.searchParams
-      const id = searchParams.get('id')
+      const id = req.nextUrl.searchParams.get('id')
       if (id) { 
         const surgeryOrder = await surgeryOrdersController.get(id)
-        return NextResponse.json( surgeryOrder )
+        return NextResponse.json(surgeryOrder)
       }
       const surgeryOrders = await surgeryOrdersController.getAll()
-      return NextResponse.json( surgeryOrders )
+      return NextResponse.json(surgeryOrders)
     } catch (err) {
       captureException(err)
       return NextResponse.json({ ok: false, error: err }, { status: 500 })

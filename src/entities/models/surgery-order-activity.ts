@@ -7,6 +7,7 @@ export const surgeryOrderActivitySchema = z.object({
   previous_value: z.string().nullable(),
   new_value: z.string().nullable(),
   created_by_user_id: z.string().uuid(),
+  created_by_user_name: z.string(),
   surgery_order_id: z.string().uuid(),
   metadata: z.record(z.unknown()).optional(),
   description: z.string().nullable()
