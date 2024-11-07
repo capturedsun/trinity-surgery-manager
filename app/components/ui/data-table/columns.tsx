@@ -52,7 +52,7 @@ export const columns = [
     },
     cell: ({ row }) => {
       return (
-        <div className="rounded-lg hover:bg-indigo-50 transition-colors p-1 px-2  cursor-pointer text-black">
+        <div className="hover:underline transition-colors p-1 px-2  cursor-pointer text-black">
           <DynamicCell row={row} />
         </div>
       );

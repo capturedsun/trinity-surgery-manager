@@ -2,10 +2,17 @@ import { NextResponse } from "next/server"
 import { withServerActionInstrumentation } from "@sentry/nextjs"
 import { captureException } from "@sentry/nextjs"
 import { surgeryOrdersController } from "@/src/controllers/surgery-order/surgery-orders.controller"
+import { NextRequest } from "next/server"
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   return withServerActionInstrumentation("getSurgeryOrders", { recordResponse: true }, async () => {
     try {
+      const searchParams = req.nextUrl.searchParams
+      const id = searchParams.get('id')
+      if (id) { 
+        const surgeryOrder = await surgeryOrdersController.get(id)
+        return NextResponse.json( surgeryOrder )
+      }
       const surgeryOrders = await surgeryOrdersController.getAll()
       return NextResponse.json( surgeryOrders )
     } catch (err) {

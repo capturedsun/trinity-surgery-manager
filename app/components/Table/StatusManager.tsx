@@ -1,10 +1,13 @@
 import { Badge, BadgeProps } from "@/app/components/Badge";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger
-} from "@/app/components/Select";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/app/components/Dropdown"
 import React from "react";
 import { tv } from "tailwind-variants";
 import { cx } from "@/app/lib/utils";
@@ -24,11 +27,13 @@ interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
 }
 
 const StatusManager = ({ className, statusID, statuses, statusCategory }: StatusManagerProps) => {
-	const validStatuses = Array.isArray(statuses) ? statuses : [];
+	const [validStatuses] = React.useState(Array.isArray(statuses) ? statuses : [])
 	const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
 		validStatuses && validStatuses.find(s => s.id === statusID) || null
 	)
-	const statusesForCategory = validStatuses.filter(s => s.category === statusCategory && s.label !== "none")
+	const [statusesForCategory] = React.useState(
+		validStatuses.filter(s => s.category === statusCategory && s.label !== "none")
+	)
 
 	const updateSurgeryOrder = useUpdateSurgeryOrder({
 		onSuccess: () => {
@@ -46,31 +51,34 @@ const StatusManager = ({ className, statusID, statuses, statusCategory }: Status
 	}
 
     return (
-		<div className={cx(statusManagerVariants(), className)}>
-			<Select
-				value={selectedStatus?.id.toString() ?? ""}
-				onValueChange={(value: string) => {
-					setSelectedStatus(statuses.find(s => s.id.toString() === value) || null);
-			}}
-			>
-			<Badge
-				className="relative cursor-pointer hover:ring-2 transition inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2"
-				showSquare={selectedStatus?.style_variant !== "default"}
-				variant={(selectedStatus?.style_variant as BadgeProps["variant"]) ?? "default"}
-			>
-				{selectedStatus?.label}
-				<SelectTrigger style={{ all: "unset", position: "absolute", inset: 0, zIndex: 10, opacity: 0 }} />
-			</Badge>
-			<SelectContent>
-				{statusesForCategory
-					.map((s) => (
-						<SelectItem key={s.id.toString()} value={s.id.toString()}>
-							{s.label}
-						</SelectItem>
-					))}
-			</SelectContent>
-			</Select>
-		</div>
+        <div className={cx(statusManagerVariants(), className)}>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Badge
+                        className="relative cursor-pointer hover:ring-2 transition inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2"
+                        showSquare={selectedStatus?.style_variant !== "default"}
+                        variant={(selectedStatus?.style_variant as BadgeProps["variant"]) ?? "default"}
+                    >
+                        {selectedStatus?.label}
+                    </Badge>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start">
+                    <DropdownMenuGroup>
+                        {statusesForCategory.map((s) => (
+                            <DropdownMenuItem
+                                key={s.id.toString()}
+                                onClick={() => {
+                                    setSelectedStatus(s)
+                                    onStatusChange(s.id.toString())
+                                }}
+                            >
+                                {s.label}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuGroup>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
     );
 };
 

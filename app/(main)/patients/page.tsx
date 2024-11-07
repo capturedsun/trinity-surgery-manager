@@ -6,8 +6,8 @@ export default async function Patients() {
   return (
     <>
     <div className="flex justify-between gap-4">
-      <h1 className="title">
-        Patients
+      <h1 className="title flex items-center gap-2">
+        <div className="rounded-lg px-1">Surgery Orders</div>
       </h1>
       <SurgeryOrderMenu/>
     </div>

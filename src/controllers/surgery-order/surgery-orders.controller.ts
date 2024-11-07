@@ -7,6 +7,7 @@ import { NotFoundError } from "@/src/entities/errors/common"
 import { Status, CategorizedStatuses } from "@/src/entities/models/status"
 import { SurgeryOrder } from "@/src/entities/models/surgery-order"
 import { getSurgeryOrdersUseCase } from "@/src/application/use-cases/surgery-orders/get-surgery-orders.use-case"
+import { getSurgeryOrderUseCase } from "@/src/application/use-cases/surgery-orders/get-surgery-order.use-case"
 
 function presenter(surgeryOrders: SurgeryOrder[]): SurgeryOrder[] {
   return surgeryOrders
@@ -22,6 +23,19 @@ export const surgeryOrdersController = {
           throw new NotFoundError("Surgery orders not found")
         }
         return presenter(surgeryOrders)
+      }
+    )
+  },
+
+  async get(id: string): Promise<SurgeryOrder> {
+    return await startSpan(
+      { name: "getSurgeryOrder Controller" },
+      async () => {
+        const surgeryOrder = await getSurgeryOrderUseCase(id)
+        if (!surgeryOrder) {
+          throw new NotFoundError("Surgery order not found")
+        }
+        return surgeryOrder
       }
     )
   },

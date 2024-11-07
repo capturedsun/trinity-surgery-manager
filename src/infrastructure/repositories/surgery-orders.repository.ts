@@ -23,6 +23,19 @@ export class SurgeryOrdersRepository implements ISurgeryOrdersRepository {
     })
   }
 
+  async getSurgeryOrder(id: string): Promise<SurgeryOrder> {
+    return await startSpan({ name: "SurgeryOrdersRepository > getSurgeryOrder" }, async () => {
+      const supabase = createClient()
+      const { data, error } = await supabase.from('surgery_orders').select('*').eq('id', id).single()
+      console.log(data)
+      if (error || !data) {
+        throw new DatabaseOperationError("Cannot get surgery order.")
+      }
+
+      return data
+    })
+  }
+
   async updateSurgeryOrder(input: Partial<SurgeryOrder>): Promise<SurgeryOrder> {
     return await startSpan({ name: "SurgeryOrdersRepository > updateSurgeryOrder" }, async () => {
       const supabase = createClient()

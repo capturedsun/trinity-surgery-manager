@@ -3,11 +3,25 @@ import { useToast } from "@/app/lib/useToast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 type GetSurgeryOrders = () => Promise<SurgeryOrder[]>
+type GetSurgeryOrder = (id: string) => Promise<SurgeryOrder>
 type UpdateSurgeryOrder = (data: Partial<SurgeryOrder>) => Promise<SurgeryOrder>
 type CreateSurgeryOrder = (data: Partial<SurgeryOrder>) => Promise<SurgeryOrder>
 
 const getSurgeryOrders: GetSurgeryOrders = async (): Promise<SurgeryOrder[]> => {
     const response = await fetch(`/api/surgery-orders`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.error || 'Failed to fetch statuses.')
+    }
+    const res = await response.json()
+  
+    return res
+}
+const getSurgeryOrder: GetSurgeryOrder = async (id: string): Promise<SurgeryOrder> => {
+    const response = await fetch(`/api/surgery-orders/${id}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     })
@@ -57,6 +71,16 @@ export const useSurgeryOrders = () => {
     queryKey: ['surgeryOrders'],
     queryFn: async () => {
       const data = await getSurgeryOrders()
+      return data
+    },
+  })
+}
+
+export const useSurgeryOrder = (id: string) => {
+  return useQuery({
+    queryKey: ['surgeryOrder', id],
+    queryFn: async () => {
+      const data = await getSurgeryOrder(id)
       return data
     },
   })
