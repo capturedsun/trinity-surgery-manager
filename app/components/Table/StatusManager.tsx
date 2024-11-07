@@ -24,10 +24,11 @@ interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
 }
 
 const StatusManager = ({ className, statusID, statuses, statusCategory }: StatusManagerProps) => {
+	const validStatuses = Array.isArray(statuses) ? statuses : [];
 	const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
-		statuses.find(s => s.id === statusID) || null
+		validStatuses && validStatuses.find(s => s.id === statusID) || null
 	)
-	const statusesForCategory = statuses.filter(s => s.category === statusCategory && s.label !== "none")
+	const statusesForCategory = validStatuses.filter(s => s.category === statusCategory && s.label !== "none")
 
 	const updateSurgeryOrder = useUpdateSurgeryOrder({
 		onSuccess: () => {
