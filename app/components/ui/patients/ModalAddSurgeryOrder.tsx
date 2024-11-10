@@ -86,7 +86,7 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
             </DialogDescription>
             <div className="mt-4 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
+                <div>
                   <Label htmlFor="patient-name" className="text-sm font-medium">Patient Name</Label>
                   <Input id="patient-name" name="patient_name" placeholder="Enter patient name..." className="mt-1 text-sm" />
                 </div>
