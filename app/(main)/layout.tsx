@@ -21,7 +21,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <main className="w-full h-screen flex flex-row relative ">
             <Sidebar />
             <div className="relative w-full flex flex-col items-center overflow-scroll">
-              <div className=" p-4 sm:px-6 sm:pb-10 sm:pt-7 lg:px-10 lg:max-w-[1000px] lg:pt-7 w-full">
+              <div className=" p-4 sm:px-6 sm:pb-10 sm:pt-7 lg:px-10 lg:pt-7 w-full">
                 {children}
               </div>
             </div>

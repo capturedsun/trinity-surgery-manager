@@ -82,12 +82,8 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
                   <Input id="provider" name="provider" placeholder="Enter provider..." className="mt-1 text-sm" />
                 </div>
                 <div>
-                  <Label htmlFor="location" className="text-sm font-medium">Location</Label>
-                  <Input id="location" name="location" placeholder="Enter location..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="other-location" className="text-sm font-medium">Other Location</Label>
-                  <Input id="other-location" name="other_location" placeholder="Enter other location..." className="mt-1 text-sm" />
+                  <Label htmlFor="facility" className="text-sm font-medium">Facility</Label>
+                  <Input id="facility" name="facility" placeholder="Enter facility..." className="mt-1 text-sm" />
                 </div>
                 <div>
                   <Label htmlFor="surgery-date" className="text-sm font-medium">Surgery Date</Label>
@@ -102,8 +98,64 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
                   <Input id="first-assist" name="first_assist" placeholder="Enter first assist..." className="mt-1 text-sm" />
                 </div>
                 <div>
-                  <Label htmlFor="hardware-rep" className="text-sm font-medium">Hardware Rep</Label>
-                  <Input id="hardware-rep" name="hardware_rep" placeholder="Enter hardware rep..." className="mt-1 text-sm" />
+                  <Label htmlFor="surgical-assistant" className="text-sm font-medium">Surgical Assistant</Label>
+                  <Input id="surgical-assistant" name="surgical_assistant" placeholder="Enter surgical assistant..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="surgery-instructions" className="text-sm font-medium">Surgery Instructions</Label>
+                  <Input id="surgery-instructions" name="surgery_instructions" placeholder="Enter surgery instructions..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="length" className="text-sm font-medium">Surgery Length</Label>
+                  <Input id="length" name="length" placeholder="Enter length..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="vendor" className="text-sm font-medium">Vendor</Label>
+                  <Input id="vendor" name="vendor" placeholder="Enter vendor..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="supplies" className="text-sm font-medium">Supplies and Special Equipment</Label>
+                  <Input id="supplies" name="supplies" placeholder="Enter supplies..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="classification" className="text-sm font-medium">Classification</Label>
+                  <Input id="classification" name="classification" placeholder="Enter classification..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="clearance" className="text-sm font-medium">Clearance</Label>
+                  <Input id="clearance" name="clearance" placeholder="Enter clearance..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="anesthesia_type" className="text-sm font-medium">Anesthesia Type</Label>
+                  <Input id="anesthesia_type" name="anesthesia_type" placeholder="Enter Anesthesia Type..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="notes" className="text-sm font-medium">Notes</Label>
+                  <Input id="notes" name="notes" placeholder="Enter notes..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="pre-op-diagnosis" className="text-sm font-medium">Pre-op Diganosis</Label>
+                  <Input id="pre-op-diagnosis" name="pre_op_diagnosis" placeholder="Enter pre-op diagnosis..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="pre-op-labs" className="text-sm font-medium">Pre-op Labs</Label>
+                  <Input id="pre-op-labs" name="pre_op_labs" placeholder="Enter pre-op labs..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="pre-op-visit-dme" className="text-sm font-medium">Pre-op Visit DME</Label>
+                  <Input id="pre-op-visit-dme" name="pre_op_visit_dme" placeholder="Enter pre-op visit DME..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="post-op-visit" className="text-sm font-medium">Post-op Visit</Label>
+                  <Input id="post-op-visit" name="post_op_visit" placeholder="Enter post-op visit..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="insurance-auth" className="text-sm font-medium">Insurance Auth</Label>
+                  <Input id="insurance-auth" name="insurance_auth" placeholder="Enter insurance auth..." className="mt-1 text-sm" />
+                </div>
+                <div>
+                  <Label htmlFor="patient-cost" className="text-sm font-medium">Patient Cost</Label>
+                  <Input id="patient-cost" name="patient_cost" type="number" placeholder="Enter patient cost..." className="mt-1 text-sm" />
                 </div>
                 <div>
                   <Label htmlFor="insurance-status" className="text-sm font-medium">Insurance Status</Label>
@@ -150,45 +202,9 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
                     </SelectContent>
                   </Select>
                 </div>
-                <div>
-                  <Label htmlFor="insurance-auth" className="text-sm font-medium">Insurance Auth</Label>
-                  <Input id="insurance-auth" name="insurance_auth" placeholder="Enter insurance auth..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="surgical-assistant" className="text-sm font-medium">Surgical Assistant</Label>
-                  <Input id="surgical-assistant" name="surgical_assistant" placeholder="Enter surgical assistant..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="pre-op-labs" className="text-sm font-medium">Pre-op Labs</Label>
-                  <Input id="pre-op-labs" name="pre_op_labs" placeholder="Enter pre-op labs..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="clearance" className="text-sm font-medium">Clearance</Label>
-                  <Input id="clearance" name="clearance" placeholder="Enter clearance..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="pre-op-visit-dme" className="text-sm font-medium">Pre-op Visit DME</Label>
-                  <Input id="pre-op-visit-dme" name="pre_op_visit_dme" placeholder="Enter pre-op visit DME..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="post-op-visit" className="text-sm font-medium">Post-op Visit</Label>
-                  <Input id="post-op-visit" name="post_op_visit" placeholder="Enter post-op visit..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="patient-cost" className="text-sm font-medium">Patient Cost</Label>
-                  <Input id="patient-cost" name="patient_cost" type="number" placeholder="Enter patient cost..." className="mt-1 text-sm" />
-                </div>
                 <div className="flex items-center space-x-2">
                   <Checkbox id="surgery-orders-faxed" name="surgery_orders_faxed" />
                   <Label htmlFor="surgery-orders-faxed" className="text-sm font-medium">Surgery Orders Faxed</Label>
-                </div>
-                <div>
-                  <Label htmlFor="surgery-instructions" className="text-sm font-medium">Surgery Instructions</Label>
-                  <Input id="surgery-instructions" name="surgery_instructions" placeholder="Enter surgery instructions..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="notes" className="text-sm font-medium">Notes</Label>
-                  <Input id="notes" name="notes" placeholder="Enter notes..." className="mt-1 text-sm" />
                 </div>
               </div>
             </div>

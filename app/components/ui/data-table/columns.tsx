@@ -141,27 +141,7 @@ export const columns = [
       );
     },
   }),
-  columnHelper.accessor("insurance_auth", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Insurance Auth" />
-    ),
-    enableSorting: false,
-    meta: {
-      className: "text-left",
-      displayName: "Insurance Auth",
-    },
-  }),
-  columnHelper.accessor("surgical_assistant", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Surgical Assistant" />
-    ),
-    enableSorting: false,
-    meta: {
-      className: "text-left",
-      displayName: "Assistant",
-    },
-  }),
-
+  
   columnHelper.accessor("provider", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Provider" />
@@ -172,18 +152,18 @@ export const columns = [
       displayName: "Provider",
     },
   }),
-
-  columnHelper.accessor("other_location", {
+  
+  columnHelper.accessor("facility", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Other Location" />
+      <DataTableColumnHeader column={column} title="Facility" />
     ),
-    enableSorting: false,
+    enableSorting: true,
     meta: {
       className: "text-left",
-      displayName: "Other Location",
+      displayName: "Facility",
     },
   }),
-
+  
   columnHelper.accessor("surgery_date", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Surgery Date" />
@@ -195,6 +175,50 @@ export const columns = [
     },
   }),
 
+  columnHelper.accessor("procedure", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Procedure" />
+    ),
+    enableSorting: true,
+    meta: {
+      className: "text-left",
+      displayName: "Procedure",
+    },
+  }),
+  
+  columnHelper.accessor("surgical_assistant", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Surgical Assistant" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Assistant",
+    },
+  }),
+
+  columnHelper.accessor("supplies", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Supplies" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Supplies",
+    },
+  }),
+  
+  columnHelper.accessor("pre_op_diagnosis", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Pre-Op Diagnosis" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Pre-Op Diagnosis",
+    },
+  }),
+  
   columnHelper.accessor("pre_op_labs", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Pre-Op Labs" />
@@ -205,7 +229,7 @@ export const columns = [
       displayName: "Pre-Op Labs",
     },
   }),
-
+  
   columnHelper.accessor("clearance", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Clearance" />
@@ -216,7 +240,7 @@ export const columns = [
       displayName: "Clearance",
     },
   }),
-
+  
   columnHelper.accessor("pre_op_visit_dme", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Pre-Op Visit DME" />
@@ -227,7 +251,7 @@ export const columns = [
       displayName: "Pre-Op Visit DME",
     },
   }),
-
+  
   columnHelper.accessor("post_op_visit", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Post-Op Visit" />
@@ -238,7 +262,7 @@ export const columns = [
       displayName: "Post-Op Visit",
     },
   }),
-
+  
   columnHelper.accessor("first_assist", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="First Assist" />
@@ -249,18 +273,18 @@ export const columns = [
       displayName: "First Assist",
     },
   }),
-
-  columnHelper.accessor("hardware_rep", {
+  
+  columnHelper.accessor("vendor", {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Hardware Rep" />
+      <DataTableColumnHeader column={column} title="Vendor" />
     ),
     enableSorting: false,
     meta: {
       className: "text-left",
-      displayName: "Hardware Rep",
+      displayName: "Vendor",
     },
   }),
-
+  
   columnHelper.accessor("patient_cost", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Patient Cost" />
@@ -271,7 +295,7 @@ export const columns = [
       displayName: "Cost",
     },
   }),
-
+  
   columnHelper.accessor("surgery_orders_faxed", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Orders Faxed" />
@@ -285,7 +309,7 @@ export const columns = [
       <span>{row.getValue("surgery_orders_faxed") ? "Yes" : "No"}</span>
     ),
   }),
-
+  
   columnHelper.accessor("surgery_instructions", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Instructions" />
@@ -297,6 +321,17 @@ export const columns = [
     },
   }),
 
+  columnHelper.accessor("insurance_auth", {
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Insurance Auth" />
+    ),
+    enableSorting: false,
+    meta: {
+      className: "text-left",
+      displayName: "Insurance Auth",
+    },
+  }),
+  
   columnHelper.accessor("notes", {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Notes" />
@@ -308,14 +343,14 @@ export const columns = [
     },
   }),
   // columnHelper.display({
-  //   id: "edit",
-  //   header: "Edit",
-  //   enableSorting: false,
-  //   enableHiding: false,
-  //   meta: {
-  //     className: "text-right",
-  //     displayName: "Edit",
-  //   },
-  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+    //   id: "edit",
+    //   header: "Edit",
+    //   enableSorting: false,
+    //   enableHiding: false,
+    //   meta: {
+      //     className: "text-right",
+      //     displayName: "Edit",
+      //   },
+      //   cell: ({ row }) => <DataTableRowActions row={row} />,
   // }),
 ] as ColumnDef<SurgeryOrder>[]
