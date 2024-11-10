@@ -35,6 +35,7 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
   const communicationStatuses = organizationStatuses?.["communication"]
   const clearanceStatuses = organizationStatuses?.["clearance"] 
   const insuranceStatuses = organizationStatuses?.["insurance"]
+  const [file, setFile] = useState<File | null>(null);
 
   const createSurgeryOrderInfo = useCreateSurgeryOrder({
     onSuccess: (data) => {
@@ -46,6 +47,17 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
       console.error(error)
     }
   })
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setFile(event.target.files[0]);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setFile(null);
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
@@ -62,9 +74,10 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
       >
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-3xl p-6">
+      <DialogContent className="max-w-3xl min-h-[95vh] flex flex-col">
         <form
           onSubmit={handleSubmit}
+          className="flex flex-col flex-1"
         >
           <DialogHeader>
             <DialogTitle className="text-lg">Add a new surgery order</DialogTitle>
@@ -73,126 +86,45 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
             </DialogDescription>
             <div className="mt-4 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div>
-                  <Label htmlFor="patient-name" className="text-sm font-medium">Patient Name</Label>
-                  <Input id="patient-name" name="patient_name" placeholder="Enter patient name..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="provider" className="text-sm font-medium">Provider</Label>
-                  <Input id="provider" name="provider" placeholder="Enter provider..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="location" className="text-sm font-medium">Location</Label>
-                  <Input id="location" name="location" placeholder="Enter location..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="other-location" className="text-sm font-medium">Other Location</Label>
-                  <Input id="other-location" name="other_location" placeholder="Enter other location..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="surgery-date" className="text-sm font-medium">Surgery Date</Label>
-                  <Input id="surgery-date" name="surgery_date" type="date" className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="procedure" className="text-sm font-medium">Procedure</Label>
-                  <Input id="procedure" name="procedure" placeholder="Enter procedure..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="first-assist" className="text-sm font-medium">First Assist</Label>
-                  <Input id="first-assist" name="first_assist" placeholder="Enter first assist..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="hardware-rep" className="text-sm font-medium">Hardware Rep</Label>
-                  <Input id="hardware-rep" name="hardware_rep" placeholder="Enter hardware rep..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="insurance-status" className="text-sm font-medium">Insurance Status</Label>
-                  <Select name="insurance_status">
-                    <SelectTrigger id="insurance-status" className="mt-1 text-sm">
-                      <SelectValue placeholder="Select status..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {insuranceStatuses?.map((status) => (
-                        <SelectItem key={status.id} value={status.id.toString()}>
-                          {status.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="clearance-status" className="text-sm font-medium">Clearance Status</Label>
-                  <Select name="clearance_status">
-                    <SelectTrigger id="clearance-status" className="mt-1 text-sm">
-                      <SelectValue placeholder="Select status..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {clearanceStatuses?.map((status) => (
-                        <SelectItem key={status.id} value={status.id.toString()}>
-                          {status.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="comm-status" className="text-sm font-medium">Communication Status</Label>
-                  <Select name="comm_status">
-                    <SelectTrigger id="comm-status" className="mt-1 text-sm">
-                      <SelectValue placeholder="Select status..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {communicationStatuses?.map((status) => (
-                        <SelectItem key={status.id} value={status.id.toString()}>
-                          {status.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="insurance-auth" className="text-sm font-medium">Insurance Auth</Label>
-                  <Input id="insurance-auth" name="insurance_auth" placeholder="Enter insurance auth..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="surgical-assistant" className="text-sm font-medium">Surgical Assistant</Label>
-                  <Input id="surgical-assistant" name="surgical_assistant" placeholder="Enter surgical assistant..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="pre-op-labs" className="text-sm font-medium">Pre-op Labs</Label>
-                  <Input id="pre-op-labs" name="pre_op_labs" placeholder="Enter pre-op labs..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="clearance" className="text-sm font-medium">Clearance</Label>
-                  <Input id="clearance" name="clearance" placeholder="Enter clearance..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="pre-op-visit-dme" className="text-sm font-medium">Pre-op Visit DME</Label>
-                  <Input id="pre-op-visit-dme" name="pre_op_visit_dme" placeholder="Enter pre-op visit DME..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="post-op-visit" className="text-sm font-medium">Post-op Visit</Label>
-                  <Input id="post-op-visit" name="post_op_visit" placeholder="Enter post-op visit..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="patient-cost" className="text-sm font-medium">Patient Cost</Label>
-                  <Input id="patient-cost" name="patient_cost" type="number" placeholder="Enter patient cost..." className="mt-1 text-sm" />
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="surgery-orders-faxed" name="surgery_orders_faxed" />
-                  <Label htmlFor="surgery-orders-faxed" className="text-sm font-medium">Surgery Orders Faxed</Label>
-                </div>
-                <div>
-                  <Label htmlFor="surgery-instructions" className="text-sm font-medium">Surgery Instructions</Label>
-                  <Input id="surgery-instructions" name="surgery_instructions" placeholder="Enter surgery instructions..." className="mt-1 text-sm" />
-                </div>
-                <div>
-                  <Label htmlFor="notes" className="text-sm font-medium">Notes</Label>
-                  <Input id="notes" name="notes" placeholder="Enter notes..." className="mt-1 text-sm" />
-                </div>
               </div>
             </div>
           </DialogHeader>
+          <div className="flex-1">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-50">File Upload</h2>
+            <div className="border border-dashed border-1 border-grey-200 rounded-md py-4 px-1.5 text-center">
+              <input
+                type="file"
+                id="file-upload"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+              <label htmlFor="file-upload" className="cursor-pointer text-indigo-500">
+                Drag and drop or <span className="underline">choose file</span> to upload
+              </label>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Recommended max. size: 10 MB, Accepted file types: PDF, PNG
+              </p>
+            </div>
+            {file && (
+              <div className="mt-4 flex items-center justify-between p-2 border rounded bg-gray-50 dark:bg-gray-900">
+                <div className="flex items-center">
+                  <span className="text-gray-700 dark:text-gray-300">{file.name}</span>
+                  <span className="text-gray-500 dark:text-gray-400 ml-2">{(file.size / (1024 * 1024)).toFixed(1)} MB</span>
+                </div>
+                <button onClick={handleRemoveFile} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                  X
+                </button>
+              </div>
+            )}
+            <div className="mt-4 flex justify-end space-x-2">
+              <Button 
+                variant="solid"
+                className="w-full"
+              >
+                Upload
+              </Button>
+            </div>
+          </div>
           <DialogFooter className="mt-4">
             <DialogClose asChild>
               <Button className="mt-1 w-full sm:mt-0 sm:w-fit" variant="secondary">
@@ -203,6 +135,7 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
               <Button
                 type="submit"
                 isLoading={isLoading}
+                disabled={!file}
                 className="w-full sm:w-fit"
               >
                 Add Surgery Order
