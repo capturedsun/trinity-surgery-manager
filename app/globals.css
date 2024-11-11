@@ -4,9 +4,21 @@
 
 
 *, :after, :before {
+    text-rendering: optimizeLegibility;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+h2 {
+    color: #2f3037;
+    line-height: 1.5rem;
+    font-weight: 600;
+    margin-block-start: .83em;
+    margin-block-end: .83em;
+    unicode-bidi: isolate;
+    font-feature-settings: "kern";
+
 }
 
 .title {
