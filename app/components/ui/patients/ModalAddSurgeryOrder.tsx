@@ -49,9 +49,10 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
   })
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setFile(event.target.files[0]);
-    }
+    // if (event.target.files) {
+    //   setFile(event.target.files[0]);
+    // }
+    console.log(event.target.files)
   };
 
   const handleRemoveFile = () => {
@@ -78,28 +79,36 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
         <form
           onSubmit={handleSubmit}
           className="flex flex-col flex-1"
+          encType="multipart/form-data"
+          method="post"
         >
-          <h2>File Upload</h2>
+          <DialogTitle className="hidden">
+          </DialogTitle>
+          <h2>
+            File Upload
+          </h2>
           <div className="flex-1">
-            <label
-              htmlFor="file-upload"
-              className="flex flex-col items-center justify-center w-full h-64 border-1 border-dashed border-gray-400 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800 dark:bg-gray-900"
-            >
-              <input
-                type="file"
-                id="file-upload"
-                name="file" 
-                accept=".pdf,.png"
-                className="hidden"
-                onChange={handleFileChange}
-              />
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-semibold">Click anywhere</span> or drag and drop
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">PDF, PNG (Max. 10MB)</p>
-              </div>
-            </label>
+          <label
+            htmlFor="file-upload"
+            className="flex flex-col cursor-pointer items-center justify-center w-full h-64 outline-1 outline-gray-500 rounded-lg bg-gray-50 hover:bg-gray-100"
+          >
+            <input
+              type="file"
+              id="file-upload"
+              name="file"
+              accept=".pdf,.png,.doc,.docx"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            <div className="flex flex-col items-center justify-center pt-5 pb-6 pointer-events-none">
+              <p className="mb-2 text-sm text-gray-500">
+                <span className="font-semibold">Click anywhere</span> or drag and drop
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                PDF, PNG, DOC, DOCX (Max. 10MB)
+              </p>
+            </div>
+          </label>
             {file && (
               <div className="mt-4 flex items-center justify-between p-2 border rounded bg-gray-50 dark:bg-gray-900">
                 <div className="flex items-center">
