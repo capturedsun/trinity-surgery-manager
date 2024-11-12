@@ -20,22 +20,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/Select"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useStatuses } from "@/app/hooks/useStatuses"
 import { useCreateSurgeryOrder } from "@/app/hooks/useSurgeryOrders"
 import { Status, CategorizedStatuses } from "@/src/entities/models/status"
 export type ModalAddSurgeryOrderProps = {
-  children: React.ReactNode
+  children?: React.ReactNode
   className?: string
+  open?: boolean
+  setOpen?: (open: boolean) => void
 }
 
-export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrderProps) {
+export function ModalAddSurgeryOrder({ children, className, open, setOpen }: ModalAddSurgeryOrderProps) {
   const [isLoading, setIsLoading] = useState(false)
   const { data: organizationStatuses } = useStatuses(true) as { data: CategorizedStatuses | undefined }
   const communicationStatuses = organizationStatuses?.["communication"]
   const clearanceStatuses = organizationStatuses?.["clearance"] 
   const insuranceStatuses = organizationStatuses?.["insurance"]
   const [file, setFile] = useState<File | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const createSurgeryOrderInfo = useCreateSurgeryOrder({
     onSuccess: (data) => {
@@ -68,14 +71,26 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
   }
 
   return (
-    <Dialog>
+    <Dialog
+      open={open} 
+      onOpenChange={setOpen}
+    >
       <DialogTrigger 
+        onClick={(e) => {
+          e.preventDefault()
+          // setIsOpen(true)
+          // setParentOpen(false)
+        }}
         className={className}
-        asChild
       >
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-3xl min-h-[95vh] flex flex-col">
+      <DialogContent 
+        onClick={(e) => {
+          e.preventDefault()
+        }}
+        className="max-w-3xl min-h-[95vh] flex flex-col"
+      >
         <form
           onSubmit={handleSubmit}
           className="flex flex-col flex-1"
@@ -88,15 +103,15 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
             File Upload
           </h2>
           <div className="flex-1">
-          <label
+          <Label
             htmlFor="file-upload"
-            className="flex flex-col cursor-pointer items-center justify-center w-full h-64 outline-1 outline-gray-500 rounded-lg bg-gray-50 hover:bg-gray-100"
+            className="flex flex-col cursor-pointer items-center justify-center w-full h-64 border border-1 border-dashed border-gray-300 transition rounded-lg bg-gray-50 hover:bg-gray-100"
           >
             <input
               type="file"
               id="file-upload"
               name="file"
-              accept=".pdf,.png,.doc,.docx"
+              accept=".doc,.docx"
               className="hidden"
               onChange={handleFileChange}
             />
@@ -108,7 +123,7 @@ export function ModalAddSurgeryOrder({ children, className }: ModalAddSurgeryOrd
                 PDF, PNG, DOC, DOCX (Max. 10MB)
               </p>
             </div>
-          </label>
+          </Label>
             {file && (
               <div className="mt-4 flex items-center justify-between p-2 border rounded bg-gray-50 dark:bg-gray-900">
                 <div className="flex items-center">

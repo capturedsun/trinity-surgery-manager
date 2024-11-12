@@ -153,6 +153,8 @@ const DropdownMenuItem = React.forwardRef<
     className={cx(
       // base
       "group/DropdownMenuItem relative flex cursor-pointer select-none items-center rounded py-1.5 pl-2 pr-1 outline-none transition-colors data-[state=checked]:font-semibold sm:text-sm",
+      // text size
+      "text-[0.8125rem] leading-[1.38462]",
       // text color
       "text-gray-900 dark:text-gray-50",
       // disabled

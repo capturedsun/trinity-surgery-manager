@@ -22,18 +22,21 @@ const statusManagerVariants = tv({
 interface StatusManagerProps extends React.ComponentPropsWithoutRef<"div"> {
   className?: string;
   statusID: bigint;
-	statuses: Status[];
+  statuses: Status[];
   statusCategory: string;
 }
 
 const StatusManager = ({ className, statusID, statuses, statusCategory }: StatusManagerProps) => {
-	const [validStatuses] = React.useState(Array.isArray(statuses) ? statuses : [])
-	const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
-		validStatuses && validStatuses.find(s => s.id === statusID) || null
-	)
-	const [statusesForCategory] = React.useState(
-		validStatuses.filter(s => s.category === statusCategory && s.label !== "none")
-	)
+	const [open, setOpen] = React.useState(false)
+	const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(null)
+	const [statusesForCategory, setStatusesForCategory] = React.useState<Status[] | null>(null)
+
+    React.useEffect(() => {
+        console.log(statuses)
+        const categoryStatuses = statuses[statusCategory as keyof typeof statuses]        
+        setStatusesForCategory(Array.isArray(categoryStatuses) ? categoryStatuses.filter((s: Status) => s.label !== "none") : [])
+        setSelectedStatus(Array.isArray(categoryStatuses) ? categoryStatuses.find((s: Status) => BigInt(s.id) === BigInt(statusID)) || null : null)
+    }, [statusID, statuses, statusCategory])
 
 	const updateSurgeryOrder = useUpdateSurgeryOrder({
 		onSuccess: () => {
@@ -52,19 +55,25 @@ const StatusManager = ({ className, statusID, statuses, statusCategory }: Status
 
     return (
         <div className={cx(statusManagerVariants(), className)}>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Badge
-                        className="relative cursor-pointer hover:ring-2 transition inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2"
-                        showSquare={selectedStatus?.style_variant !== "default"}
-                        variant={(selectedStatus?.style_variant as BadgeProps["variant"]) ?? "default"}
-                    >
-                        {selectedStatus?.label}
-                    </Badge>
+            <DropdownMenu open={open} onOpenChange={setOpen}>
+                <DropdownMenuTrigger
+                    onClick={(e) => {
+                        e.preventDefault()
+                    }}
+                >
+                    {selectedStatus && (
+                        <Badge
+                            className="relative cursor-pointer hover:ring-2 transition inline-flex items-center whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium gap-2"
+                            showSquare={selectedStatus?.style_variant !== "default"}
+                            variant={(selectedStatus?.style_variant as BadgeProps["variant"]) ?? "default"}
+                        >
+                            {selectedStatus?.label}
+                        </Badge>
+                    )}
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
                     <DropdownMenuGroup>
-                        {statusesForCategory.map((s) => (
+                        {Array.isArray(statusesForCategory) && statusesForCategory.length > 0 && statusesForCategory.map((s) => (
                             <DropdownMenuItem
                                 key={s.id.toString()}
                                 onClick={() => {

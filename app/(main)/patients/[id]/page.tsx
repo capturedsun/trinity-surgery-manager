@@ -8,6 +8,7 @@ import { useSurgeryOrderActivity, useCreateSurgeryOrderActivity } from '@/app/ho
 import { useUser } from '@/app/hooks/useUser';
 import { Button } from '@/app/components/Button';
 import { useState } from 'react';
+import { Label } from '@/app/components/Label';
 import { SurgeryOrderActivity } from '@/src/entities/models/surgery-order-activity';
 import { User } from '@/src/entities/models/user';
 
