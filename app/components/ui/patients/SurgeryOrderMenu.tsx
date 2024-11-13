@@ -2,13 +2,13 @@
 
 import { Button } from "@/app/components/Button"
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogFooter, DialogClose } from "@/app/components/Dialog"
-import { ModalAddSurgeryOrder } from "@/app/components/ui/patients/ModalAddSurgeryOrder"
 import { useState, useRef } from "react"
 import { useStatuses } from "@/app/hooks/useStatuses"
 import { Label } from "@/app/components/Label"
 import { Input } from "@/app/components/Input"
 import { useCreateSurgeryOrder } from "@/app/hooks/useSurgeryOrders"
-import { Status, CategorizedStatuses } from "@/src/entities/models/status"
+import { CategorizedStatuses } from "@/src/entities/models/status"
+import mammoth from "mammoth"
 
 export function SurgeryOrderMenu() {
   const [isLoading, setIsLoading] = useState(false)
@@ -17,7 +17,6 @@ export function SurgeryOrderMenu() {
   const clearanceStatuses = organizationStatuses?.["clearance"] 
   const insuranceStatuses = organizationStatuses?.["insurance"]
   const [file, setFile] = useState<File | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const createSurgeryOrderInfo = useCreateSurgeryOrder({
     onSuccess: (data) => {
@@ -30,12 +29,24 @@ export function SurgeryOrderMenu() {
     }
   })
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // if (event.target.files) {
-    //   setFile(event.target.files[0]);
-    // }
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.files)
-  };
+    const file = event.target.files?.[0]
+    if (file) {
+      setFile(file)
+      if (file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+        try {
+          const arrayBuffer = await file.arrayBuffer()
+          const result = await mammoth.extractRawText({ arrayBuffer })
+          console.log(result.value)
+        } catch (error) {
+          console.error("Error extracting text from file:", error)
+        }
+      } else {
+        console.warn("Unsupported file type")
+      }
+    }
+  }
 
   const handleRemoveFile = () => {
     setFile(null);
@@ -91,38 +102,37 @@ export function SurgeryOrderMenu() {
             File Upload
           </h2>
           <div className="flex-1">
-          <Label
-            htmlFor="file-upload"
-            className="flex flex-col cursor-pointer items-center justify-center w-full h-64 border border-1 border-dashed border-gray-300 transition rounded-lg bg-gray-50 hover:bg-gray-100"
-          >
-            <Input
-              type="file"
-              id="file-upload"
-              name="file"
-              accept=".doc,.docx"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-            <div className="flex flex-col items-center justify-center pt-5 pb-6 pointer-events-none">
-              <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold">Click anywhere</span> or drag and drop
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                PDF, PNG, DOC, DOCX (Max. 10MB)
-              </p>
-            </div>
-          </Label>
-            {file && (
-              <div className="mt-4 flex items-center justify-between p-2 border rounded bg-gray-50 dark:bg-gray-900">
-                <div className="flex items-center">
-                  <span className="text-gray-700 dark:text-gray-300">{file.name}</span>
-                  <span className="text-gray-500 dark:text-gray-400 ml-2">{(file.size / (1024 * 1024)).toFixed(1)} MB</span>
+            <div className="border border-1 border-dashed border-gray-300 outline-none transition rounded-lg bg-gray-50">
+              <Label
+                htmlFor="file-upload"
+                className="flex flex-col cursor-pointer items-center justify-center w-full h-64 transition rounded-lg bg-gray-50"
+              >
+                <Input
+                  type="file"
+                  id="file-upload"
+                  name="file"
+                  accept=".doc,.docx"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+                <div className="flex flex-col items-center justify-center pt-5 pb-6 pointer-events-none ">
+                  {file ? (
+                    <p className="mb-2 text-sm text-gray-500">
+                      <span className="font-semibold">{file.name}</span>
+                    </p>
+                  ) : (
+                    <>
+                      <p className="mb-2 text-sm text-gray-500">
+                        <span className="font-semibold">Click anywhere</span> or drag and drop
+                  </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        PDF, PNG, DOC, DOCX (Max. 10MB)
+                      </p>
+                    </>
+                  )}
                 </div>
-                <button onClick={handleRemoveFile} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
-                  X
-                </button>
-              </div>
-            )}
+              </Label>
+            </div>
           </div>
           <DialogFooter className="mt-4">
             <DialogClose asChild>

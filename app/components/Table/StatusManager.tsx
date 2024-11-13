@@ -32,7 +32,6 @@ const StatusManager = ({ className, statusID, statuses, statusCategory }: Status
 	const [statusesForCategory, setStatusesForCategory] = React.useState<Status[] | null>(null)
 
     React.useEffect(() => {
-        console.log(statuses)
         const categoryStatuses = statuses[statusCategory as keyof typeof statuses]        
         setStatusesForCategory(Array.isArray(categoryStatuses) ? categoryStatuses.filter((s: Status) => s.label !== "none") : [])
         setSelectedStatus(Array.isArray(categoryStatuses) ? categoryStatuses.find((s: Status) => BigInt(s.id) === BigInt(statusID)) || null : null)

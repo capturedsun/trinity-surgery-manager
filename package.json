@@ -53,6 +53,7 @@
     "inversify": "^6.0.2",
     "jsonwebtoken": "^9.0.2",
     "lucia-auth": "^1.8.0",
+    "mammoth": "^1.8.0",
     "next": "^14.2.13",
     "next-themes": "^0.3.0",
     "node-fetch": "^3.3.2",
