@@ -30,22 +30,49 @@ export function SurgeryOrderMenu() {
   })
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files)
-    const file = event.target.files?.[0]
+    console.log(event.target.files);
+    const file = event.target.files?.[0];
     if (file) {
-      setFile(file)
+      setFile(file);
       if (file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
         try {
-          const arrayBuffer = await file.arrayBuffer()
-          const result = await mammoth.extractRawText({ arrayBuffer })
-          console.log(result.value)
+          const arrayBuffer = await file.arrayBuffer();
+          const result = await mammoth.extractRawText({ arrayBuffer });
+          
+          const extractedData = extractFormData(result.value);
+
+          console.log(extractedData);
         } catch (error) {
-          console.error("Error extracting text from file:", error)
+          console.error("Error extracting text from file:", error);
         }
       } else {
-        console.warn("Unsupported file type")
+        console.warn("Unsupported file type");
       }
     }
+  };
+
+  // Function to extract data into an array of objects
+  function extractFormData(formText: string) {
+    return formText.split('\n').reduce((acc, line) => {
+      // Check if the line contains a colon followed by some text
+      const match = line.match(/^(.+?):\s*(.*)/);
+      if (match) {
+        const name = match[1].trim();
+        let value = match[2].trim();
+
+        // Only keep the entry if the name contains allowed characters (alphanumeric, spaces, hyphens, underscores, apostrophes, and slashes)
+        if (/^[a-zA-Z0-9\s\-_'/\\]+$/.test(name)) {
+          // Limit the value to only the portion before any excessive spaces
+          value = value.split(/\s{2,}/)[0].trim(); // Split by 2 or more consecutive spaces and take the first part
+
+          acc.push({
+            name,
+            value,
+          });
+        }
+      }
+      return acc;
+    }, [] as { name: string; value: string }[]);
   }
 
   const handleRemoveFile = () => {
