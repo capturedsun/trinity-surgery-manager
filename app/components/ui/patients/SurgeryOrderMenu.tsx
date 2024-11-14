@@ -17,6 +17,7 @@ export function SurgeryOrderMenu() {
   const clearanceStatuses = organizationStatuses?.["clearance"] 
   const insuranceStatuses = organizationStatuses?.["insurance"]
   const [file, setFile] = useState<File | null>(null);
+  const [surgeryOrderFields, setSurgeryOrderFields] = useState<Array<{ name: string, value: string, type: string }>>([])
 
   const createSurgeryOrderInfo = useCreateSurgeryOrder({
     onSuccess: (data) => {
@@ -42,6 +43,8 @@ export function SurgeryOrderMenu() {
           const extractedData = extractFormData(result.value);
 
           console.log(extractedData);
+
+          setSurgeryOrderFields(extractedData)
         } catch (error) {
           console.error("Error extracting text from file:", error);
         }
@@ -59,6 +62,7 @@ export function SurgeryOrderMenu() {
       if (match) {
         const name = match[1].trim();
         let value = match[2].trim();
+        let type = "text"
 
         // Only keep the entry if the name contains allowed characters (alphanumeric, spaces, hyphens, underscores, apostrophes, and slashes)
         if (/^[a-zA-Z0-9\s\-_'/\\]+$/.test(name)) {
@@ -68,11 +72,12 @@ export function SurgeryOrderMenu() {
           acc.push({
             name,
             value,
+            type
           });
         }
       }
       return acc;
-    }, [] as { name: string; value: string }[]);
+    }, [] as { name: string; value: string; type: string }[]);
   }
 
   const handleRemoveFile = () => {
@@ -128,11 +133,11 @@ export function SurgeryOrderMenu() {
           <h2>
             File Upload
           </h2>
-          <div className="flex-1">
+          <div className="flex-1 flex flex-col gap-2">
             <div className="border border-1 border-dashed border-gray-300 outline-none transition rounded-lg bg-gray-50">
               <Label
                 htmlFor="file-upload"
-                className="flex flex-col cursor-pointer items-center justify-center w-full h-64 transition rounded-lg bg-gray-50"
+                className={`flex flex-col cursor-pointer items-center justify-center w-full transition rounded-lg bg-gray-50 ${surgeryOrderFields.length > 0 ? "h-auto" : "h-64"}`}
               >
                 <Input
                   type="file"
@@ -153,13 +158,23 @@ export function SurgeryOrderMenu() {
                         <span className="font-semibold">Click anywhere</span> or drag and drop
                   </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        PDF, PNG, DOC, DOCX (Max. 10MB)
+                         DOC, DOCX (Max. 10MB)
                       </p>
                     </>
                   )}
                 </div>
               </Label>
             </div>
+            {surgeryOrderFields.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {surgeryOrderFields.map(({name, value}) => (
+                  <div key={name} className="flex flex-col gap-0.5">
+                    <Label className="text-xs font-semibold">{name}</Label>
+                    <Input type="text" name={name} value={value} className="text-xs" />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <DialogFooter className="mt-4">
             <DialogClose asChild>
