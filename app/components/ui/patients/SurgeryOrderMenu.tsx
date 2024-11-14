@@ -17,6 +17,7 @@ export function SurgeryOrderMenu() {
   const clearanceStatuses = organizationStatuses?.["clearance"] 
   const insuranceStatuses = organizationStatuses?.["insurance"]
   const [file, setFile] = useState<File | null>(null);
+  const [surgeryOrderFields, setSurgeryOrderFields] = useState<Array<{ name: string, value: string, type: string }>>([])
 
   const createSurgeryOrderInfo = useCreateSurgeryOrder({
     onSuccess: (data) => {
@@ -29,6 +30,11 @@ export function SurgeryOrderMenu() {
     }
   })
 
+  const parseSurgeryOrder = (text: string) => {
+    console.log(text)
+    return text
+  }
+
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.files)
     const file = event.target.files?.[0]
@@ -39,6 +45,38 @@ export function SurgeryOrderMenu() {
           const arrayBuffer = await file.arrayBuffer()
           const result = await mammoth.extractRawText({ arrayBuffer })
           console.log(result.value)
+
+          // Parsing code
+          // parseSurgeryOrder(result.value)
+
+          // Set state code
+          setSurgeryOrderFields([
+            {
+              "name": "test1",
+              "value": "test value1", 
+              "type": "text"
+            },
+            {
+              "name": "test2", 
+              "value": "test value2",
+              "type": "text"
+            },
+            {
+              "name": "test3",
+              "value": "test value3",
+              "type": "text"
+            },
+            {
+              "name": "test4",
+              "value": "test value4", 
+              "type": "text"
+            },
+            {
+              "name": "test5",
+              "value": "test value5",
+              "type": "text"
+            }
+          ])
         } catch (error) {
           console.error("Error extracting text from file:", error)
         }
@@ -101,11 +139,11 @@ export function SurgeryOrderMenu() {
           <h2>
             File Upload
           </h2>
-          <div className="flex-1">
+          <div className="flex-1 flex flex-col gap-2">
             <div className="border border-1 border-dashed border-gray-300 outline-none transition rounded-lg bg-gray-50">
               <Label
                 htmlFor="file-upload"
-                className="flex flex-col cursor-pointer items-center justify-center w-full h-64 transition rounded-lg bg-gray-50"
+                className={`flex flex-col cursor-pointer items-center justify-center w-full transition rounded-lg bg-gray-50 ${surgeryOrderFields.length > 0 ? "h-auto" : "h-64"}`}
               >
                 <Input
                   type="file"
@@ -126,13 +164,23 @@ export function SurgeryOrderMenu() {
                         <span className="font-semibold">Click anywhere</span> or drag and drop
                   </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        PDF, PNG, DOC, DOCX (Max. 10MB)
+                         DOC, DOCX (Max. 10MB)
                       </p>
                     </>
                   )}
                 </div>
               </Label>
             </div>
+            {surgeryOrderFields.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {surgeryOrderFields.map(({name, value}) => (
+                  <div key={name} className="flex flex-col gap-0.5">
+                    <Label className="text-xs font-semibold">{name}</Label>
+                    <Input type="text" name={name} value={value} className="text-xs" />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <DialogFooter className="mt-4">
             <DialogClose asChild>
