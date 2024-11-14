@@ -41,8 +41,7 @@ export function SurgeryOrderMenu() {
           const result = await mammoth.extractRawText({ arrayBuffer });
           
           const extractedData = extractFormData(result.value);
-
-          console.log(extractedData);
+          console.log(extractedData)
 
           setSurgeryOrderFields(extractedData)
         } catch (error) {
