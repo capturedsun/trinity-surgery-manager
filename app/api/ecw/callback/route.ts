@@ -16,13 +16,11 @@ async function getCodeVerifier() {
   }
   const userId = userData.user.id
 
-  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
-
   const { data, error } = await supabase
     .from('user_sessions')
     .select('code_verifier')
     .eq('user_id', userId)
-    .gt('created_at', fiveMinutesAgo)
+    .order('created_at', { ascending: false })
     .limit(1)
     .single()
 
@@ -60,7 +58,7 @@ async function fetchToken(code: string) {
 
   const clientId = process.env.ECW_CLIENT_ID_SANDBOX
   const clientSecret = process.env.ECW_CLIENT_SECRET_SANDBOX
-  const redirectUri = "https://trinity-surgery-manager.vercel.app/api/ecw/callback"
+  const redirectUri = process.env.ECW_REDIRECT_URI
   const tokenUrl = process.env.ECW_TOKEN_ENDPOINT_STAGING
 
   if (!clientId || !clientSecret || !redirectUri || !tokenUrl) {
