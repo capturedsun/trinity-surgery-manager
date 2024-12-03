@@ -18,7 +18,6 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
   const [searchTerm, setSearchTerm] = useState<string>("")
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [htmlContent, setHtmlContent] = useState<string | null>(null);
   const { data: statuses, isLoading: isStatusesLoading, error: statusesError } = useStatuses(false)
 
   async function handleECWAuth() {
@@ -99,12 +98,6 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
         >
          Connect ECW
         </Button>
-        {htmlContent && (
-          <div
-            className="html-content fixed top-0 left-0 w-screen h-screen"
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
-          />
-        )}
         <Button
           variant="secondary"
           className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex"

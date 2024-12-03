@@ -3,6 +3,7 @@ import { Buffer } from 'buffer'
 import crypto from 'crypto'
 import dotenv from 'dotenv';
 import { createClient } from '@/app/utils/supabase/server';
+import { EcwAuthentication } from '@/src/entities/models/ecw-authentication';
 
 dotenv.config();
 
@@ -45,7 +46,7 @@ export async function GET(request: Request) {
 
   try {
     const tokenResponse = await fetchToken(code)
-    return NextResponse.json({ success: true, token: tokenResponse })
+    return NextResponse.json({ success: true, response: tokenResponse })
   } catch (error) {
     console.error('Token fetch error:', error)
     return NextResponse.json({ error: 'Failed to fetch token' }, { status: 500 })
@@ -54,7 +55,7 @@ export async function GET(request: Request) {
 
 
 
-async function fetchToken(code: string) {
+async function fetchToken(code: string): Promise<EcwAuthentication | null> {
 
   const clientId = process.env.ECW_CLIENT_ID_SANDBOX
   const clientSecret = process.env.ECW_CLIENT_SECRET_SANDBOX
