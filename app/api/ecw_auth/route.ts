@@ -51,7 +51,7 @@ async function constructECWAuthorizationRequest() {
         client_secret: ECW_CLIENT_SECRET_SANDBOX,
         redirect_uri: 'https://trinity-surgery-manager.vercel.app/api/ecw/callback',
         state: 'random_state_value',
-        scope: 'user/Patient.read openid',
+        scope: 'openid fhirUser offline_access user/Encounter.read user/Patient.read',
         aud: ECW_AUD_STAGING,
         code_challenge: codeChallenge,
         code_challenge_method: 'S256',

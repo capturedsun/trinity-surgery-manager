@@ -79,7 +79,7 @@ async function fetchToken(code: string): Promise<EcwAuthentication | null> {
     },
     body: new URLSearchParams({
       grant_type: 'authorization_code',
-      code,
+      code: code,
       redirect_uri: redirectUri,
       code_verifier: codeVerifier
     })
