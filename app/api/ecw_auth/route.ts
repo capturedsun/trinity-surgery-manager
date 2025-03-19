@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
-import crypto from 'crypto';
-import querystring from 'querystring';
-import dotenv from 'dotenv';
 import { createClient } from '@/app/utils/supabase/server';
+import crypto from 'crypto';
+import dotenv from 'dotenv';
+import { NextResponse } from 'next/server';
+import querystring from 'querystring';
 dotenv.config();
 
 async function storeCodeVerifier(codeVerifier: string) {
@@ -16,8 +16,8 @@ async function storeCodeVerifier(codeVerifier: string) {
 
     const { data, error } = await supabase
         .from('user_sessions')
-        .insert([{ 
-            user_id: userId, 
+        .insert([{
+            user_id: userId,
             code_verifier: codeVerifier,
         }]);
     if (error) {
@@ -31,12 +31,12 @@ async function constructECWAuthorizationRequest() {
     const ECW_CLIENT_ID_SANDBOX = process.env.ECW_CLIENT_ID_SANDBOX
     const ECW_CLIENT_SECRET_SANDBOX = process.env.ECW_CLIENT_SECRET_SANDBOX
     const ECW_AUD_STAGING = process.env.ECW_AUD_STAGING
-    
+
     const codeVerifier = crypto.randomBytes(64).toString('hex')
         .replace(/=/g, '')
         .replace(/\+/g, '-')
         .replace(/\//g, '_');
-    
+
     await storeCodeVerifier(codeVerifier)
     const codeChallenge = crypto.createHash('sha256')
         .update(codeVerifier)
@@ -51,12 +51,12 @@ async function constructECWAuthorizationRequest() {
         client_secret: ECW_CLIENT_SECRET_SANDBOX,
         redirect_uri: 'https://trinity-surgery-manager.vercel.app/api/ecw/callback',
         state: 'random_state_value',
-        scope: 'openid fhirUser offline_access user/Encounter.read user/Patient.read',
+        scope: 'openid fhirUser offline_access user/Patient.read user/Encounter.read user/AllergyIntolerance.read user/Condition.read user/DocumentReference.read',
         aud: ECW_AUD_STAGING,
         code_challenge: codeChallenge,
         code_challenge_method: 'S256',
     };
-    
+
     return `${ECW_AUTHORIZATION_ENDPOINT_SANDBOX}?${querystring.stringify(params)}`;
 }
 
