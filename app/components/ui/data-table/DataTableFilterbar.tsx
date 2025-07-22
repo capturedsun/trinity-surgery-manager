@@ -18,6 +18,7 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
   const [searchTerm, setSearchTerm] = useState<string>("")
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isAirtableLoading, setIsAirtableLoading] = useState<boolean>(false)
   const { data: statuses, isLoading: isStatusesLoading, error: statusesError } = useStatuses(false)
 
   async function handleECWAuth() {
@@ -26,6 +27,17 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
       const res = await axios.get('/api/ecw_auth', { responseType: 'text' });
       window.open(res.data, '_blank');
       setIsLoading(false)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function postToAirtable() {
+    setIsAirtableLoading(true)
+    try {
+      const res = await axios.post('/api/airtable');
+      console.log(res.data)
+      setIsAirtableLoading(false)
     } catch (error) {
       console.error(error);
     }
@@ -97,6 +109,15 @@ export function Filterbar<TData>({ table }: DataTableToolbarProps<TData>) {
           isLoading={isLoading}
         >
          Connect ECW
+        </Button>
+        <Button
+          id="airtable-auth-button"
+          variant="secondary"
+          className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex bg-indigo-600 text-white hover:bg-indigo-400 shadow-[inset_0_2px_4px_0_rgba(99,102,241,1)]"
+          onClick={postToAirtable}
+          isLoading={isAirtableLoading}
+        >
+         Connect Airtable
         </Button>
         <Button
           variant="secondary"
