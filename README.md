@@ -36,6 +36,23 @@ Architecture schema:
 https://app.eraser.io/workspace/9ZoPy7k9Yurxhh9BmArJ
 
 
+7.27:
+
+The attachment in airtable should be the letter
+
+
+They open app
+App polls for new surgery orders
+App posts data to airtable
+
+
+SUPABASE
+sessions: user_sessions is essential for ECW auth
+
+VERCEL
+need to get env variables
+
+
 ## License
 
 This site template is a commercial product and is licensed under the
