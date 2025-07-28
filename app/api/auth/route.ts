@@ -44,7 +44,7 @@ async function handleSignIn(data: any) {
   return withServerActionInstrumentation("signIn", { recordResponse: true }, async () => {
     try {
       await signInController(data)
-      return NextResponse.json({ ok: true, redirect: '/overview' })
+      return NextResponse.json({ ok: true, redirect: '/home' })
     } catch (err) {
       if (err instanceof InputParseError || err instanceof AuthenticationError) {
         return NextResponse.json({ error: "Incorrect username or password" }, { status: 401 })
