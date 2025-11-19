@@ -8,7 +8,8 @@ export const ecwAuthenticationSchema = z.object({
   id_token: z.string(),
   smart_style_url: z.string(),
   token_type: z.string(),
-  expires_in: z.number()
+  expires_in: z.number(),
+  refresh_token: z.string().optional()
 })
 
 export type EcwAuthentication = z.infer<typeof ecwAuthenticationSchema>

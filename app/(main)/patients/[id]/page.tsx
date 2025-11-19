@@ -1,16 +1,14 @@
 "use client";
-import { useParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
-import { ActivityBlock } from '@/app/components/ui/surgery-order/ActivityBlock';
-import { Textarea } from '@/app/components/Textarea';
-import { useSurgeryOrder } from '@/app/hooks/useSurgeryOrders';
-import { useSurgeryOrderActivity, useCreateSurgeryOrderActivity } from '@/app/hooks/useSurgeryOrderActivity';
-import { useUser } from '@/app/hooks/useUser';
 import { Button } from '@/app/components/Button';
-import { useState } from 'react';
-import { Label } from '@/app/components/Label';
+import { Textarea } from '@/app/components/Textarea';
+import { ActivityBlock } from '@/app/components/ui/surgery-order/ActivityBlock';
+import { useCreateSurgeryOrderActivity, useSurgeryOrderActivity } from '@/app/hooks/useSurgeryOrderActivity';
+import { useSurgeryOrder } from '@/app/hooks/useSurgeryOrders';
+import { useUser } from '@/app/hooks/useUser';
 import { SurgeryOrderActivity } from '@/src/entities/models/surgery-order-activity';
 import { User } from '@/src/entities/models/user';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 function handleSubmitComment(comment: string, user: User, orderId: string) {
   const newActivity: Partial<SurgeryOrderActivity> = {
@@ -75,8 +73,8 @@ const PatientDetailsPage = () => {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <br />
           <Button
+            className="mt-4"
             disabled={!user || !comment}
             variant="primary"
             type="submit"

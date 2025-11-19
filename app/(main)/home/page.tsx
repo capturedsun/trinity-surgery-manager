@@ -1,12 +1,10 @@
 "use client"
 
 import { Button } from "@/app/components/Button";
-import { Input } from "@/app/components/Input";
+import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Image from "next/image";
-import ErrorCard from "@/app/components/ErrorCard";
-import axios from "axios";
 
 export default function Home({
   searchParams,
@@ -27,7 +25,7 @@ export default function Home({
     }
   }
 
-  async function handleSignOut  () {
+  async function handleSignOut() {
     const response = await fetch('/api/auth', {
       method: 'POST',
       body: JSON.stringify({
@@ -53,19 +51,19 @@ export default function Home({
       >
         <div className="flex flex-col gap-4">
           <h1 className="title flex items-center gap-2">
-            <div className="rounded-lg px-1">Trinity Orthopedics</div>
+            <div className="rounded-lg px-1 text-center">Trinity Orthopedics</div>
           </h1>
           <p className="text-sm text-gray-500">Welcome back! Please authenticate with ECW to continue</p>
+          <Button
+            id="ecw-auth-button"
+            variant="secondary"
+            className="flex gap-x-2 px-2 py-1.5 text-sm bg-indigo-600 text-white hover:bg-indigo-400 shadow-[inset_0_2px_4px_0_rgba(99,102,241,1)]"
+            onClick={handleECWAuth}
+            isLoading={isLoading}
+          >
+            Connect ECW
+          </Button>
         </div>
-        <Button
-          id="ecw-auth-button"
-          variant="secondary"
-          className="hidden gap-x-2 px-2 py-1.5 text-sm sm:text-xs lg:flex bg-indigo-600 text-white hover:bg-indigo-400 shadow-[inset_0_2px_4px_0_rgba(99,102,241,1)]"
-          onClick={handleECWAuth}
-          isLoading={isLoading}
-        >
-         Connect ECW
-        </Button>
       </form>
     </div>
   );

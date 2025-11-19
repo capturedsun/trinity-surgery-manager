@@ -54,7 +54,7 @@ export async function GET(request: Request) {
 
 
 
-async function fetchToken(code: string): Promise<EcwAuthentication | null> {
+export async function fetchToken(code: string): Promise<EcwAuthentication | null> {
 
   const clientId = process.env.ECW_CLIENT_ID_SANDBOX
   const clientSecret = process.env.ECW_CLIENT_SECRET_SANDBOX
