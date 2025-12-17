@@ -1,21 +1,19 @@
 "use client"
+import { Tooltip } from "@/app/components/Tooltip"
+import { cx, focusRing } from "@/app/lib/utils"
 import { siteConfig } from "@/app/siteConfig"
-import { cx, focusRing, tailwindSizeToPx } from "@/app/lib/utils"
 import {
+  RiGroupFill,
   RiHome2Line,
   RiLinkM,
-  RiGroupFill,
-  RiSettings5Line,
-  RiFileList3Line,
+  RiSettings5Line
 } from "@remixicon/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Tooltip } from "@/app/components/Tooltip"
+import { useState } from "react"
 import {
   WorkspacesDropdownDesktop,
 } from "./SidebarWorkspacesDropdown"
-import { UserProfileDesktop } from "./UserProfile"
-import { useState, useEffect } from "react"
 
 const navigation = [
   { name: "Overview", href: siteConfig.baseLinks.overview, icon: RiHome2Line },
@@ -67,7 +65,7 @@ const MorphingShape = ({ isOpen }: { isOpen: boolean }) => (
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(true)
   const [isShifted, setIsShifted] = useState(false)
-  const [navWidth, setNavWidth] = useState(72*4)
+  const [navWidth, setNavWidth] = useState(72 * 4)
   const navPaddingTW = 4
   const pathname = usePathname()
   const isActive = (itemHref: string) => {
@@ -79,62 +77,62 @@ export function Sidebar() {
 
   return (
     <>
-      <nav 
+      <nav
         style={{ width: `${navWidth}px` }}
         className={cx(
           "sticky left-0 top-0 h-screen max-h-screen z-50 flex flex-col transition-width duration-300 ease-in-out",
         )}>
         <div className={cx(
-          isShifted ? 
+          isShifted ?
             isOpen ? "right-[0px]" : "right-[-4px]" :
             isOpen ? "right-[-4px]" : "right-[0px]",
-            "absolute top-0 z-50 border-none bg-[#ebeef1] h-full w-[1px] flex flex-col items-center justify-center transition-right duration-300 ease-in-out",
-          )}
-          >
+          "absolute top-0 z-50 border-none bg-[#ebeef1] h-full w-[1px] flex flex-col items-center justify-center transition-right duration-300 ease-in-out",
+        )}
+        >
         </div>
         <div className={cx(
-            "absolute top-0 z-50 right-[-6px] border-none  h-full bg-none w-[1px] flex flex-col items-center justify-center transition-transform duration-300 ease-in-out",
-          )}
-          >
-            <Tooltip content={isOpen ? "Collapse" : "Expand"} sideOffset={10} showArrow={false} side="right" className="bg-slate-700 p-1 rounded-md group">
+          "absolute top-0 z-50 right-[-6px] border-none  h-full bg-none w-[1px] flex flex-col items-center justify-center transition-transform duration-300 ease-in-out",
+        )}
+        >
+          <Tooltip content={isOpen ? "Collapse" : "Expand"} sideOffset={10} showArrow={false} side="right" className="bg-slate-700 p-1 rounded-md group">
+            <div
+              className={cx(
+                "relative group w-[40px] h-[56px] group transform translate-x-1/2",
+              )}
+              onMouseEnter={() => setIsShifted(true)}
+              onMouseLeave={() => setIsShifted(false)}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+
               <div
                 className={cx(
-                  "relative group w-[40px] h-[56px] group transform translate-x-1/2",
+                  "absolute top-1/2 transform left-[-6px] -translate-y-1/2 group p-2 transition-all duration-100 pointer-events-none",
                 )}
-                onMouseEnter={() => setIsShifted(true)}
-                onMouseLeave={() => setIsShifted(false)}
-                onClick={() => setIsOpen(!isOpen)}
               >
-              
-                <div 
-                  className={cx(
-                    "absolute top-1/2 transform left-[-6px] -translate-y-1/2 group p-2 transition-all duration-100 pointer-events-none",
-                  )}
-                >
-                  <MorphingShape isOpen={isOpen} />
-                </div>
+                <MorphingShape isOpen={isOpen} />
+              </div>
             </div>
           </Tooltip>
         </div>
-        <aside 
+        <aside
           className={cx(
             "relative flex grow flex-col gap-y-6 overflow-y-auto  bg-white p-4 dark:border-gray-800 dark:bg-gray-950",
             `p-${navPaddingTW}`,
           )}
         >
-          <WorkspacesDropdownDesktop 
+          <WorkspacesDropdownDesktop
             isOpen={isOpen}
             navWidth={navWidth}
             setNavWidth={setNavWidth}
             navPaddingTW={navPaddingTW}
-           />
+          />
           <nav
             aria-label="core navigation links"
             className="flex flex-1 flex-col space-y-10"
           >
             <ul role="list" className="space-y-0.5">
               {navigation.map((item) => (
-                <li 
+                <li
                   key={item.name}
                   className="relative group"
                 >
@@ -149,11 +147,11 @@ export function Sidebar() {
                       focusRing,
                     )}
                   >
-                    <div 
+                    <div
                       className={cx(
                         "w-[20px] h-[20px] flex items-center justify-center group relative",
                         "after:content-[attr(data-name)] after:absolute after:left-full after:ml-2 after:whitespace-nowrap",
-                        isOpen ? "after:opacity-100": "after:opacity-0",
+                        isOpen ? "after:opacity-100" : "after:opacity-0",
                         "after:transition-opacity after:duration-200 ",
                       )}
                       data-name={item.name}

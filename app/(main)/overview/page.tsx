@@ -1,15 +1,14 @@
 "use client"
-import { CategoryBarCard } from "@/app/components/ui/overview/DashboardCategoryBarCard"
-import { CircleChartCard } from "@/app/components/ui/overview/DashboardCircleChart"
+import { Button } from "@/app/components/Button"
 import { overviews } from "@/app/data/overview-data"
 import { OverviewData } from "@/app/data/schema"
+import { RiCloseLine, RiUploadLine } from "@remixicon/react"
 import { subDays, toDate } from "date-fns"
 import React from "react"
 import { DateRange } from "react-day-picker"
-import { Button } from "@/app/components/Button"
 
-import { useToast } from "@/app/lib/useToast"
 import { Toaster } from "@/app/components/Toaster"
+import { useToast } from "@/app/lib/useToast"
 
 
 
@@ -152,8 +151,11 @@ const overviewsDates = overviews.map((item) => toDate(item.date).getTime())
 const maxDate = toDate(Math.max(...overviewsDates))
 
 export default function Overview() {
-  const { toast } = useToast()  
+  const { toast } = useToast()
   const [isLoading, setIsLoading] = React.useState(false)
+  const [files, setFiles] = React.useState<File[]>([])
+  const [isDragging, setIsDragging] = React.useState(false)
+  const fileInputRef = React.useRef<HTMLInputElement>(null)
   const [selectedDates, setSelectedDates] = React.useState<
     DateRange | undefined
   >({
@@ -167,111 +169,197 @@ export default function Overview() {
     categories.map((category) => category.title),
   )
 
+  const handleFiles = React.useCallback((fileList: FileList | null) => {
+    if (!fileList) return
+
+    const file = fileList[0] // Only take the first file
+    const maxSize = 5 * 1024 * 1024 // 5MB
+
+    if (file.size > maxSize) {
+      toast({
+        variant: "error",
+        title: "File rejected",
+        description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" - File too large (max 5MB)`,
+        duration: 4000,
+      })
+      return
+    }
+
+    setFiles([file]) // Only allow 1 file
+  }, [toast])
+
+  const handleDragOver = React.useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }, [])
+
+  const handleDragLeave = React.useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+  }, [])
+
+  const handleDrop = React.useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+    handleFiles(e.dataTransfer.files)
+  }, [handleFiles])
+
+  const handleFileInputChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFiles(e.target.files)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }, [handleFiles])
+
+  const handleRemoveFile = React.useCallback((index: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index))
+  }, [])
+
+  const handleUpload = React.useCallback(async () => {
+    if (files.length === 0) {
+      toast({
+        variant: "error",
+        title: "No file selected",
+        description: "Please choose a file to upload.",
+        duration: 4000,
+      })
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      const formData = new FormData()
+      formData.append('file', files[0])
+      formData.append('name', `File Upload - ${files[0].name}`)
+
+      const response = await fetch('/api/airtable', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Upload failed')
+      }
+
+      toast({
+        variant: "success",
+        title: "File Uploaded",
+        description: `File "${files[0].name}" uploaded to Airtable successfully.`,
+        duration: 5000,
+      })
+      setFiles([])
+    } catch (error) {
+      toast({
+        variant: "error",
+        title: "Upload Failed",
+        description: error instanceof Error ? error.message : 'Failed to upload file',
+        duration: 5000,
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }, [files, toast])
+
   return (
     <>
-      <section aria-labelledby="current-billing-cycle">
+      <section aria-labelledby="file-upload-section">
         <h1
-          id="current-billing-cycle"
+          id="file-upload-section"
           className="title"
         >
-          Referrals
+          Surgery letter upload
         </h1>
-        <div className="mt-4 gap-14 sm:mt-8 sm:grid-cols-2 lg:mt-10">
-          <Button
-            isLoading={isLoading}
-            className={`my-4`}
-            onClick={() => {
-              setIsLoading(true)
-              setTimeout(() => {
-                toast({
-                  variant: "success",
-                  title: "Updated Status",
-                  description: "Go to overview to see how toast is used",
-                  duration: 5000,
-                })
-                setIsLoading(false)
-              }, 2000)
-            }}
+        <div className="mt-4 w-full max-w-md">
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={`
+              relative flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed p-6
+              transition-colors
+              ${isDragging ? "border-emerald-700 bg-emerald-50/30" : "border-gray-300 hover:border-gray-400 hover:bg-gray-50/50"}
+              ${isLoading ? "pointer-events-none opacity-50" : "cursor-pointer"}
+            `}
+            onClick={() => fileInputRef.current?.click()}
           >
-            Test Toast Trigger
-          </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              className="hidden"
+              onChange={handleFileInputChange}
+              disabled={isLoading}
+            />
+            <div className="flex flex-col items-center gap-1 text-center">
+              <div className="flex items-center justify-center rounded-full border p-2.5">
+                <RiUploadLine className="size-6 text-gray-500" />
+              </div>
+              <p className="font-medium text-sm">Drag & drop file here</p>
+              <p className="text-gray-500 text-xs">
+                Or click to browse (max 5MB)
+              </p>
+            </div>
+            <Button
+              variant="secondary"
+              className="mt-2 w-fit"
+              onClick={(e) => {
+                e.stopPropagation()
+                fileInputRef.current?.click()
+              }}
+              disabled={isLoading}
+            >
+              Browse files
+            </Button>
+          </div>
+
+          {files.length > 0 && (
+            <div className="mt-4 flex flex-col gap-2">
+              {files.map((file, index) => (
+                <div
+                  key={index}
+                  className="relative flex items-center gap-2.5 rounded-md border p-3"
+                >
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <span className="truncate font-medium text-sm">
+                      {file.name}
+                    </span>
+                    <span className="truncate text-gray-500 text-xs">
+                      {(file.size / 1024).toFixed(1)} KB
+                    </span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    className="size-7 shrink-0"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleRemoveFile(index)
+                    }}
+                    disabled={isLoading}
+                  >
+                    <RiCloseLine className="size-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {files.length > 0 && (
+            <Button
+              type="button"
+              onClick={handleUpload}
+              isLoading={isLoading}
+              className="mt-4 w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? "Uploading..." : "Upload File"}
+            </Button>
+          )}
+
           <Toaster />
-          {/* <ProgressBarCard
-            title="Usage"
-            change="+0.2%"
-            value="68.1%"
-            valueDescription="of allowed capacity"
-            ctaDescription="Monthly usage resets in 12 days."
-            ctaText="Manage plan."
-            ctaLink="#"
-            data={data}
-          /> */}
-          {/* <ProgressBarCard
-            title="Workspace"
-            change="+2.9%"
-            value="21.7%"
-            valueDescription="weekly active users"
-            ctaDescription="Add up to 20 members in free plan."
-            ctaText="Invite users."
-            ctaLink="#"
-            data={data2}
-          /> */}
-          <CategoryBarCard
-            title="Status Bottlenecks"
-            className="sm:col-span-1 xl:col-span-1 mb-8"
-          />
-          <CircleChartCard
-            title="Referral-to-Appointment"
-            change="4.4%"
-            value="79%"
-            valueDescription="current quarter"
-            ctaDescription="Set hard caps in"
-            ctaText="cost spend management."
-            ctaLink="#"
-            data={donutChartData}
-          />
         </div>
       </section>
-      {/* <section aria-labelledby="usage-overview">
-        <h1
-          id="usage-overview"
-          className="mt-16 scroll-mt-8 text-lg font-semibold text-gray-900 sm:text-xl "
-        >
-          Overview
-        </h1>
-        <div className="sticky top-16 z-20 flex items-center justify-between border-b border-gray-200 bg-white pb-4 pt-4 sm:pt-6 lg:top-0 lg:mx-0 lg:px-0 lg:pt-8  ">
-          <Filterbar
-            maxDate={maxDate}
-            minDate={new Date(2024, 0, 1)}
-            selectedDates={selectedDates}
-            onDatesChange={(dates) => setSelectedDates(dates)}
-            selectedPeriod={selectedPeriod}
-            onPeriodChange={(period) => setSelectedPeriod(period)}
-            categories={categories}
-            setSelectedCategories={setSelectedCategories}
-            selectedCategories={selectedCategories}
-          />
-        </div>
-        <dl
-          className={cx(
-            "mt-10 grid grid-cols-1 gap-14 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3",
-          )}
-        >
-          {categories
-            .filter((category) => selectedCategories.includes(category.title))
-            .map((category) => {
-              return (
-                <ChartCard
-                  key={category.title}
-                  title={category.title}
-                  type={category.type}
-                  selectedDates={selectedDates}
-                  selectedPeriod={selectedPeriod}
-                />
-              )
-            })}
-        </dl>
-      </section> */}
     </>
   )
 }

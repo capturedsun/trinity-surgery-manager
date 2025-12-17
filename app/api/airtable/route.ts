@@ -1,5 +1,11 @@
+// import { put } from '@vercel/blob'; // temporarily disabled Blob upload
+import { anthropic } from '@ai-sdk/anthropic';
+import { generateObject } from 'ai';
+import { Buffer } from 'buffer';
+import fs from 'fs';
 import dotenv from 'dotenv';
 import { NextResponse } from 'next/server';
+import { z } from 'zod';
 
 dotenv.config();
 
@@ -14,12 +20,12 @@ interface AirtableRecord {
       "id": string;
       "email": string;
     };
-    "Attachments"?: Array<{
-      "id": string;
+    "Letter"?: Array<{
+      "id"?: string;
       "url": string;
-      "filename": string;
-      "size": number;
-      "type": string;
+      "filename"?: string;
+      "size"?: number;
+      "type"?: string;
     }>;
     "Communication Status": string;
     "Insurance Status": string;
@@ -37,51 +43,102 @@ interface AirtableResponse {
   records: AirtableRecord[];
 }
 
-export async function POST(request: Request) {
-  const AIRTABLE_ACCESS_TOKEN = process.env.AIRTABLE_ACCESS_TOKEN
-  const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID
-  const AIRTABLE_TABLE_ID = process.env.AIRTABLE_TABLE_ID
+const LetterExtractionSchema = z.object({
+  patientName: z.string().nullable().optional(),
+  surgicalProcedure: z.string().nullable().optional(),
+  preOpDiagnosis: z.string().nullable().optional(),
+  preAdmissionTesting: z.string().nullable().optional(),
+  supplies: z.string().nullable().optional(),
+});
 
-  console.log('Airtable Config:', {
-    token: AIRTABLE_ACCESS_TOKEN ? 'Present' : 'Missing',
+type LetterExtraction = z.infer<typeof LetterExtractionSchema>;
+
+export async function POST(request: Request) {
+  const AIRTABLE_ACCESS_TOKEN = process.env.AIRTABLE_ACCESS_TOKEN;
+  const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
+  const AIRTABLE_TABLE_ID = process.env.AIRTABLE_TABLE_ID;
+
+  console.log('Service Config:', {
+    airtableToken: AIRTABLE_ACCESS_TOKEN ? 'Present' : 'Missing',
     baseId: AIRTABLE_BASE_ID,
-    tableId: AIRTABLE_TABLE_ID
-  })
+    tableId: AIRTABLE_TABLE_ID,
+  });
 
   if (!AIRTABLE_ACCESS_TOKEN || !AIRTABLE_BASE_ID || !AIRTABLE_TABLE_ID) {
-    return NextResponse.json({ error: 'Missing Airtable API key or base ID or table ID' }, { status: 500 })
+    return NextResponse.json({ error: 'Missing Airtable API key or base ID or table ID' }, { status: 500 });
   }
 
-  // Sample data matching your actual table schema
-  const sampleData: { records: Array<{ fields: AirtableRecord['fields'] }> } = {
-    records: [
-      {
-        fields: {
-          "Name": "Surgery Case - ACL Repair",
-          "Notes": "Patient requires follow-up appointment next week\n",
-          "Assignee": {
-            "id": "invepR9W2yJmvmE9Y",
-            "email": "salanis@trinityorthosa.com"
-          },
-          "Attachments": [], // Empty array for no attachments
-          "Communication Status": "No status",
-          "Insurance Status": "No status",
-          "Clearance Status": "No status",
-          "Provider": "Nilsson",
-          "Supplies": "Surgical Kit A, Sterile gloves, Sutures\n",
-          "Pre-Op Diagnosis": "ACL tear, right knee",
-          "Pre-Op Labs": "Complete blood count, EKG",
-          "Pre-Op Visit DME": true,
-          "Post-Op Visit": "Scheduled for next Tuesday"
-        }
-      }
-    ]
-  };
-
   try {
-    const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`
-    console.log('Making request to:', url)
-    console.log('Sending data:', JSON.stringify(sampleData, null, 2))
+    const formData = await request.formData();
+    const file = formData.get('file') as File;
+    const name = (formData.get('name') as string) || 'File Upload';
+
+    if (!file) {
+      return NextResponse.json({ error: 'No file provided' }, { status: 400 });
+    }
+
+    if (file.type !== 'application/pdf') {
+      return NextResponse.json({ error: 'Only PDF files are accepted.' }, { status: 400 });
+    }
+
+    console.log('Processing file:', file.name, file.size, 'bytes, type:', file.type);
+
+    // ----- Call Anthropic via Vercel AI SDK to extract structured data from the letter -----
+    let parsedData: LetterExtraction | null = null;
+    let parsingError: string | null = null;
+    const pdfBuffer = await file.arrayBuffer();
+    const pdfBase64 = Buffer.from(pdfBuffer).toString('base64');
+    try {
+      const extractionResult = await generateObject({
+        // Use a currently supported Anthropic model id:
+        // see https://docs.anthropic.com/en/docs/about-claude/models
+        model: anthropic('claude-3-7-sonnet-latest'),
+        schema: LetterExtractionSchema,
+        messages: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'text',
+                text:
+                  'Parse this surgery scheduling / pre-op letter PDF and return a JSON object ' +
+                  'that matches the LetterExtraction schema exactly (no extra fields).',
+              },
+              {
+                type: 'file',
+                data: pdfBase64,
+                mediaType: 'application/pdf',
+              },
+            ],
+          },
+        ],
+      });
+
+      parsedData = extractionResult.object;
+      console.log('Anthropic parsedData:', parsedData);
+    } catch (err) {
+      console.error('Anthropic extraction failed:', err);
+      parsingError = err instanceof Error ? err.message : 'Unknown parsing error';
+    }
+
+    
+    const fields: Partial<AirtableRecord['fields']> = {
+      Name: parsedData?.patientName || name,
+      Supplies: parsedData?.supplies || undefined,
+    };
+
+    const recordData: { records: Array<{ fields: AirtableRecord['fields'] }> } = {
+      records: [
+        {
+          fields: fields as AirtableRecord['fields'],
+        },
+      ],
+    };
+    console.log('Airtable recordData payload:', JSON.stringify(recordData, null, 2));
+
+    const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
+    console.log('Making request to:', url);
+    console.log('Creating Airtable record with parsed data');
 
     const response = await fetch(url, {
       method: 'POST',
@@ -89,26 +146,75 @@ export async function POST(request: Request) {
         'Authorization': `Bearer ${AIRTABLE_ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(sampleData)
-    })
+      body: JSON.stringify(recordData)
+    });
 
-    console.log('Response status:', response.status, response.statusText)
 
     if (!response.ok) {
       const errorText = await response.text()
-      console.error('Airtable API error response:', errorText)
-      throw new Error(`Airtable API error: ${response.status} ${response.statusText} - ${errorText}`)
+      console.error('Airtable API error response:', errorText);
+      throw new Error(`Airtable API error: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
-    const result: AirtableResponse = await response.json()
-    console.log('Success response:', result)
-    return NextResponse.json({ success: true, data: result })
+    const result: AirtableResponse = await response.json();
+    const recordId = result.records[0]?.id;
+    console.log('Success! Record created with ID:', recordId);
+
+    if (!recordId) {
+      throw new Error('Airtable did not return a record ID');
+    }
+
+    const arrayBuffer = await file.arrayBuffer();
+    const base64File = Buffer.from(arrayBuffer).toString('base64');
+
+    const uploadUrl = `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${recordId}/Letter/uploadAttachment`
+    console.log('Uploading attachment to Airtable Letter field via:', uploadUrl);
+
+    const uploadResponse = await fetch(uploadUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${AIRTABLE_ACCESS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contentType: file.type || 'application/octet-stream',
+        file: base64File,
+        filename: file.name,
+      }),
+    });
+
+    console.log('Airtable uploadAttachment status:', uploadResponse.status, uploadResponse.statusText);
+
+    if (!uploadResponse.ok) {
+      const uploadErrorText = await uploadResponse.text();
+      console.error('Airtable uploadAttachment error response:', uploadErrorText);
+      throw new Error(`Airtable uploadAttachment error: ${uploadResponse.status} ${uploadResponse.statusText} - ${uploadErrorText}`);
+    }
+
+    const uploadResult = await uploadResponse.json();
+    console.log('Airtable uploadAttachment response fields:', JSON.stringify(uploadResult.fields, null, 2));
+
+    return NextResponse.json({
+      success: true,
+      data: result,
+      upload: uploadResult,
+      // blobUrl: blob.url,
+      parsedData,
+      parsingError,
+    });
 
   } catch (error) {
-    console.error('Airtable request error:', error)
+    console.error('Integration error:', error);
+
+    // Determine the error type for better error messages
+    let errorMessage = 'Unknown error occurred';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
     return NextResponse.json({
-      error: error instanceof Error ? error.message : 'Failed to create Airtable record'
-    }, { status: 500 })
+      error: errorMessage
+    }, { status: 500 });
   }
 }
 
