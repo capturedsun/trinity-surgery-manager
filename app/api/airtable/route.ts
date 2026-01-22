@@ -49,6 +49,7 @@ const LetterExtractionSchema = z.object({
   preOpDiagnosis: z.string().nullable().optional(),
   preAdmissionTesting: z.string().nullable().optional(),
   supplies: z.string().nullable().optional(),
+  provider: z.enum(['Duey', 'Nilsson', 'Ritchie']).nullable().optional(),
 });
 
 type LetterExtraction = z.infer<typeof LetterExtractionSchema>;
@@ -57,12 +58,6 @@ export async function POST(request: Request) {
   const AIRTABLE_ACCESS_TOKEN = process.env.AIRTABLE_ACCESS_TOKEN;
   const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID;
   const AIRTABLE_TABLE_ID = process.env.AIRTABLE_TABLE_ID;
-
-  console.log('Service Config:', {
-    airtableToken: AIRTABLE_ACCESS_TOKEN ? 'Present' : 'Missing',
-    baseId: AIRTABLE_BASE_ID,
-    tableId: AIRTABLE_TABLE_ID,
-  });
 
   if (!AIRTABLE_ACCESS_TOKEN || !AIRTABLE_BASE_ID || !AIRTABLE_TABLE_ID) {
     return NextResponse.json({ error: 'Missing Airtable API key or base ID or table ID' }, { status: 500 });
@@ -83,15 +78,15 @@ export async function POST(request: Request) {
 
     console.log('Processing file:', file.name, file.size, 'bytes, type:', file.type);
 
-    // ----- Call Anthropic via Vercel AI SDK to extract structured data from the letter -----
     let parsedData: LetterExtraction | null = null;
     let parsingError: string | null = null;
+
     const pdfBuffer = await file.arrayBuffer();
     const pdfBase64 = Buffer.from(pdfBuffer).toString('base64');
+    
+    // see https://docs.anthropic.com/en/docs/about-claude/models
     try {
       const extractionResult = await generateObject({
-        // Use a currently supported Anthropic model id:
-        // see https://docs.anthropic.com/en/docs/about-claude/models
         model: anthropic('claude-3-7-sonnet-latest'),
         schema: LetterExtractionSchema,
         messages: [
@@ -102,7 +97,8 @@ export async function POST(request: Request) {
                 type: 'text',
                 text:
                   'Parse this surgery scheduling / pre-op letter PDF and return a JSON object ' +
-                  'that matches the LetterExtraction schema exactly (no extra fields).',
+                  'that matches the LetterExtraction schema exactly. For the provider field, ' +
+                  'make sure to match to one of: Duey, Nilsson, or Ritchie based on the physician name in the Surgeon field of the pdf document.',
               },
               {
                 type: 'file',
@@ -125,6 +121,7 @@ export async function POST(request: Request) {
     const fields: Partial<AirtableRecord['fields']> = {
       Name: parsedData?.patientName || name,
       Supplies: parsedData?.supplies || undefined,
+      Provider: parsedData?.provider || undefined,
     };
 
     const recordData: { records: Array<{ fields: AirtableRecord['fields'] }> } = {
@@ -137,8 +134,6 @@ export async function POST(request: Request) {
     console.log('Airtable recordData payload:', JSON.stringify(recordData, null, 2));
 
     const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
-    console.log('Making request to:', url);
-    console.log('Creating Airtable record with parsed data');
 
     const response = await fetch(url, {
       method: 'POST',
@@ -158,17 +153,15 @@ export async function POST(request: Request) {
 
     const result: AirtableResponse = await response.json();
     const recordId = result.records[0]?.id;
-    console.log('Success! Record created with ID:', recordId);
 
     if (!recordId) {
-      throw new Error('Airtable did not return a record ID');
+      console.error('Airtable did not return a record ID');
+      return NextResponse.json({ error: 'Problem creating Airtable record' }, { status: 500 });
     }
 
     const arrayBuffer = await file.arrayBuffer();
     const base64File = Buffer.from(arrayBuffer).toString('base64');
-
     const uploadUrl = `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${recordId}/Letter/uploadAttachment`
-    console.log('Uploading attachment to Airtable Letter field via:', uploadUrl);
 
     const uploadResponse = await fetch(uploadUrl, {
       method: 'POST',
@@ -198,7 +191,6 @@ export async function POST(request: Request) {
       success: true,
       data: result,
       upload: uploadResult,
-      // blobUrl: blob.url,
       parsedData,
       parsingError,
     });
@@ -206,14 +198,8 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Integration error:', error);
 
-    // Determine the error type for better error messages
-    let errorMessage = 'Unknown error occurred';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-
     return NextResponse.json({
-      error: errorMessage
+      error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 });
   }
 }
