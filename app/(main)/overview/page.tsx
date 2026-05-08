@@ -231,7 +231,7 @@ export default function Overview() {
     try {
       const formData = new FormData()
       formData.append('file', files[0])
-      formData.append('name', `File Upload - ${files[0].name}`)
+      formData.append('name', files[0].name)
 
       const response = await fetch('/api/airtable', {
         method: 'POST',
